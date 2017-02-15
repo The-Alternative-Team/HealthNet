@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'trunk.urls'
+ROOT_URLCONF = 'Healthnet.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'trunk.wsgi.application'
+WSGI_APPLICATION = 'Healthnet.wsgi.application'
 
 
 # Database

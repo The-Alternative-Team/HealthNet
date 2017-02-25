@@ -37,7 +37,7 @@ class Patient(models.Model, User):
     test_results = []
     med_info = []
     appointments = []
-    desired_hospital = models.CharField()
+    desired_hospital = models.CharField(verbose_name="Desired Hospital")
     e_cont_fname = models.CharField(verbose_name="Emergency Contact: First Name")
     e_cont_lname = models.CharField(verbose_name="Emergency Contact: Last Name")
     e_cont_home_phone = models.BigIntegerField(help_text="No spaces or dashes", max_length=10, verbose_name="Emergency Contact: Home Phone")

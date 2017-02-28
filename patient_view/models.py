@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class User(models.Model):
     STATE_CHOICES = (
@@ -30,6 +31,7 @@ class User(models.Model):
     home_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Home Phone")
     cell_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Cell Phone")
 
+
 class Patient(models.Model, User):
     hospital = models.CharField()
     doctor = models.CharField()
@@ -40,9 +42,10 @@ class Patient(models.Model, User):
     desired_hospital = models.CharField(verbose_name="Desired Hospital")
     e_cont_fname = models.CharField(verbose_name="Emergency Contact: First Name")
     e_cont_lname = models.CharField(verbose_name="Emergency Contact: Last Name")
-    e_cont_home_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Emergency Contact: Home Phone")
-    e_cont_cell_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Emergency Contact: Cell Phone")
+    e_cont_home_phone = models.BigIntegerField(help_text="No spaces or dashes",
+                                               verbose_name="Emergency Contact: Home Phone")
+    e_cont_cell_phone = models.BigIntegerField(help_text="No spaces or dashes",
+                                               verbose_name="Emergency Contact: Cell Phone")
 
     def __str__(self):
         return str(self.name)
-

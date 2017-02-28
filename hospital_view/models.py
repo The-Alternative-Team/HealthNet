@@ -20,7 +20,7 @@ class Hospital(models.Model):
     name = models.CharField(max_length=50, default='', verbose_name='Hospital Name')
     street = models.CharField(max_length=100, default='', verbose_name='Street Address')
     city = models.CharField(max_length=50, default='', verbose_name='Town/City')
-    state = models.CharField(choices=STATE_CHOICES, default=None, verbose_name='State')
+    state = models.CharField(max_length=50, choices=STATE_CHOICES, default=None, verbose_name='State')
     zipCode = models.IntegerField(help_text="Please enter the 5 digit zip code", default=None,
                                   verbose_name='Zip Code')
     phoneNumber = models.BigIntegerField(help_text="No spaces or dashes", default=None,

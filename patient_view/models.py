@@ -18,30 +18,30 @@ class User(models.Model):
         ('WA', 'Washington'),
         ('WV', 'West Virginia'), ('WI', 'Wisconsin'), ('WY', 'Wyoming'))
 
-    email = models.EmailField()
-    password = models.CharField()
-    first_name = models.CharField(verbose_name="First Name")
-    last_name = models.CharField(verbose_name="Last Name")
+    email = models.EmailField(max_length=50)
+    password = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50, verbose_name="First Name")
+    last_name = models.CharField(max_length=50, verbose_name="Last Name")
     date_of_birth = models.DateField(verbose_name="Date of Birth")
     social = models.IntegerField(verbose_name="Social Security Number:")
-    address_street = models.CharField(verbose_name="Street")
-    address_city = models.CharField(verbose_name="City")
-    address_state = models.CharField(choices=STATE_CHOICES, verbose_name="State")
+    address_street = models.CharField(max_length=50, verbose_name="Street")
+    address_city = models.CharField(max_length=50, verbose_name="City")
+    address_state = models.CharField(max_length=50, choices=STATE_CHOICES, verbose_name="State")
     address_zip = models.IntegerField(verbose_name="Zip Code")
     home_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Home Phone")
     cell_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Cell Phone")
 
 
-class Patient(models.Model, User):
-    hospital = models.CharField()
-    doctor = models.CharField()
+class Patient(models.Model):
+    hospital = models.CharField(max_length=50)
+    doctor = models.CharField(max_length=50)
     prescription = []
     test_results = []
     med_info = []
     appointments = []
-    desired_hospital = models.CharField(verbose_name="Desired Hospital")
-    e_cont_fname = models.CharField(verbose_name="Emergency Contact: First Name")
-    e_cont_lname = models.CharField(verbose_name="Emergency Contact: Last Name")
+    desired_hospital = models.CharField(max_length=50, verbose_name="Desired Hospital")
+    e_cont_fname = models.CharField(max_length=50, verbose_name="Emergency Contact: First Name")
+    e_cont_lname = models.CharField(max_length=50, verbose_name="Emergency Contact: Last Name")
     e_cont_home_phone = models.BigIntegerField(help_text="No spaces or dashes",
                                                verbose_name="Emergency Contact: Home Phone")
     e_cont_cell_phone = models.BigIntegerField(help_text="No spaces or dashes",

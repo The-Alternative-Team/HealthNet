@@ -6,7 +6,7 @@ from .Doctor import Doctor
 
 class Patient(User):
     hospital = models.ForeignKey(Hospital, related_name="current_hospital", default=None, verbose_name='Hospital')
-    doctor = models.ForeignKey(Doctor, default=None, verbose_name='Doctor')
+    Doctor = models.ForeignKey(Doctor, related_name='Doctor', default=None, verbose_name='Doctor')
     prescription = []
     test_results = []
     med_info = []

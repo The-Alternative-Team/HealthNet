@@ -34,6 +34,9 @@ class UserProfile(models.Model):
     home_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Home Phone", default=0)
     cell_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Cell Phone", default=0)
 
+    def __str__(self):
+        return self.user.username + "'s profile"
+
 # These functions link this model to django's user so they're created and saved together
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

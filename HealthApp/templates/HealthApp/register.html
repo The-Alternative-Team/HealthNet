@@ -46,7 +46,7 @@
                     <h3 class="panel-title">Patient Registration</h3>
                 </div>
                 <div class="panel-body">
-                    <form role="form">
+                    <form role="form" method="post">
                         <fieldset>
                             <div class="form-group">
                                 <h3>Account Info</h3>
@@ -54,24 +54,6 @@
                             <p>E-mail:</p>
                             <div class="form-group">
                                 <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
-                            </div>
-                            <p>Name:</p>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="First Name" name="first_name" type="text"
-                                       value="">
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Last Name" name="last_name" type="text"
-                                       value="">
-                            </div>
-                            <p>Date of Birth:</p>
-                            <div class="form-group input-group">
-
-                                <input class="form-control" placeholder="MM" name="month" type="text">
-                                <span class="input-group-addon">/</span>
-                                <input class="form-control" placeholder="DD" name="day" type="text">
-                                <span class="input-group-addon">/</span>
-                                <input class="form-control" placeholder="YYYY" name="year" type="text">
                             </div>
                             <p>Password:</p>
                             <div class="form-group">
@@ -101,13 +83,13 @@
                                        value="">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Cell Phone" name="e_cont_cell_phone"
-                                       type="text"
-                                       value="">
+                                {% csrf_token %}
+                                {{ form }}
                             </div>
 
                             <!-- Change this to a button or input when using this as a form -->
-                            <a href="doctorIndex.html" class="btn btn-lg btn-success btn-block">Register</a>
+
+                            <input type="submit" value="Register" class="btn btn-lg btn-success btn-block"/>
 
                             <div style="text-align:center;">
                                 <a href="{% url 'login' %}" class="form-control-static">Already have an account?
@@ -122,21 +104,21 @@
 </div>
 
 <!-- jQuery -->
-<script src="../../static/HealthApp/vendor/jquery/jquery.min.js"></script>
+<script src="{% static 'HealthApp/vendor/jquery/jquery.min.js' %}"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="../../static/HealthApp/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="{% static 'HealthApp/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
 
 <!-- Metis Menu Plugin JavaScript -->
-<script src="../../static/HealthApp/vendor/metisMenu/metisMenu.min.js"></script>
+<script src="{% static 'HealthApp/vendor/metisMenu/metisMenu.min.js' %}"></script>
 
 <!-- Morris Charts JavaScript -->
-<script src="../../static/HealthApp/vendor/raphael/raphael.min.js"></script>
-<script src="../../static/HealthApp/vendor/morrisjs/morris.min.js"></script>
-<script src="../../static/HealthApp/data/morris-data.js"></script>
+<script src="{% static 'HealthApp/vendor/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'HealthApp/vendor/morrisjs/morris.min.js' %}"></script>
+<script src="{% static 'HealthApp/data/morris-data.js' %}"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="../../static/HealthApp/dist/js/sb-admin-2.js"></script>
+<script src="{% static 'HealthApp/dist/js/sb-admin-2.js' %}"></script>
 
 </body>
 

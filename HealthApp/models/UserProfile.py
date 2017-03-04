@@ -37,6 +37,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username + "'s profile"
 
+
 # These functions link this model to django's user so they're created and saved together
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

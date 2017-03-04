@@ -20,5 +20,12 @@ class Patient(UserProfile):
     e_cont_cell_phone = models.BigIntegerField(help_text="No spaces or dashes",
                                                verbose_name="Emergency Contact: Cell Phone")
 
+    @classmethod
+    def create_patient(cls, hospital, doctor, desired_hospital, e_cont_fname, e_cont_lname,
+                       e_cont_home_phone, e_cont_cell_phone):
+        patient = cls(hospital=hospital, Doctor=doctor, desired_hospital=desired_hospital, e_cont_fname=e_cont_fname,
+                          e_cont_lname=e_cont_lname, e_cont_home_phone=e_cont_home_phone, e_cont_cell_phone=e_cont_cell_phone)
+        patient.save()
+
     def __str__(self):
         return str(self.name)

@@ -1,4 +1,5 @@
 from django import forms
+from .models import Hospital
 
 STATE_CHOICES = (
     ('AL', 'Alabama'), ('AK', 'Alaska'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'),
@@ -17,7 +18,7 @@ STATE_CHOICES = (
 
 
 class Register(forms.Form):
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Fist Name'}),
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
                                  label='First Name', max_length=100)
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
                                 label='Last Name', max_length=100)
@@ -34,3 +35,11 @@ class Register(forms.Form):
                                       choices=STATE_CHOICES, label='State')
     address_zip = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Zip Code'}),
                                      label='Zip Code')
+    home_phone = forms.IntegerField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(123)456-7890'}),
+        label='Home Phone Number')
+    cell_phone = forms.IntegerField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(123)456-7890'}),
+        label='Cell Phone Number')
+    hospital = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Hospital'}),
+                                 choices=Hospital.objects.all().order_by('name'), label='Hospital')

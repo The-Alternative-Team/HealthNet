@@ -1,7 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
-class User(models.Model):
+class UserProfile(models.Model):
+    # The link to the actual django user object
+    # (Get username, email, first name, and last name from this)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
     STATE_CHOICES = (
         ('AL', 'Alabama'), ('AK', 'Alaska'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'),
         ('CO', 'Colorado'),
@@ -17,10 +24,6 @@ class User(models.Model):
         ('WA', 'Washington'),
         ('WV', 'West Virginia'), ('WI', 'Wisconsin'), ('WY', 'Wyoming'))
 
-    email = models.EmailField(max_length=50)
-    password = models.CharField(max_length=50)
-    first_name = models.CharField(max_length=50, verbose_name="First Name")
-    last_name = models.CharField(max_length=50, verbose_name="Last Name")
     date_of_birth = models.DateField(verbose_name="Date of Birth")
     social = models.IntegerField(verbose_name="Social Security Number:")
     address_street = models.CharField(max_length=50, verbose_name="Street")
@@ -29,3 +32,14 @@ class User(models.Model):
     address_zip = models.IntegerField(verbose_name="Zip Code")
     home_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Home Phone")
     cell_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Cell Phone")
+
+# These functions link this model to django's user so they're created and saved together
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()

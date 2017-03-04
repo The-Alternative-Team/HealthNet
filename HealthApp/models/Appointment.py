@@ -9,4 +9,10 @@ class Appointment(models.Model):
     doctor = models.ForeignKey(Doctor, verbose_name='Doctor')
     patient = models.ForeignKey(Patient, verbose_name='Doctor')
     startTime = models.DateTimeField(default=None, verbose_name='Start Time')
-    endTime = models.DateTimeField(default=None, verbose_name='End Time')
+    notes = models.CharField(default='', max_length=1000, verbose_name='Notes')
+
+    @classmethod
+    def create_appointment(cls, hospital, doctor, patient, startTime, endTime, notes):
+        appointment = cls(hospital=hospital, doctor=doctor, patient=patient, startTime=startTime, endTime=endTime,
+                          notes=notes)
+        appointment.save()

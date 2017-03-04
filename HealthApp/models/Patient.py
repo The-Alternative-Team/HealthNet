@@ -1,10 +1,10 @@
 from django.db import models
-from .User import User
+from .UserProfile import UserProfile
 from .Hospital import Hospital
 from .Doctor import Doctor
 
 
-class Patient(User):
+class Patient(UserProfile):
     hospital = models.ForeignKey(Hospital, related_name="current_hospital", default=None, verbose_name='Hospital')
     Doctor = models.ForeignKey(Doctor, related_name='Doctor', default=None, verbose_name='Doctor')
     prescription = []

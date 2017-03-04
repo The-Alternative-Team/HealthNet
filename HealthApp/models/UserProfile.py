@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import datetime
 
 
 class UserProfile(models.Model):
@@ -24,14 +25,14 @@ class UserProfile(models.Model):
         ('WA', 'Washington'),
         ('WV', 'West Virginia'), ('WI', 'Wisconsin'), ('WY', 'Wyoming'))
 
-    date_of_birth = models.DateField(verbose_name="Date of Birth")
-    social = models.IntegerField(verbose_name="Social Security Number:")
-    address_street = models.CharField(max_length=50, verbose_name="Street")
-    address_city = models.CharField(max_length=50, verbose_name="City")
-    address_state = models.CharField(max_length=50, choices=STATE_CHOICES, verbose_name="State")
-    address_zip = models.IntegerField(verbose_name="Zip Code")
-    home_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Home Phone")
-    cell_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Cell Phone")
+    date_of_birth = models.DateField(verbose_name="Date of Birth", default=datetime.date.today)
+    social = models.IntegerField(verbose_name="Social Security Number:", default=0)
+    address_street = models.CharField(max_length=100, verbose_name="Street", default="")
+    address_city = models.CharField(max_length=50, verbose_name="City", default="")
+    address_state = models.CharField(max_length=50, choices=STATE_CHOICES, verbose_name="State", default="")
+    address_zip = models.IntegerField(verbose_name="Zip Code", default=0)
+    home_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Home Phone", default=0)
+    cell_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Cell Phone", default=0)
 
 # These functions link this model to django's user so they're created and saved together
 @receiver(post_save, sender=User)
@@ -42,4 +43,4 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    instance.userprofile.save()

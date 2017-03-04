@@ -1,9 +1,9 @@
 from django.db import models
-from .User import User
+from .UserProfile import UserProfile
 from .Hospital import Hospital
 
 
-class Nurse(User):
+class Nurse(UserProfile):
     hospital = models.ForeignKey(Hospital, default=None, verbose_name='Hospital')
     patients = []
 

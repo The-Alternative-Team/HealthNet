@@ -1,20 +1,5 @@
 from django import forms
-from .models import Hospital
-
-STATE_CHOICES = (
-    ('AL', 'Alabama'), ('AK', 'Alaska'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'),
-    ('CO', 'Colorado'),
-    ('CT', 'Connecticut'), ('DE', 'Delaware'), ('DC', 'District of Columbia'), ('FL', 'Florida'), ('GA', 'Georgia'),
-    ('HI', 'Hawaii'),
-    ('ID', 'Idaho'), ('IL', 'Illinois'), ('IN', 'Indiana'), ('IA', 'Iowa'), ('KS', 'Kansas'), ('KY', 'Kentucky'),
-    ('LA', 'Louisiana'), ('ME', 'Maine'), ('MD', 'Maryland'), ('MA', 'Massachusetts'), ('MI', 'Michigan'),
-    ('MN', 'Minnesota'), ('MS', 'Mississippi'), ('MO', 'Missouri'), ('MT', 'Montana'), ('NE', 'Nebraska'),
-    ('NV', 'Nevada'), ('NH', 'New Hampshire'), ('NJ', 'New Jersey'), ('NM', 'New Mexico'), ('NY', 'New York'),
-    ('NC', 'North Carolina'), ('ND', 'North Dakota'), ('OH', 'Ohio'), ('OK', 'Oklahoma'), ('OR', 'Oregon'),
-    ('PA', 'Pennsylvania'), ('RI', 'Rhode Island'), ('SC', 'South Carolina'), ('SD', 'South Dakota'),
-    ('TN', 'Tennessee'), ('TX', 'Texas'), ('UT', 'Utah'), ('VT', 'Vermont'), ('VA', 'Virginia'),
-    ('WA', 'Washington'),
-    ('WV', 'West Virginia'), ('WI', 'Wisconsin'), ('WY', 'Wyoming'))
+from .models import Hospital, UserProfile
 
 
 class Register(forms.Form):
@@ -32,7 +17,7 @@ class Register(forms.Form):
     address_city = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'City'}),
                                    label='City', max_length=100)
     address_state = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'State'}),
-                                      choices=STATE_CHOICES, label='State')
+                                      choices=UserProfile.STATE_CHOICES, label='State')
     address_zip = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Zip Code'}),
                                      label='Zip Code')
     home_phone = forms.IntegerField(
@@ -41,5 +26,13 @@ class Register(forms.Form):
     cell_phone = forms.IntegerField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(123)456-7890'}),
         label='Cell Phone Number')
-    hospital = forms.ChoiceField(widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Hospital'}),
-                                 choices=Hospital.objects.all().order_by('name'), label='Hospital')
+
+    # Query for hospitals on form generate
+    def __init__(self, *args, **kwargs):
+        super(Register, self).__init__(*args, **kwargs)
+
+        hospitalTuple = tuple(Hospital.objects.all().values_list("id", "name").order_by("name"))
+
+        self.fields['hospital'] = forms.ChoiceField(
+            widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Hospital'}), choices=hospitalTuple,
+            label='Hospital')

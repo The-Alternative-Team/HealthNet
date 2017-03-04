@@ -7,4 +7,9 @@ admin.site.register(Hospital)
 admin.site.register(Nurse)
 admin.site.register(Patient)
 admin.site.register(UserProfile)
-admin.site.register(LogEntry)
+
+class LogAdmin(admin.ModelAdmin):
+    list_display = ('userMail', 'time', 'action')
+    list_filter = ['time']
+    search_fields = ['userMail']
+admin.site.register(LogEntry, LogAdmin)

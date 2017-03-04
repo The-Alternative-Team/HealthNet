@@ -14,6 +14,45 @@
 <!-- Custom Fonts -->
 <link href="{% static 'HealthApp/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
 
+<!-- jQuery -->
+<script src="{% static 'HealthApp/vendor/jquery/jquery.min.js' %}"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'HealthApp/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="{% static 'HealthApp/vendor/metisMenu/metisMenu.min.js' %}"></script>
+
+<!-- Morris Charts JavaScript -->
+<script src="{% static 'HealthApp/vendor/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'HealthApp/vendor/morrisjs/morris.min.js' %}"></script>
+<script src="{% static 'HealthApp/data/morris-data.js' %}"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="{% static 'HealthApp/dist/js/sb-admin-2.js' %}"></script>
+
+<!-- Calendar -->
+<link href="{% static 'fullcalendar/fullcalendar.css' %}" rel='stylesheet'/>
+<script src="{% static 'fullcalendar/lib/moment.min.js' %}"></script>
+<script src="{% static 'fullcalendar/fullcalendar.min.js' %}"></script>
+<script>
+
+    $(document).ready(function () {
+
+        $('#calendar').fullCalendar({
+            defaultView: 'agendaDay',
+            header: {
+                left: 'today',
+                center: 'prev title next',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            editable: false,
+            eventLimit: true, // allow "more" link when too many events
+        });
+    });
+
+</script>
+
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -238,54 +277,6 @@
             </div>
             <!-- /.col-lg-12 -->
         </div>
-        <!-- /.row -->
-        <div class="row">
-            <div class="col-lg-3 col-md-6">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-comments fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                                <div class="huge">26</div>
-                                <div>New Messages</div>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="#">
-                        <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="panel panel-green">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <i class="fa fa-tasks fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
-                                <div class="huge">12</div>
-                                <div>Appointments</div>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="#">
-                        <div class="panel-footer">
-                            <span class="pull-left">View Details</span>
-                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!-- /.row -->
         <div class="row">
             <div class="col-lg-8">
                 <div class="panel panel-default">
@@ -314,16 +305,7 @@
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-                        <p>Calendar(TM)</p>
-                        <script type='text/javascript'>
-                            $(document).ready(function () {
-                                // page is now ready, initialize the calendar...
-                                $('#calendar').fullCalendar({
-                                    // put your options and callbacks here
-                                    events: '/schedule/api/occurrences?calendar_slug=example'
-                                })
-                            });
-                        </script>
+                        <div id="calendar"></div>
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -469,23 +451,6 @@
 
 </div>
 <!-- /#wrapper -->
-
-<!-- jQuery -->
-<script src="{% static 'HealthApp/vendor/jquery/jquery.min.js' %}"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="{% static 'HealthApp/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-
-<!-- Metis Menu Plugin JavaScript -->
-<script src="{% static 'HealthApp/vendor/metisMenu/metisMenu.min.js' %}"></script>
-
-<!-- Morris Charts JavaScript -->
-<script src="{% static 'HealthApp/vendor/raphael/raphael.min.js' %}"></script>
-<script src="{% static 'HealthApp/vendor/morrisjs/morris.min.js' %}"></script>
-<script src="{% static 'HealthApp/data/morris-data.js' %}"></script>
-
-<!-- Custom Theme JavaScript -->
-<script src="{% static 'HealthApp/dist/js/sb-admin-2.js' %}"></script>
 
 </body>
 

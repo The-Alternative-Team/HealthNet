@@ -1,8 +1,10 @@
 from django import forms
 from .models import Hospital, UserProfile
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
 
-class Register(forms.Form):
+class Register(UserCreationForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
                                  label='First Name', max_length=100)
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
@@ -31,8 +33,29 @@ class Register(forms.Form):
     def __init__(self, *args, **kwargs):
         super(Register, self).__init__(*args, **kwargs)
 
+        # Generate hospital ChoiceField
         hospitalTuple = tuple(Hospital.objects.all().values_list("id", "name").order_by("name"))
 
         self.fields['hospital'] = forms.ChoiceField(
             widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Hospital'}), choices=hospitalTuple,
             label='Hospital')
+
+        # Style django's user registration fields
+        self.fields['username'].widget.attrs = {'class': 'form-control'}
+        self.fields['password1'].widget.attrs = {'class': 'form-control'}
+        self.fields['password2'].widget.attrs = {'class': 'form-control'}
+
+    class Meta:
+        model = User
+        fields = ('username', 'password1', 'password2')
+
+    def save(self, commit=True):
+        user = super(Register, self).save(commit=False)
+        user.email = self.cleaned_data['username']
+        user.first_name = self.cleaned_data['First name']
+        user.last_name = self.cleaned_data['Last name']
+
+        if commit:
+            user.save()
+
+        return user

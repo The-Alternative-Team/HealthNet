@@ -13,6 +13,10 @@ def login(request):
     return render(request, 'HealthApp/login.html')
 
 
+def register(request):
+    return render(request, 'HealthApp/register.html')
+
+
 def blank(request):
     return render(request, 'HealthApp/blank.html')
 

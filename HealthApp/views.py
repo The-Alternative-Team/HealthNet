@@ -11,15 +11,26 @@ def home(request):
     user = StaticHelpers.user_to_subclass(request.user)[1]
     user_type = StaticHelpers.user_to_subclass(request.user)[0]
 
+    events = []
+
+    apps = StaticHelpers.find_appointments(user)
+
     if user_type == "Patient":
-        apps = StaticHelpers.find_appointments(user)
-        events = []
         for app in apps:
-            events.append({'title': str(app.doctor), 'start': str(app.start_time),
-                           'end': str(app.end_time)})
-        return render(request, 'HealthApp/patientIndex.html', events)
+            events.append({
+                'title': "Appointment with " + str(app.doctor),
+                'start': str(app.start_time),
+                'end': str(app.end_time)
+            })
+        return render(request, 'HealthApp/patientIndex.html', {"events": events})
     elif user_type == "Doctor" or user_type == "Nurse":
-        return render(request, 'HealthApp/doctorIndex.html')
+        for app in apps:
+            events.append({
+                'title': "Appointment with " + str(app.patient),
+                'start': str(app.start_time),
+                'end': str(app.end_time)
+            })
+        return render(request, 'HealthApp/doctorIndex.html', {"events": events})
     elif user_type == "Admin":
         return render(request, 'HealthApp/doctorIndex.html')
 

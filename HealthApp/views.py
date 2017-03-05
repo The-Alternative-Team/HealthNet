@@ -55,3 +55,7 @@ def grid(request):
 
 def tables(request):
     return render(request, 'HealthApp/tables.html')
+
+#this code can be used to create endtime for the appointment
+#duration = models.IntegerField(help_text="Enter time in minutes", verbose_name='Duration')
+#end_time = start_time + datetime.timedelta(minutes = duration)

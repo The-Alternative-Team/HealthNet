@@ -13,3 +13,5 @@ class LogAdmin(admin.ModelAdmin):
     list_filter = ['time']
     search_fields = ['userMail', 'action']
 admin.site.register(LogEntry, LogAdmin)
+
+

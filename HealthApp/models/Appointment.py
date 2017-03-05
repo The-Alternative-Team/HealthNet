@@ -18,3 +18,12 @@ class Appointment(models.Model):
         appointment = cls(hospital=hospital, doctor=doctor, patient=patient, start_time=start_time, end_time=end_time,
                           notes=notes)
         appointment.save()
+
+    def update_appointment(self, hospital, doctor, patient, start_time, end_time, notes):
+        self.hospital = hospital
+        self.doctor = doctor
+        self.patient = patient
+        self.start_time = start_time
+        self.end_time = end_time
+        self.notes = notes
+        self.save()

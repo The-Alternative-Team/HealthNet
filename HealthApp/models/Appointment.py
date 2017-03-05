@@ -10,8 +10,11 @@ class Appointment(models.Model):
     doctor = models.ForeignKey(Doctor, verbose_name='Doctor')
     patient = models.ForeignKey(Patient, verbose_name='Patient')
     start_time = models.DateTimeField(verbose_name='Start Time')
-    end_time = models.DateTimeField(verbose_name='End Time')
+    end_time = models.DateTimeField(verbose_name='End Time', default=None)
     notes = models.CharField(default='', max_length=1000, verbose_name='Notes')
+
+    def __str__(self):
+        return "Appointment on " + self.start_time.strftime('%B %d, %Y') + " at " + self.start_time.strftime('%I:%M %p') + "."
 
     @classmethod
     def create_appointment(cls, hospital, doctor, patient, start_time, end_time, notes):

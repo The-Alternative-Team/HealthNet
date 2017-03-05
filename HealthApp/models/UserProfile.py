@@ -16,5 +16,8 @@ class UserProfile(User):
     home_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Home Phone")
     cell_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Cell Phone")
 
+    User._meta.get_field('username').verbose_name = 'Username (aka email)'
+    User._meta.get_field('email').verbose_name = 'Email (don\'t need this)'
+
     def __str__(self):
         return self.username + "'s UserProfile"

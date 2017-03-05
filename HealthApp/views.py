@@ -1,6 +1,12 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 from .forms import Register, Login
+
+
+@login_required(login_url="login/")
+def home(request):
+    return render(request, "HealthApp/patientIndex.html")
 
 
 def doctor(request):

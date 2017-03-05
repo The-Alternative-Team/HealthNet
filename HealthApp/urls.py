@@ -4,6 +4,7 @@ from . import views
 
 # app_name = 'HealthApp'
 urlpatterns = [
+    url(r'^$', views.home, name='home'),
     url(r'^doctor', views.doctor, name="doctor"),
     url(r'^patient', views.patient, name="patient"),
     url(r'^login', views.login, name="login"),

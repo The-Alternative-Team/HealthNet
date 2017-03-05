@@ -1,5 +1,5 @@
 from django import forms
-from .models import Hospital, UserProfile
+from .models import Hospital, UserProfile, Doctor
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
@@ -34,11 +34,17 @@ class Register(UserCreationForm):
         super(Register, self).__init__(*args, **kwargs)
 
         # Generate hospital ChoiceField
-        hospitalTuple = tuple(Hospital.objects.all().values_list("id", "name").order_by("name"))
+        hospital_tuple = tuple(Hospital.objects.all().values_list("id", "name").order_by("name"))
+        # Generate hospital ChoiceField
+        doctor_tuple = tuple(Doctor.objects.all().values_list("id", "user").order_by("user"))
 
         self.fields['hospital'] = forms.ChoiceField(
-            widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Hospital'}), choices=hospitalTuple,
+            widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Hospital'}), choices=hospital_tuple,
             label='Hospital')
+
+        self.fields['doctor'] = forms.ChoiceField(
+            widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Doctor'}), choices=doctor_tuple,
+            label='Doctor')
 
         # Style django's user registration fields
         self.fields['username'].widget.attrs = {'class': 'form-control'}

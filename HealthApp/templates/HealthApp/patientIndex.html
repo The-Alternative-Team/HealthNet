@@ -14,6 +14,45 @@
 <!-- Custom Fonts -->
 <link href="{% static 'HealthApp/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
 
+<!-- jQuery -->
+<script src="{% static 'HealthApp/vendor/jquery/jquery.min.js' %}"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'HealthApp/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="{% static 'HealthApp/vendor/metisMenu/metisMenu.min.js' %}"></script>
+
+<!-- Morris Charts JavaScript -->
+<script src="{% static 'HealthApp/vendor/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'HealthApp/vendor/morrisjs/morris.min.js' %}"></script>
+<script src="{% static 'HealthApp/data/morris-data.js' %}"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="{% static 'HealthApp/dist/js/sb-admin-2.js' %}"></script>
+
+<!-- Calendar -->
+<link href="{% static 'fullcalendar/fullcalendar.css' %}" rel='stylesheet'/>
+<script src="{% static 'fullcalendar/lib/moment.min.js' %}"></script>
+<script src="{% static 'fullcalendar/fullcalendar.min.js' %}"></script>
+<script>
+
+    $(document).ready(function () {
+
+        $('#calendar').fullCalendar({
+            defaultView: 'agendaDay',
+            header: {
+                left: 'today',
+                center: 'prev title next',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            editable: false,
+            eventLimit: true, // allow "more" link when too many events
+        });
+    });
+
+</script>
+
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -244,23 +283,6 @@
 
 </div>
 <!-- /#wrapper -->
-
-<!-- jQuery -->
-<script src="../../static/HealthApp/vendor/jquery/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="../../static/HealthApp/vendor/bootstrap/js/bootstrap.min.js"></script>
-
-<!-- Metis Menu Plugin JavaScript -->
-<script src="../../static/HealthApp/vendor/metisMenu/metisMenu.min.js"></script>
-
-<!-- Morris Charts JavaScript -->
-<script src="../../static/HealthApp/vendor/raphael/raphael.min.js"></script>
-<script src="../../static/HealthApp/vendor/morrisjs/morris.min.js"></script>
-<script src="../../static/HealthApp/data/morris-data.js"></script>
-
-<!-- Custom Theme JavaScript -->
-<script src="../../static/HealthApp/dist/js/sb-admin-2.js"></script>
 
 </body>
 

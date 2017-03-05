@@ -1,12 +1,16 @@
 from HealthApp.models.Doctor import Doctor
 from HealthApp.models.Patient import Patient
 from HealthApp.models.Nurse import Nurse
+from HealthApp.models import Appointment
+
 
 # A set of static utility functions
 
 
 # Takes a base user object and returns a list that contains the user's type as a String and the most complete
 #   instance of the user's database object
+
+
 def user_to_subclass(user):
     # It's a Patient
     try:
@@ -28,3 +32,8 @@ def user_to_subclass(user):
 
     # It's an Admin
     return ["Admin", user]
+
+
+def find_appointments(user):
+    user_id = user.userprofile_ptr_id
+    return Appointment.objects.get(patient_id=user_id).all()

@@ -2,19 +2,37 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 from .forms import Register, Login
+from HealthApp import StaticHelpers
 
 
 @login_required(login_url="login/")
 def home(request):
-    return render(request, "HealthApp/patientIndex.html")
+    user = StaticHelpers.user_to_subclass(request.user)[1]
+    user_type = StaticHelpers.user_to_subclass(request.user)[0]
+
+    if user_type == "Patient":
+        events = []
+        # events.append({'title': '\nNOT AVAILABLE', 'start': str(app.start_time)), 'end': str(datetime.datetime.combine(app.date, app.end_time))})
+        return render(request, 'HealthApp/patientIndex.html', events)
+    elif user_type == "Doctor" or user_type == "Nurse":
+        return render(request, 'HealthApp/doctorIndex.html')
 
 
+@login_required(login_url="login/")
 def doctor(request):
     return render(request, 'HealthApp/doctorIndex.html')
 
 
+@login_required(login_url="login/")
 def patient(request):
-    return render(request, 'HealthApp/patientIndex.html')
+    events = []
+    """
+    events.append({'title': '\nNOT AVAILABLE',
+                   'start': str(app.start_time)),
+                   'end': str(datetime.datetime.combine(app.date, app.end_time))})
+
+    """
+    return render(request, 'HealthApp/patientIndex.html', events)
 
 
 def login(request):

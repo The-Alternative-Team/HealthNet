@@ -36,4 +36,4 @@ def user_to_subclass(user):
 
 def find_appointments(user):
     user_id = user.userprofile_ptr_id
-    return Appointment.objects.get(patient_id=user_id).all()
+    return Appointment.objects.all().filter(patient_id=user_id)

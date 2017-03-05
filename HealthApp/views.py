@@ -1,5 +1,7 @@
+import datetime
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.utils import duration
 
 from .forms import Register, Login
 from HealthApp import StaticHelpers
@@ -11,10 +13,15 @@ def home(request):
     user_type = StaticHelpers.user_to_subclass(request.user)[0]
 
     if user_type == "Patient":
+        apps = StaticHelpers.find_appointments(user)
         events = []
-        # events.append({'title': '\nNOT AVAILABLE', 'start': str(app.start_time)), 'end': str(datetime.datetime.combine(app.date, app.end_time))})
+        for app in apps:
+            events.append({'title': str(app.notes), 'start': str(app.start_time),
+                           'end': str(app.start_time + datetime.timedelta(minutes=duration))})
         return render(request, 'HealthApp/patientIndex.html', events)
     elif user_type == "Doctor" or user_type == "Nurse":
+        return render(request, 'HealthApp/doctorIndex.html')
+    elif user_type == "Admin":
         return render(request, 'HealthApp/doctorIndex.html')
 
 
@@ -74,6 +81,6 @@ def grid(request):
 def tables(request):
     return render(request, 'HealthApp/tables.html')
 
-#this code can be used to create endtime for the appointment
-#duration = models.IntegerField(help_text="Enter time in minutes", verbose_name='Duration')
-#end_time = start_time + datetime.timedelta(minutes = duration)
+    # this code can be used to create endtime for the appointment
+    # duration = models.IntegerField(help_text="Enter time in minutes", verbose_name='Duration')
+    # end_time = start_time + datetime.timedelta(minutes = duration)

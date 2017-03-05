@@ -1,14 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 import datetime
 
 
-class UserProfile(models.Model):
-    # The link to the actual django user object
+class UserProfile(User):
+    # Inherits from the actual django user object
     # (Get username, email, first name, and last name from this)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     STATE_CHOICES = (
         ('AL', 'Alabama'), ('AK', 'Alaska'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'),
@@ -36,15 +33,3 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username + "'s profile"
-
-
-# These functions link this model to django's user so they're created and saved together
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.userprofile.save()

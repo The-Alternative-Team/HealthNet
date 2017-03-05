@@ -7,10 +7,10 @@ from .Doctor import Doctor
 class Patient(UserProfile):
     hospital = models.ForeignKey(Hospital, related_name="current_hospital", default=None, verbose_name='Hospital')
     Doctor = models.ForeignKey(Doctor, related_name='Doctor', default=None, verbose_name='Doctor')
-    prescription = []
-    test_results = []
-    med_info = []
-    appointments = []
+    #prescription = []
+    #test_results = []
+    #med_info = []
+    #appointments = []
     desired_hospital = models.ForeignKey(Hospital, related_name="desired_hospital", default=None,
                                          verbose_name='Desired Hospital')
     e_cont_fname = models.CharField(max_length=50, verbose_name="Emergency Contact: First Name")
@@ -20,12 +20,20 @@ class Patient(UserProfile):
     e_cont_cell_phone = models.BigIntegerField(help_text="No spaces or dashes",
                                                verbose_name="Emergency Contact: Cell Phone")
 
-    @classmethod
-    def create_patient(cls, hospital, doctor, desired_hospital, e_cont_fname, e_cont_lname,
-                       e_cont_home_phone, e_cont_cell_phone):
-        patient = cls(hospital=hospital, Doctor=doctor, desired_hospital=desired_hospital, e_cont_fname=e_cont_fname,
-                          e_cont_lname=e_cont_lname, e_cont_home_phone=e_cont_home_phone, e_cont_cell_phone=e_cont_cell_phone)
-        patient.save()
-
     def __str__(self):
         return str(self.name)
+
+
+    # Not needed anymore for now
+    # @classmethod
+    # def create_patient(cls, first_name, last_name, email, password, hospital, doctor, desired_hospital, e_cont_fname,
+    #                    e_cont_lname, e_cont_home_phone, e_cont_cell_phone):
+    #     # Create the user object first
+    #     user = User.objects.create_user(email, password=password)
+    #     user.first_name = first_name
+    #     user.last_name = last_name
+    #     user.save()
+    #
+    #     # Now create and save the patient
+    #     patient = cls(user=user, hospital=hospital, Doctor=doctor, desired_hospital=desired_hospital, e_cont_fname=e_cont_fname, e_cont_lname=e_cont_lname, e_cont_home_phone=e_cont_home_phone, e_cont_cell_phone=e_cont_cell_phone)
+    #     patient.save()

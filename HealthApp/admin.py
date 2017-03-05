@@ -6,7 +6,7 @@ admin.site.register(Doctor)
 admin.site.register(Hospital)
 admin.site.register(Nurse)
 admin.site.register(Patient)
-admin.site.register(UserProfile)
+#admin.site.register(UserProfile)
 
 class LogAdmin(admin.ModelAdmin):
     list_display = ('userMail', 'time', 'action')

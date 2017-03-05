@@ -5,8 +5,8 @@ from .Hospital import Hospital
 
 class Doctor(UserProfile):
     hospital = models.ForeignKey(Hospital, default=None, verbose_name='Hospital')
-    appointments = []
-    patients = []
+    #appointments = []
+    #patients = []
 
     def __str__(self):
         return str(self.name)

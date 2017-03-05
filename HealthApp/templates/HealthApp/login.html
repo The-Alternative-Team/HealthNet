@@ -79,7 +79,7 @@
                             <p>Please login to see this page.</p>
                         {% endif %}
                     {% endif %}
-                    <form role="form" action="{% url 'django.contrib.auth.views.login' %}">
+                    <form role="form" action="{% url 'django.contrib.auth.views.login' %}" method="post">
                         <fieldset>
                             {% csrf_token %}
                             {{ form }}

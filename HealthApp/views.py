@@ -1,6 +1,7 @@
 import datetime
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
 from django.utils import duration
 
 from .forms import Register, Login
@@ -42,16 +43,23 @@ def patient(request):
     return render(request, 'HealthApp/patientIndex.html', events)
 
 
-def login(request):
+def authForm(request):
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = Login(request.POST)
-        # check whether it's valid:
+        email = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=email, password=password)
+
+        # if user exists and user is active, login
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+
+        return redirect(request.POST['next'] + '/')
 
         # if a GET (or any other method) we'll create a blank form
     else:
         form = Login()
-    return render(request, 'HealthApp/login.html', {'form': form})
+        return render(request, 'HealthApp/login.html', {'form': form})
 
 
 def register(request):

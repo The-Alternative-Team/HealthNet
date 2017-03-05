@@ -15,6 +15,6 @@ class Appointment(models.Model):
 
     @classmethod
     def create_appointment(cls, hospital, doctor, patient, start_time, end_time, notes):
-        appointment = cls(hospital=hospital, doctor=doctor, patient=patient, startTime=start_time, endTime=end_time,
+        appointment = cls(hospital=hospital, doctor=doctor, patient=patient, start_time=start_time, end_time=end_time,
                           notes=notes)
         appointment.save()

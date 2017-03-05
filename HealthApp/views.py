@@ -1,8 +1,6 @@
-import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-from django.utils import duration
 
 from .forms import Register, Login
 from HealthApp import StaticHelpers
@@ -18,7 +16,7 @@ def home(request):
         events = []
         for app in apps:
             events.append({'title': str(app.doctor), 'start': str(app.start_time),
-                           'end': str((app.start_time + (datetime.timedelta(minutes=app.duration))))})
+                           'end': str(app.end_time)})
         return render(request, 'HealthApp/patientIndex.html', events)
     elif user_type == "Doctor" or user_type == "Nurse":
         return render(request, 'HealthApp/doctorIndex.html')

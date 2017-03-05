@@ -7,6 +7,9 @@ class LogEntry(models.Model):
     time = models.DateTimeField(default=None, verbose_name='Date Logged')
     action = models.CharField(default='', max_length=1000, verbose_name='Action Completed')
 
+    class Meta:
+        verbose_name = "Log Entry"
+        verbose_name_plural = "Log Entries"
     @classmethod
     def log_action(cls, user_mail, action):
         log = cls(userMail=user_mail, action=action, time=timezone.now())

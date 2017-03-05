@@ -22,7 +22,7 @@ class Register(UserCreationForm):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
         label='Last Name', max_length=100)
     date_of_birth = forms.DateField(
-        widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': '01/01/1950'}),
+        widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'MM/DD/YYYY'}),
         label='Date of Birth')
     social = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '123-45-6789'}),

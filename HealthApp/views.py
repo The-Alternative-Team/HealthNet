@@ -22,7 +22,7 @@ def login(request):
         # create a form instance and populate it with data from the request:
         form = Login(request.POST)
         # check whether it's valid:
-        # TODO: Check for valid data
+
         # if a GET (or any other method) we'll create a blank form
     else:
         form = Login()

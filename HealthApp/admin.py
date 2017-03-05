@@ -11,5 +11,5 @@ admin.site.register(Patient)
 class LogAdmin(admin.ModelAdmin):
     list_display = ('userMail', 'time', 'action')
     list_filter = ['time']
-    search_fields = ['userMail']
+    search_fields = ['userMail', 'action']
 admin.site.register(LogEntry, LogAdmin)

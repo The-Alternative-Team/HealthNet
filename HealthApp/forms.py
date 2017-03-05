@@ -47,9 +47,9 @@ class Register(UserCreationForm):
             label='Doctor')
 
         # Style django's user registration fields
-        self.fields['username'].widget.attrs = {'class': 'form-control'}
-        self.fields['password1'].widget.attrs = {'class': 'form-control'}
-        self.fields['password2'].widget.attrs = {'class': 'form-control'}
+        self.fields['username'].widget.attrs = {'class': 'form-control', 'placeholder': 'E-Mail'}
+        self.fields['password1'].widget.attrs = {'class': 'form-control', 'placeholder': 'Password'}
+        self.fields['password2'].widget.attrs = {'class': 'form-control', 'placeholder': 'Confirm Password'}
 
     class Meta:
         model = User

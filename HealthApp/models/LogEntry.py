@@ -8,8 +8,8 @@ class LogEntry(models.Model):
     action = models.CharField(default='', max_length=1000, verbose_name='Action Completed')
 
     @classmethod
-    def log_action(cls, userMail, action):
-        log = cls(userMail=userMail, action=action, time=timezone.now())
+    def log_action(cls, user_mail, action):
+        log = cls(userMail=user_mail, action=action, time=timezone.now())
         log.save()
 
     def __str__(self):

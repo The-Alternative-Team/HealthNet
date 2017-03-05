@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 
-from .forms import Register, Login
+from .forms import Register, Login, SelectAppointment, AddAppointment
 from HealthApp import StaticHelpers
 
 
@@ -12,7 +12,6 @@ def home(request):
     user_type = StaticHelpers.user_to_subclass(request.user)[0]
 
     events = []
-
     apps = StaticHelpers.find_appointments(user)
 
     if user_type == "Patient":
@@ -22,7 +21,9 @@ def home(request):
                 'start': str(app.start_time),
                 'end': str(app.end_time)
             })
-        return render(request, 'HealthApp/patientIndex.html', {"events": events})
+        form = SelectAppointment(user)
+        addForm = AddAppointment(user_type)
+        return render(request, 'HealthApp/patientIndex.html', {"events": events, 'form': form, 'addForm': addForm})
     elif user_type == "Doctor" or user_type == "Nurse":
         for app in apps:
             events.append({

@@ -81,7 +81,7 @@ DATABASES = {
     }
 }
 
-LOGIN_REDIRECT_URL = '/' # It means home view
+LOGIN_REDIRECT_URL = '/'  # It means home view
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators

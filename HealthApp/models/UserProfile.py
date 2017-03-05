@@ -1,9 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import User
-from .StatesList import STATE_CHOICES
-from .Doctor import Doctor
-from .Patient import Patient
-from .Nurse import Nurse
+from django.db import models
+from HealthApp.StatesList import STATE_CHOICES
 
 
 class UserProfile(User):
@@ -24,28 +21,3 @@ class UserProfile(User):
 
     def __str__(self):
         return self.username + "'s UserProfile"
-
-    # Takes a base user object and returns a list that contains the user's type as a String and the most complete
-    #   instance of the user's database object
-    @classmethod
-    def user_to_subclass(cls, user):
-        # It's a Patient
-        try:
-            return ["Patient", Patient.objects.get(username=user.username)]
-        except Patient.DoesNotExist:
-            pass
-
-        # It's a Doctor
-        try:
-            return ["Doctor", Doctor.objects.get(username=user.username)]
-        except Doctor.DoesNotExist:
-            pass
-
-        # It's a Nurse
-        try:
-            return ["Nurse", Nurse.objects.get(username=user.username)]
-        except Nurse.DoesNotExist:
-            pass
-
-        # It's an Admin
-        return ["Admin", user]

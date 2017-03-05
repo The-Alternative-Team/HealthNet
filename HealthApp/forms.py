@@ -1,7 +1,9 @@
 from django import forms
-from .models import Hospital, UserProfile, Doctor, StatesList
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+
+from HealthApp import StatesList
+from .models import Hospital, Doctor
 
 
 class Login(AuthenticationForm):

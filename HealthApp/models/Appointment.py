@@ -8,7 +8,8 @@ class Appointment(models.Model):
     hospital = models.ForeignKey(Hospital, verbose_name='Hospital')
     doctor = models.ForeignKey(Doctor, verbose_name='Doctor')
     patient = models.ForeignKey(Patient, verbose_name='Patient')
-    startTime = models.DateTimeField(verbose_name='Start Time')
+    start_time = models.DateTimeField(verbose_name='Start Time')
+    duration = models.IntegerField(help_text="Enter time in minutes", verbose_name='Duration')
     notes = models.CharField(default='', max_length=1000, verbose_name='Notes')
 
     @classmethod

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Hospital, UserProfile, Doctor
+from .models import Hospital, UserProfile, Doctor, StatesList
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
@@ -33,7 +33,7 @@ class Register(UserCreationForm):
         label='City', max_length=100)
     address_state = forms.ChoiceField(
         widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'State'}),
-        choices=UserProfile.STATE_CHOICES, label='State')
+        choices=StatesList.STATE_CHOICES, label='State')
     address_zip = forms.IntegerField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Zip Code'}),
         label='Zip Code')

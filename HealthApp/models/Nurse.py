@@ -12,4 +12,4 @@ class Nurse(UserProfile):
         verbose_name_plural = "Nurses"
 
     def __str__(self):
-        return "Nurse " + self.user.username
+        return "Nurse " + self.username

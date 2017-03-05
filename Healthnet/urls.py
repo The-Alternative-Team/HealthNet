@@ -20,5 +20,4 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^HealthApp/', include('HealthApp.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^calendar/', include('schedule.urls')),
 ]

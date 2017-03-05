@@ -10,7 +10,7 @@ class Appointment(models.Model):
     doctor = models.ForeignKey(Doctor, verbose_name='Doctor')
     patient = models.ForeignKey(Patient, verbose_name='Patient')
     start_time = models.DateTimeField(verbose_name='Start Time')
-    end_time = models.DateTimeField(verbose_name='End Time', default=None)
+    end_time = models.DateTimeField(verbose_name='End Time')
     notes = models.CharField(default='', max_length=1000, verbose_name='Notes')
 
     def __str__(self):

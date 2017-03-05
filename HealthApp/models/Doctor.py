@@ -5,8 +5,9 @@ from .Hospital import Hospital
 
 class Doctor(UserProfile):
     hospital = models.ForeignKey(Hospital, verbose_name='Hospital')
-    #appointments = []
-    #patients = []
+
+    # The appointments and patients lists are many to one relationships so they're defined on the 'many' side only
+    # See: https://docs.djangoproject.com/en/1.9/topics/db/examples/many_to_one/
 
     class Meta:
         verbose_name = "Doctor"

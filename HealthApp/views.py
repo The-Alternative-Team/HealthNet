@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from .forms import Register
+from .forms import Register, Login
 
 def doctor(request):
     return render(request, 'HealthApp/doctorIndex.html')
@@ -11,7 +11,15 @@ def patient(request):
 
 
 def login(request):
-    return render(request, 'HealthApp/login.html')
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = Login(request.POST)
+        # check whether it's valid:
+            #TODO: Check for valid data
+        # if a GET (or any other method) we'll create a blank form
+    else:
+        form = Login()
+    return render(request, 'HealthApp/login.html', {'form': form})
 
 
 def register(request):

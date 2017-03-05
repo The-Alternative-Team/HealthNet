@@ -16,8 +16,13 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth import views
+from HealthApp.forms import Login
+
 
 urlpatterns = [
     url(r'^HealthApp/', include('HealthApp.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'', include('HealthApp.urls')),
+    url(r'^login/$', views.login, {'template_name': 'login.html', 'authentication_form': Login}),
 ]

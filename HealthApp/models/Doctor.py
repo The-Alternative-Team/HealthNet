@@ -8,5 +8,9 @@ class Doctor(UserProfile):
     #appointments = []
     #patients = []
 
+    class Meta:
+        verbose_name = "Doctor"
+        verbose_name_plural = "Doctors"
+
     def __str__(self):
         return str(self.name)

@@ -20,6 +20,10 @@ class Patient(UserProfile):
     e_cont_cell_phone = models.BigIntegerField(help_text="No spaces or dashes",
                                                verbose_name="Emergency Contact: Cell Phone")
 
+    class Meta:
+        verbose_name = "Patient"
+        verbose_name_plural = "Patients"
+
     def __str__(self):
         return str(self.name)
 

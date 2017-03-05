@@ -32,4 +32,4 @@ class UserProfile(User):
     cell_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Cell Phone", default=0)
 
     def __str__(self):
-        return self.user.username + "'s profile"
+        return self.user.username + "'s UserProfile"

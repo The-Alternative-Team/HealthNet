@@ -4,7 +4,7 @@ from .Hospital import Hospital
 
 
 class Nurse(UserProfile):
-    hospital = models.ForeignKey(Hospital, default=None, verbose_name='Hospital')
+    hospital = models.ForeignKey(Hospital, verbose_name='Hospital')
     #patients = []
 
     class Meta:
@@ -12,4 +12,4 @@ class Nurse(UserProfile):
         verbose_name_plural = "Nurses"
 
     def __str__(self):
-        return str(self.name)
+        return "Nurse " + self.user.username

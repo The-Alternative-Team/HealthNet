@@ -25,7 +25,7 @@ class Patient(UserProfile):
         verbose_name_plural = "Patients"
 
     def __str__(self):
-        return str(self.name)
+        return "Patient " + self.user.username
 
 
     # Not needed anymore for now

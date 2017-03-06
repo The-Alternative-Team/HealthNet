@@ -111,8 +111,8 @@ class AddAppointment(forms.ModelForm):
         else:
             del self.fields['doctor']
 
-        self.fields['start_time'].widget.attrs = {'class': 'form-control', 'placeholder': 'Start Time'}
-        self.fields['end_time'].widget.attrs = {'class': 'form-control', 'placeholder': 'End Time'}
+        self.fields['start_time'].widget.attrs = {'class': 'form-control', 'placeholder': 'Start Time: (MM/DD/YYYY HH:MM:SS)'}
+        self.fields['end_time'].widget.attrs = {'class': 'form-control', 'placeholder': 'End Time: (MM/DD/YYYY HH:MM:SS)'}
         self.fields['notes'].widget.attrs = {'class': 'form-control', 'placeholder': 'Notes'}
 
     class Meta:

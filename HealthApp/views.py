@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
+import datetime
 
 from .forms import Register, Login, SelectAppointment, AddAppointment
 from HealthApp import StaticHelpers
+from .models import Patient, Doctor, Appointment
 
 
 @login_required(login_url="login/")
@@ -13,6 +15,34 @@ def home(request):
     # Redirect an admin over the admin page before trying to pull real-user only data
     if user_type == StaticHelpers.UserTypes.admin:
         return redirect('/admin/')
+
+    if request.method == 'POST':
+        # A form was submitted
+
+        # TODO: Figure out which form instead of assuming it was the new appointment form
+
+        # Get appointment_doctor
+        if user_type == StaticHelpers.UserTypes.nurse:
+            doctor_id = int(request.POST['doctor'])
+            appointment_doctor = Doctor.objects.all().filter(id=doctor_id)[0]
+        elif user_type == StaticHelpers.UserTypes.doctor:
+            appointment_doctor = user
+        else:
+            # It's a patient
+            appointment_doctor = user.primary_doctor
+
+        # Get appointment_patient
+        if user_type == StaticHelpers.UserTypes.patient:
+            appointment_patient = user
+        else:
+            patient_id = int(request.POST['patient'])
+            appointment_patient = Patient.objects.all().filter(id=patient_id)[0]
+
+        appointment = Appointment(hospital=appointment_patient.hospital, doctor=appointment_doctor,
+                                  patient=appointment_patient, start_time=datetime.datetime.now(),
+                                  end_time=datetime.datetime.now() + datetime.timedelta(hours=1),
+                                  notes=request.POST['notes'])
+        appointment.save()
 
     events = []
     apps = StaticHelpers.find_appointments(user_type, user)

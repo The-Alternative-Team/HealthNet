@@ -1,3 +1,25 @@
+"""
+UserProfile model
+
+Django superclass model for a user profile.
+
+=== Fields ===
+
+date_of_birth --- (date) The user's DOB.
+social ---------- (integer) The user's social security number.
+address_street -- (char) The street the user lives on.
+address_city ---- (char) The city the user lives in.
+address_state --- (char) The state the user lives in.
+address_zip ----- (integer) The zip code of the user's residence.
+home_phone ------ (integer) The user's home phone number.
+cell_phone ------ (integer) The user's cell phone number.
+
+=== Methods ===
+
+__str__ -- Returns the string representation of the existing UserProfile object.
+
+"""
+
 from django.contrib.auth.models import User
 from django.db import models
 from HealthApp.statesList import STATE_CHOICES

@@ -1,3 +1,23 @@
+"""
+Hospital model
+
+Django model for a Hospital.
+
+=== Fields ===
+
+name --------- (char) The name of the hospital.
+street ------- (char) The street the hospital is on.
+city --------- (char) The city the hospital is in.
+state -------- (char) The state the hospital is in.
+zipCode ------ (integer) The time zip code of the hospital.
+phoneNumber -- (integer) The phone number of the hospital.
+
+=== Methods ===
+
+__str__ -- Returns the Hospital name as a string.
+
+"""
+
 from django.db import models
 
 from HealthApp.statesList import STATE_CHOICES

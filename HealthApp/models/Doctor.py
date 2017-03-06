@@ -1,3 +1,18 @@
+"""
+Doctor model
+
+Django model for a Doctor. Inherits UserProfile
+
+=== Fields ===
+
+hospital -- (model) The hospital in which the Doctor actively works.
+
+=== Methods ===
+
+__str__ -- Returns the string representation of the existing Doctor object.
+
+"""
+
 from django.db import models
 from .UserProfile import UserProfile
 from .Hospital import Hospital

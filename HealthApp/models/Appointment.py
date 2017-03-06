@@ -1,8 +1,29 @@
+"""
+Appointment model
+
+Django model for an appointment between a Patient and a Doctor.
+
+=== Fields ===
+
+hospital ---- (model) The hospital in which the appointment will take place.
+doctor ------ (model) The doctor assigned to the appointment.
+patient ----- (model) The patient who the appointment is for.
+start_time -- (datetime) The time the appointment will start at.
+end_time ---- (datetime) The time the appointment should end at.
+notes ------- (char) Additional notes for the appointment.
+
+=== Methods ===
+
+__str__ ------------- Returns the string representation of the existing appointment
+create_appointment -- Static method that creates an appointment object and saves it in the SQLite database.
+update_appointment -- Static method that updates appointment fields for an existing appointment
+
+"""
+
 from django.db import models
 from .Hospital import Hospital
 from .Doctor import Doctor
 from .Patient import Patient
-
 
 class Appointment(models.Model):
     hospital = models.ForeignKey(Hospital, verbose_name='Hospital')

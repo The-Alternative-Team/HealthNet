@@ -1,3 +1,25 @@
+"""
+Patient model
+
+Django model for a Patient. Inherits UserProfile
+
+=== Fields ===
+
+hospital ----------- (model) The hospital in which the Nurse actively works.
+primary_doctor ----- (model) The patient's primary doctor.
+desired_hospital --- (model) The patient's hospital of choice.
+e_cont_fname ------- (char) The first name of the patient's emergency contact.
+e_cont_lname ------- (char) The last name of the patient's emergency contact.
+e_cont_home_phone -- (integer) The home phone number of the patient's emergency contact.
+e_cont_cell_phone -- (integer) The cell phone number of the patiend's emergency contact.
+
+=== Methods ===
+
+__str__ --------- Returns the string representation of the existing Patient object.
+update_patient -- Updates the fields of an existing Patient object.
+
+"""
+
 from django.db import models
 from .UserProfile import UserProfile
 from .Hospital import Hospital

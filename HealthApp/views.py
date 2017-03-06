@@ -8,13 +8,16 @@ from HealthApp import StaticHelpers
 
 @login_required(login_url="login/")
 def home(request):
-    user = StaticHelpers.user_to_subclass(request.user)[1]
-    user_type = StaticHelpers.user_to_subclass(request.user)[0]
+    user_type, user = StaticHelpers.user_to_subclass(request.user)
+
+    # Redirect an admin over the admin page before trying to pull real-user only data
+    if user_type == StaticHelpers.userTypes.admin:
+        return redirect('/admin/')
 
     events = []
     apps = StaticHelpers.find_appointments(user)
 
-    if user_type == "Patient":
+    if user_type == StaticHelpers.userTypes.patient:
         for app in apps:
             events.append({
                 'title': "Appointment with " + str(app.doctor),
@@ -24,7 +27,7 @@ def home(request):
         form = SelectAppointment(user)
         addForm = AddAppointment(user_type)
         return render(request, 'HealthApp/patientIndex.html', {"events": events, 'form': form, 'addForm': addForm})
-    elif user_type == "Doctor" or user_type == "Nurse":
+    elif user_type == StaticHelpers.userTypes.doctor or user_type == StaticHelpers.userTypes.nurse:
         for app in apps:
             events.append({
                 'title': "Appointment with " + str(app.patient),
@@ -32,8 +35,6 @@ def home(request):
                 'end': str(app.end_time)
             })
         return render(request, 'HealthApp/doctorIndex.html', {"events": events})
-    elif user_type == "Admin":
-        return render(request, 'HealthApp/doctorIndex.html')
 
 
 @login_required(login_url="login/")
@@ -64,7 +65,10 @@ def authForm(request):
             if user.is_active:
                 login(request, user)
 
-        return redirect(request.POST['next'] + '/')
+        userType, user = StaticHelpers.user_to_subclass(user)
+        print(userType)
+
+        return redirect('/')
 
         # if a GET (or any other method) we'll create a blank form
     else:

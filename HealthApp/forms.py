@@ -3,7 +3,6 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
 from HealthApp import StatesList
-from HealthApp import StaticHelpers
 from .models import Hospital, Doctor, Appointment
 
 

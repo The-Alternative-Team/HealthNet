@@ -54,7 +54,7 @@ def register(request):
         # Log them in
         user = authenticate(username=email, password=password1)
         login(request, user)
-        
+
         LogEntry.log_action(request.user.username, "Registered and logged in")
 
         return redirect("/")

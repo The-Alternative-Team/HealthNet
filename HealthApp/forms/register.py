@@ -1,17 +1,10 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from HealthApp import StatesList, StaticHelpers
-from .models import Hospital, Doctor, Appointment
-
-
-class Login(AuthenticationForm):
-    def __init__(self, request=None, *args, **kwargs):
-        self.request = request
-        super(Login, self).__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs = {'class': 'form-control', 'placeholder': 'E-Mail'}
-        self.fields['password'].widget.attrs = {'class': 'form-control', 'placeholder': 'Password'}
+from HealthApp import StatesList
+from HealthApp.models import Doctor
+from HealthApp.models import Hospital
 
 
 class Register(UserCreationForm):
@@ -81,40 +74,3 @@ class Register(UserCreationForm):
         if commit:
             user.save()
         return user
-
-
-class SelectAppointment(forms.Form):
-    def __init__(self, user):
-        super().__init__()
-        appointment_tuple = tuple(
-            Appointment.objects.all().values_list("id", "start_time").order_by("start_time").filter(
-                patient_id=user.userprofile_ptr_id))
-        self.fields['appointments'] = forms.ChoiceField(
-            widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Hospital'}),
-            choices=appointment_tuple,
-            label='Appointments')
-
-
-class AddAppointment(forms.ModelForm):
-    def __init__(self, user_type):
-        super().__init__()
-
-        # Only allow nurses to set custom doctors
-        if user_type == StaticHelpers.UserTypes.nurse:
-            self.fields['doctor'].widget.attrs = {'class': 'form-control', 'placeholder': 'Doctor'}
-        else:
-            del self.fields['doctor']
-
-        # Don't allow patients to set a custom patient
-        if user_type != StaticHelpers.UserTypes.patient:
-            self.fields['patient'].widget.attrs = {'class': 'form-control', 'placeholder': 'Patient'}
-        else:
-            del self.fields['patient']
-
-        self.fields['start_time'].widget.attrs = {'class': 'form-control', 'placeholder': 'Start Time: (YYYY-MM-DD HH:MM)'}
-        self.fields['end_time'].widget.attrs = {'class': 'form-control', 'placeholder': 'End Time: (YYYY-MM-DD HH:MM)'}
-        self.fields['notes'].widget.attrs = {'class': 'form-control', 'placeholder': 'Notes'}
-
-    class Meta:
-        model = Appointment
-        fields = ['doctor', 'patient', 'start_time', 'end_time', 'notes']

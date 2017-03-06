@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 
 from HealthApp.forms import UpdateAppointment, AddAppointment
 from HealthApp import StaticHelpers
-from HealthApp.models import Patient, Doctor, Appointment
+from HealthApp.models import Patient, Doctor, Appointment, LogEntry
 
 
 @login_required(login_url="login/")
@@ -40,6 +40,8 @@ def home(request):
                                   patient=appointment_patient, start_time=request.POST['start_time'],
                                   end_time=request.POST['end_time'], notes=request.POST['notes'])
         appointment.save()
+        LogEntry.log_action(request.user.username, "created an appointment")
+
 
         # Redirect as a GET so refreshing works
         return redirect('/')

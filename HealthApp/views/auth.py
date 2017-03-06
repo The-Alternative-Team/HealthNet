@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-
 from HealthApp.forms import Login
+from HealthApp.models import LogEntry
 
 
 def authForm(request):
@@ -15,6 +15,7 @@ def authForm(request):
             if user.is_active:
                 login(request, user)
 
+        LogEntry.log_action(request.user.username, "logged in")
         return redirect('/')
 
         # if a GET (or any other method) we'll create a blank form
@@ -24,5 +25,6 @@ def authForm(request):
 
 
 def unauth(request):
+    LogEntry.log_action(request.user.username, "logged out")
     logout(request)
     return redirect('/')

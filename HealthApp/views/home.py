@@ -43,7 +43,7 @@ def home(request):
 
             patient.save()
 
-            LogEntry.log_action(request.user.username, "Updated data")
+            LogEntry.log_action(request.user.username, "Updated their patient data")
 
         elif 'Cancel Appointment' not in request.POST:
             # Get appointment_doctor

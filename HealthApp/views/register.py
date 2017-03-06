@@ -5,7 +5,6 @@ from django.db import IntegrityError
 from django.contrib.auth import authenticate, login
 from HealthApp.forms import Register
 from HealthApp.models import Hospital, Doctor, Patient, LogEntry
-from django.shortcuts import render_to_response
 
 
 def register(request):

@@ -19,35 +19,37 @@ def home(request):
 
         # TODO: Figure out which form instead of assuming it was the new appointment form
 
-        # Get appointment_doctor
-        if user_type == staticHelpers.UserTypes.nurse:
-            doctor_id = int(request.POST['doctor'])
-            appointment_doctor = Doctor.objects.all().filter(id=doctor_id)[0]
-        elif user_type == staticHelpers.UserTypes.doctor:
-            appointment_doctor = user
-        else:
-            # It's a patient
-            appointment_doctor = user.primary_doctor
+        if 'Cancel Appointment' not in request.POST:
+            # Get appointment_doctor
+            if user_type == staticHelpers.UserTypes.nurse:
+                doctor_id = int(request.POST['doctor'])
+                appointment_doctor = Doctor.objects.all().filter(id=doctor_id)[0]
+            elif user_type == staticHelpers.UserTypes.doctor:
+                appointment_doctor = user
+            else:
+                # It's a patient
+                appointment_doctor = user.primary_doctor
 
-        # Get appointment_patient
-        if user_type == staticHelpers.UserTypes.patient:
-            appointment_patient = user
+            # Get appointment_patient
+            if user_type == staticHelpers.UserTypes.patient:
+                appointment_patient = user
+            else:
+                patient_id = int(request.POST['patient'])
+                appointment_patient = Patient.objects.all().filter(id=patient_id)[0]
+            if 'event-id-update' in request.POST:
+                Appointment.objects.all().get(id=request.POST['event-id-update']).update_appointment(
+                    hospital=appointment_patient.hospital, doctor=appointment_doctor,
+                    patient=appointment_patient, start_time=request.POST['start_time'],
+                    end_time=request.POST['end_time'], notes=request.POST['notes'])
+                LogEntry.log_action(request.user.username, "Updated an appointment")
+            else:
+                appointment = Appointment(hospital=appointment_patient.hospital, doctor=appointment_doctor,
+                                          patient=appointment_patient, start_time=request.POST['start_time'],
+                                          end_time=request.POST['end_time'], notes=request.POST['notes'])
+                appointment.save()
+                LogEntry.log_action(request.user.username, "Created an appointment")
         else:
-            patient_id = int(request.POST['patient'])
-            appointment_patient = Patient.objects.all().filter(id=patient_id)[0]
-
-        if 'event-id-update' in request.POST:
-            Appointment.objects.all().get(id=request.POST['event-id-update']).update_appointment(
-                hospital=appointment_patient.hospital, doctor=appointment_doctor,
-                patient=appointment_patient, start_time=request.POST['start_time'],
-                end_time=request.POST['end_time'], notes=request.POST['notes'])
-            LogEntry.log_action(request.user.username, "Updated an appointment")
-        else:
-            appointment = Appointment(hospital=appointment_patient.hospital, doctor=appointment_doctor,
-                                      patient=appointment_patient, start_time=request.POST['start_time'],
-                                      end_time=request.POST['end_time'], notes=request.POST['notes'])
-            appointment.save()
-            LogEntry.log_action(request.user.username, "Created an appointment")
+            Appointment.objects.all().get(id=request.POST['event-id-update']).delete()
 
         # Redirect as a GET so refreshing works
         return redirect('/')

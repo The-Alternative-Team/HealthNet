@@ -76,6 +76,7 @@ def home(request):
                 LogEntry.log_action(request.user.username, "Created an appointment")
         else:
             Appointment.objects.all().get(id=request.POST['event-id-update']).delete()
+            LogEntry.log_action(request.user.username, "Canceled an appointment")
 
         # Redirect as a GET so refreshing works
         return redirect('/')

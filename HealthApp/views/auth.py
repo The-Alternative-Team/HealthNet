@@ -15,7 +15,7 @@ def authForm(request):
             if user.is_active:
                 login(request, user)
 
-        LogEntry.log_action(request.user.username, "logged in")
+        LogEntry.log_action(request.user.username, "Logged in")
         return redirect('/')
 
         # if a GET (or any other method) we'll create a blank form
@@ -25,6 +25,6 @@ def authForm(request):
 
 
 def unauth(request):
-    LogEntry.log_action(request.user.username, "logged out")
+    LogEntry.log_action(request.user.username, "Logged out")
     logout(request)
     return redirect('/')

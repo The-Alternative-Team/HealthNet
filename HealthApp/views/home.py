@@ -40,7 +40,7 @@ def home(request):
                                   patient=appointment_patient, start_time=request.POST['start_time'],
                                   end_time=request.POST['end_time'], notes=request.POST['notes'])
         appointment.save()
-        LogEntry.log_action(request.user.username, "created an appointment")
+        LogEntry.log_action(request.user.username, "Created an appointment")
 
 
         # Redirect as a GET so refreshing works

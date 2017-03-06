@@ -15,7 +15,7 @@ class Register(UserCreationForm):
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
         label='Last Name', max_length=100)
     date_of_birth = forms.DateField(
-        widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'MM/DD/YYYY'}),
+        widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'YYYY-MM-DD'}),
         label='Date of Birth')
     social = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '123-45-6789'}),
@@ -38,6 +38,18 @@ class Register(UserCreationForm):
     cell_phone = forms.IntegerField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(123)456-7890'}),
         label='Cell Phone Number')
+    e_cont_fname = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
+        label='Emergency Contact: First Name', max_length=100)
+    e_cont_lname = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Last Name'}),
+        label='Emergency Contact: Last Name', max_length=100)
+    e_cont_home_phone = forms.IntegerField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(123)456-7890'}),
+        label='Emergency Contact: Home Phone Number')
+    e_cont_cell_phone = forms.IntegerField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(123)456-7890'}),
+        label='Emergency Contact: Cell Phone Number')
 
     # Query for hospitals on form generate
     def __init__(self, *args, **kwargs):
@@ -45,8 +57,8 @@ class Register(UserCreationForm):
 
         # Generate hospital ChoiceField
         hospital_tuple = tuple(Hospital.objects.all().values_list("id", "name").order_by("name"))
-        # Generate hospital ChoiceField
-        doctor_tuple = tuple(Doctor.objects.all().values_list("id", "user_ptr").order_by("user_ptr"))
+        # Generate doctor ChoiceField
+        doctor_tuple = tuple(Doctor.objects.all().values_list("id", "first_name").order_by("first_name"))
 
         self.fields['hospital'] = forms.ChoiceField(
             widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Hospital'}),
@@ -65,12 +77,3 @@ class Register(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'password1', 'password2')
-
-    def save(self, commit=True):
-        user = super(Register, self).save(commit=False)
-        user.email = self.cleaned_data['username']
-        user.first_name = self.cleaned_data['First name']
-        user.last_name = self.cleaned_data['Last name']
-        if commit:
-            user.save()
-        return user

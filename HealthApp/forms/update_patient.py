@@ -1,12 +1,10 @@
 from django import forms
 
 from HealthApp import statesList
-from HealthApp.models import Doctor
-from HealthApp.models import Hospital
-from HealthApp import staticHelpers
+from HealthApp.models import Doctor, Hospital, Patient
 
 
-class UpdatePatient(forms.BaseForm):
+class UpdatePatient(forms.ModelForm):
     first_name = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}),
         label='First Name', max_length=100)
@@ -45,10 +43,9 @@ class UpdatePatient(forms.BaseForm):
         label='Emergency Contact: Cell Phone Number')
 
     # Query for hospitals on form generate
-    def __init__(self, user):
+    def __init__(self, patient):
         super().__init__()
 
-        user_type, patient = staticHelpers.user_to_subclass(user)
         print(patient)
 
         # Generate hospital ChoiceField
@@ -64,3 +61,7 @@ class UpdatePatient(forms.BaseForm):
         self.fields['doctor'] = forms.ChoiceField(
             widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Doctor'}), choices=doctor_tuple,
             label='Doctor')
+
+    class Meta:
+        model = Patient
+        fields = ('first_name', 'last_name')

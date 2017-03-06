@@ -46,7 +46,7 @@ class UpdatePatient(forms.ModelForm):
     def __init__(self, patient):
         super().__init__()
 
-        print(patient)
+        # TODO: Use patient obj to fill in form
 
         # Generate hospital ChoiceField
         hospital_tuple = tuple(Hospital.objects.all().values_list("id", "name").order_by("name"))

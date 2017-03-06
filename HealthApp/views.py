@@ -11,13 +11,13 @@ def home(request):
     user_type, user = StaticHelpers.user_to_subclass(request.user)
 
     # Redirect an admin over the admin page before trying to pull real-user only data
-    if user_type == StaticHelpers.userTypes.admin:
+    if user_type == StaticHelpers.UserTypes.admin:
         return redirect('/admin/')
 
     events = []
-    apps = StaticHelpers.find_appointments(user)
+    apps = StaticHelpers.find_appointments(user_type, user)
 
-    if user_type == StaticHelpers.userTypes.patient:
+    if user_type == StaticHelpers.UserTypes.patient:
         for app in apps:
             events.append({
                 'title': "Appointment with " + str(app.doctor),
@@ -27,14 +27,16 @@ def home(request):
         form = SelectAppointment(user)
         addForm = AddAppointment(user_type)
         return render(request, 'HealthApp/patientIndex.html', {"events": events, 'form': form, 'addForm': addForm})
-    elif user_type == StaticHelpers.userTypes.doctor or user_type == StaticHelpers.userTypes.nurse:
+    elif user_type == StaticHelpers.UserTypes.doctor or user_type == StaticHelpers.UserTypes.nurse:
         for app in apps:
             events.append({
                 'title': "Appointment with " + str(app.patient),
                 'start': str(app.start_time),
                 'end': str(app.end_time)
             })
-        return render(request, 'HealthApp/doctorIndex.html', {"events": events})
+        form = SelectAppointment(user)
+        addForm = AddAppointment(user_type)
+        return render(request, 'HealthApp/doctorIndex.html', {"events": events, 'form': form, 'addForm': addForm})
 
 
 @login_required(login_url="login/")

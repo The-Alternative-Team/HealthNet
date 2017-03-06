@@ -1,14 +1,12 @@
 from django.db import models
 from .UserProfile import UserProfile
 from .Hospital import Hospital
-from .Nurse import Nurse
 from .Doctor import Doctor
 
 
 class Patient(UserProfile):
     hospital = models.ForeignKey(Hospital, related_name="current_hospital", verbose_name='Hospital')
     primary_doctor = models.ForeignKey(Doctor, related_name='Doctor', verbose_name='Doctor')
-    primary_nurse = models.ForeignKey(Nurse, related_name='Nurse', verbose_name='Nurse')
     desired_hospital = models.ForeignKey(Hospital, related_name="desired_hospital", verbose_name='Desired Hospital')
     e_cont_fname = models.CharField(max_length=50, verbose_name="Emergency Contact: First Name")
     e_cont_lname = models.CharField(max_length=50, verbose_name="Emergency Contact: Last Name")

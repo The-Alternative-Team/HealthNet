@@ -2,7 +2,6 @@ from django.db import models
 from .Hospital import Hospital
 from .Doctor import Doctor
 from .Patient import Patient
-import datetime
 
 
 class Appointment(models.Model):

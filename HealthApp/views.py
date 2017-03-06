@@ -54,6 +54,7 @@ def home(request):
             for app in apps:
                 events.append({
                     'title': "Appointment with " + str(app.doctor),
+                    'description': str(app.notes),
                     'start': str(app.start_time),
                     'end': str(app.end_time)
                 })
@@ -64,6 +65,7 @@ def home(request):
             for app in apps:
                 events.append({
                     'title': "Appointment with " + str(app.patient),
+                    'description': str(app.notes),
                     'start': str(app.start_time),
                     'end': str(app.end_time)
                 })

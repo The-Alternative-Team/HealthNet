@@ -1,6 +1,6 @@
 from django import forms
 
-from HealthApp import StaticHelpers
+from HealthApp import staticHelpers
 from HealthApp.models import Appointment
 
 
@@ -9,13 +9,13 @@ class AddAppointment(forms.ModelForm):
         super().__init__()
 
         # Only allow nurses to set custom doctors
-        if user_type == StaticHelpers.UserTypes.nurse:
+        if user_type == staticHelpers.UserTypes.nurse:
             self.fields['doctor'].widget.attrs = {'class': 'form-control', 'placeholder': 'Doctor'}
         else:
             del self.fields['doctor']
 
         # Don't allow patients to set a custom patient
-        if user_type != StaticHelpers.UserTypes.patient:
+        if user_type != staticHelpers.UserTypes.patient:
             self.fields['patient'].widget.attrs = {'class': 'form-control', 'placeholder': 'Patient'}
         else:
             del self.fields['patient']

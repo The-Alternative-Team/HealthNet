@@ -1,6 +1,6 @@
 from django.db import models
 
-from HealthApp.StatesList import STATE_CHOICES
+from HealthApp.statesList import STATE_CHOICES
 
 
 class Hospital(models.Model):

@@ -2,16 +2,16 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from HealthApp.forms import UpdateAppointment, AddAppointment
-from HealthApp import StaticHelpers
+from HealthApp import staticHelpers
 from HealthApp.models import Patient, Doctor, Appointment, LogEntry
 
 
 @login_required(login_url="login/")
 def home(request):
-    user_type, user = StaticHelpers.user_to_subclass(request.user)
+    user_type, user = staticHelpers.user_to_subclass(request.user)
 
     # Redirect an admin over the admin page before trying to pull real-user only data
-    if user_type == StaticHelpers.UserTypes.admin:
+    if user_type == staticHelpers.UserTypes.admin:
         return redirect('/admin/')
 
     if request.method == 'POST':
@@ -20,17 +20,17 @@ def home(request):
         # TODO: Figure out which form instead of assuming it was the new appointment form
 
         # Get appointment_doctor
-        if user_type == StaticHelpers.UserTypes.nurse:
+        if user_type == staticHelpers.UserTypes.nurse:
             doctor_id = int(request.POST['doctor'])
             appointment_doctor = Doctor.objects.all().filter(id=doctor_id)[0]
-        elif user_type == StaticHelpers.UserTypes.doctor:
+        elif user_type == staticHelpers.UserTypes.doctor:
             appointment_doctor = user
         else:
             # It's a patient
             appointment_doctor = user.primary_doctor
 
         # Get appointment_patient
-        if user_type == StaticHelpers.UserTypes.patient:
+        if user_type == staticHelpers.UserTypes.patient:
             appointment_patient = user
         else:
             patient_id = int(request.POST['patient'])
@@ -48,9 +48,9 @@ def home(request):
 
     else:
         events = []
-        apps = StaticHelpers.find_appointments(user_type, user)
+        apps = staticHelpers.find_appointments(user_type, user)
 
-        if user_type == StaticHelpers.UserTypes.patient:
+        if user_type == staticHelpers.UserTypes.patient:
             for app in apps:
                 events.append({
                     'title': "Appointment with " + str(app.doctor),
@@ -61,7 +61,7 @@ def home(request):
             form = UpdateAppointment(user_type)
             addForm = AddAppointment(user_type)
             return render(request, 'HealthApp/patientIndex.html', {"events": events, 'form': form, 'addForm': addForm})
-        elif user_type == StaticHelpers.UserTypes.doctor or user_type == StaticHelpers.UserTypes.nurse:
+        elif user_type == staticHelpers.UserTypes.doctor or user_type == staticHelpers.UserTypes.nurse:
             for app in apps:
                 events.append({
                     'title': "Appointment with " + str(app.patient),

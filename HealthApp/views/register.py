@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.contrib.auth import authenticate, login
 from HealthApp.forms import Register
 from HealthApp.models import Hospital, Doctor, Patient, LogEntry
+from django.shortcuts import render_to_response
 
 
 def register(request):
+    errors = []
     if request.method == 'POST':
         password1 = request.POST['password1']
         password2 = request.POST['password2']
@@ -49,7 +52,13 @@ def register(request):
                           primary_doctor=doctor, e_cont_fname=e_cont_fname, e_cont_lname=e_cont_lname,
                           e_cont_home_phone=e_cont_home_phone, e_cont_cell_phone=e_cont_cell_phone)
         patient.set_password(password1)
-        patient.save()
+
+        #catches invalid data and refreshes page with no error message(right now)
+        try:
+            patient.save()
+        except (IntegrityError, ValidationError):
+            return redirect("/register")
+
 
         # Log them in
         user = authenticate(username=email, password=password1)

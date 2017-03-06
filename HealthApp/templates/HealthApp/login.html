@@ -64,7 +64,7 @@
 
             <p><a class="btn btn-primary btn-lg" role="button">Learn more</a>
             </p>
-            <form role="form" action="{% url 'django.contrib.auth.views.login' %}" method="post">
+            <form role="form" action="{% url 'login' %}" method="post">
                 <fieldset>
                     <div class="form-group">
                         {% csrf_token %}

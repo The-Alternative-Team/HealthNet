@@ -5,7 +5,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    {% if request.user.is_authenticated %}{{ request.user.first_name }} {{ request.user.last_name }}'s {% endif %}Dashboard</h1>
+                    {% if request.user.is_authenticated %}{{ request.user.first_name }} {{ request.user.last_name }}
+                        's {% endif %}Dashboard</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -24,12 +25,6 @@
                                 <ul class="dropdown-menu pull-right" role="menu">
                                     <li><a href="#" data-toggle="modal" data-target="#addAppointment">Add
                                         Appointment</a>
-                                    </li>
-                                    <li><a href="#" data-toggle="modal" data-target="#updateAppointment">Update
-                                        Appointment</a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">Separated link</a>
                                     </li>
                                 </ul>
                             </div>
@@ -74,14 +69,21 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body">
-                                    {% csrf_token %}
-                                    {{ form }}
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel Appointment</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                </div>
+                                <form role="form" method="post">
+                                    <div class="modal-body">
+                                        {% csrf_token %}
+                                        {{ form }}
+                                        <input hidden aria-hidden="true" class="form-control" type="text"
+                                               style="display: none" id="event-id-update" name="event-id-update"
+                                               title="event-id-update">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel
+                                            Appointment
+                                        </button>
+                                        <input type="submit" value="Save Changes" class="btn btn-primary"/>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

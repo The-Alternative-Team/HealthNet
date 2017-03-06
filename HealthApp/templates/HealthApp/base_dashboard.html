@@ -37,11 +37,16 @@
 <script src="{% static 'fullcalendar/fullcalendar.min.js' %}"></script>
 <script>
 
-    $(document).ready(function () {
+    var event_id = "None";
 
+
+    $(document).ready(function () {
         $('#calendar').fullCalendar({
             eventClick: function (calEvent, jsEvent, view) {
+                event_id = calEvent.id;
+                $("#event-id-update").val(event_id);
                 $('#updateAppointment').modal('show');
+
             },
             defaultView: 'agendaDay',
             header: {
@@ -50,13 +55,12 @@
                 right: 'month,agendaWeek,agendaDay'
             },
             editable: false,
-            eventLimit: true, // allow "more" link when too many events
+            eventLimit: true,
             events: {{ events|safe }},
             eventRender: function (event, element) {
                 element.find('.fc-title').append("<br/>" + event.description);
             }
         });
-
     });
 
 </script>

@@ -36,12 +36,18 @@ def home(request):
             patient_id = int(request.POST['patient'])
             appointment_patient = Patient.objects.all().filter(id=patient_id)[0]
 
-        appointment = Appointment(hospital=appointment_patient.hospital, doctor=appointment_doctor,
-                                  patient=appointment_patient, start_time=request.POST['start_time'],
-                                  end_time=request.POST['end_time'], notes=request.POST['notes'])
-        appointment.save()
-        LogEntry.log_action(request.user.username, "Created an appointment")
-
+        if 'event-id-update' in request.POST:
+            Appointment.objects.all().get(id=request.POST['event-id-update']).update_appointment(
+                hospital=appointment_patient.hospital, doctor=appointment_doctor,
+                patient=appointment_patient, start_time=request.POST['start_time'],
+                end_time=request.POST['end_time'], notes=request.POST['notes'])
+            LogEntry.log_action(request.user.username, "Updated an appointment")
+        else:
+            appointment = Appointment(hospital=appointment_patient.hospital, doctor=appointment_doctor,
+                                      patient=appointment_patient, start_time=request.POST['start_time'],
+                                      end_time=request.POST['end_time'], notes=request.POST['notes'])
+            appointment.save()
+            LogEntry.log_action(request.user.username, "Created an appointment")
 
         # Redirect as a GET so refreshing works
         return redirect('/')
@@ -53,6 +59,7 @@ def home(request):
         if user_type == staticHelpers.UserTypes.patient:
             for app in apps:
                 events.append({
+                    'id': str(app.id),
                     'title': "Appointment with " + str(app.doctor),
                     'description': str(app.notes),
                     'start': str(app.start_time),
@@ -64,6 +71,7 @@ def home(request):
         elif user_type == staticHelpers.UserTypes.doctor or user_type == staticHelpers.UserTypes.nurse:
             for app in apps:
                 events.append({
+                    'id': str(app.id),
                     'title': "Appointment with " + str(app.patient),
                     'description': str(app.notes),
                     'start': str(app.start_time),

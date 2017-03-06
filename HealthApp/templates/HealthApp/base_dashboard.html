@@ -40,6 +40,9 @@
     $(document).ready(function () {
 
         $('#calendar').fullCalendar({
+            eventClick: function (calEvent, jsEvent, view) {
+                $('#updateAppointment').modal('show');
+            },
             defaultView: 'agendaDay',
             header: {
                 left: 'today',

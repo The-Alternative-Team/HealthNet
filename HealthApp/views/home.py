@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from HealthApp.forms import SelectAppointment, AddAppointment
+from HealthApp.forms import UpdateAppointment, AddAppointment
 from HealthApp import StaticHelpers
 from HealthApp.models import Patient, Doctor, Appointment
 
@@ -56,7 +56,7 @@ def home(request):
                     'start': str(app.start_time),
                     'end': str(app.end_time)
                 })
-            form = SelectAppointment(user)
+            form = UpdateAppointment(user_type)
             addForm = AddAppointment(user_type)
             return render(request, 'HealthApp/patientIndex.html', {"events": events, 'form': form, 'addForm': addForm})
         elif user_type == StaticHelpers.UserTypes.doctor or user_type == StaticHelpers.UserTypes.nurse:
@@ -67,6 +67,6 @@ def home(request):
                     'start': str(app.start_time),
                     'end': str(app.end_time)
                 })
-            form = SelectAppointment(user)
+            form = UpdateAppointment(user_type)
             addForm = AddAppointment(user_type)
             return render(request, 'HealthApp/doctorIndex.html', {"events": events, 'form': form, 'addForm': addForm})

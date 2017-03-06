@@ -16,4 +16,4 @@ class LogEntry(models.Model):
         log.save()
 
     def __str__(self):
-        return self.userMail + " did " + self.action + " at " + str(self.time)
+        return self.userMail + self.action + " at " + str(self.time)

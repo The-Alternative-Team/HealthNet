@@ -102,7 +102,6 @@ def authForm(request):
                 login(request, user)
 
         userType, user = StaticHelpers.user_to_subclass(user)
-        print(userType)
 
         return redirect('/')
 

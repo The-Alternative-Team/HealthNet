@@ -1,9 +1,30 @@
+"""
+staticHelpers
+
+Module that includes methods that are often utilized.
+
+=== Methods ===
+
+user_to_subclass --- Takes a base Django user object as input and returns a tuple that contains the user
+                     type as a string and the most complete database object of the UserProfile.
+
+    :parameter (database object) user - The user to obtain data about.
+    :returns (tuple) The user type as a string and the most complete database object of the UserProfile
+
+
+find_appointments -- Takes two the parameters that are returned by user_to_subclass and returns a list
+                     of database objects representing appointments relevant to the user.
+
+    :parameter (database object) user - The user to obtain relevant appointments for.
+               (string) user_type - The user type determined by user_to_subclass
+    :returns (list of database objects) - A list of appointments relevant to the user in question.
+
+"""
+
 from HealthApp.models.Doctor import Doctor
 from HealthApp.models.Patient import Patient
 from HealthApp.models.Nurse import Nurse
 from HealthApp.models import Appointment
-
-# A set of static utility functions
 
 # Static definitions of the user type strings used by user_to_subclass() below
 class UserTypes:

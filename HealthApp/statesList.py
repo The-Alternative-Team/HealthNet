@@ -1,4 +1,9 @@
-# This is the tuple of states that is referenced for location selection
+"""
+statesList
+
+A tuple of states that can be globally accessed. Mainly used to populate state selection drop-downs.
+
+"""
 
 STATE_CHOICES = (
         ('AL', 'Alabama'), ('AK', 'Alaska'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'),

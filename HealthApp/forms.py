@@ -109,7 +109,7 @@ class AddAppointment(forms.ModelForm):
         if user_type != StaticHelpers.UserTypes.patient:
             self.fields['patient'].widget.attrs = {'class': 'form-control', 'placeholder': 'Patient'}
         else:
-            del self.fields['doctor']
+            del self.fields['patient']
 
         self.fields['start_time'].widget.attrs = {'class': 'form-control', 'placeholder': 'Start Time: (YYYY-MM-DD HH:MM)'}
         self.fields['end_time'].widget.attrs = {'class': 'form-control', 'placeholder': 'End Time: (YYYY-MM-DD HH:MM)'}

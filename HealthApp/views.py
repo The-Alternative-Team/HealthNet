@@ -73,23 +73,6 @@ def home(request):
             return render(request, 'HealthApp/doctorIndex.html', {"events": events, 'form': form, 'addForm': addForm})
 
 
-@login_required(login_url="login/")
-def doctor(request):
-    return render(request, 'HealthApp/doctorIndex.html')
-
-
-@login_required(login_url="login/")
-def patient(request):
-    events = []
-    """
-    events.append({'title': '\nNOT AVAILABLE',
-                   'start': str(app.start_time)),
-                   'end': str(datetime.datetime.combine(app.date, app.end_time))})
-
-    """
-    return render(request, 'HealthApp/patientIndex.html', events)
-
-
 def authForm(request):
     if request.method == 'POST':
         email = request.POST['username']
@@ -100,8 +83,6 @@ def authForm(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-
-        userType, user = StaticHelpers.user_to_subclass(user)
 
         return redirect('/')
 
@@ -126,23 +107,3 @@ def register(request):
     else:
         form = Register()
     return render(request, 'HealthApp/register.html', {'form': form})
-
-
-def blank(request):
-    return render(request, 'HealthApp/blank.html')
-
-
-def forms(request):
-    return render(request, 'HealthApp/forms.html')
-
-
-def grid(request):
-    return render(request, 'HealthApp/grid.html')
-
-
-def tables(request):
-    return render(request, 'HealthApp/tables.html')
-
-    # this code can be used to create endtime for the appointment
-    # duration = models.IntegerField(help_text="Enter time in minutes", verbose_name='Duration')
-    # end_time = start_time + datetime.timedelta(minutes = duration)

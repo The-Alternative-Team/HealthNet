@@ -14,8 +14,10 @@ def authForm(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
+                LogEntry.log_action(request.user.username, "Logged in")
+                return redirect('/')
 
-        LogEntry.log_action(request.user.username, "Logged in")
+        LogEntry.log_action(email, "Failed to log in")
         return redirect('/')
 
         # if a GET (or any other method) we'll create a blank form

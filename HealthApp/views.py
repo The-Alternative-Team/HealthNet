@@ -39,34 +39,37 @@ def home(request):
             appointment_patient = Patient.objects.all().filter(id=patient_id)[0]
 
         appointment = Appointment(hospital=appointment_patient.hospital, doctor=appointment_doctor,
-                                  patient=appointment_patient, start_time=datetime.datetime.now(),
-                                  end_time=datetime.datetime.now() + datetime.timedelta(hours=1),
-                                  notes=request.POST['notes'])
+                                  patient=appointment_patient, start_time=request.POST['start_time'],
+                                  end_time=request.POST['end_time'], notes=request.POST['notes'])
         appointment.save()
 
-    events = []
-    apps = StaticHelpers.find_appointments(user_type, user)
+        # Redirect as a GET so refreshing works
+        return redirect('/')
 
-    if user_type == StaticHelpers.UserTypes.patient:
-        for app in apps:
-            events.append({
-                'title': "Appointment with " + str(app.doctor),
-                'start': str(app.start_time),
-                'end': str(app.end_time)
-            })
-        form = SelectAppointment(user)
-        addForm = AddAppointment(user_type)
-        return render(request, 'HealthApp/patientIndex.html', {"events": events, 'form': form, 'addForm': addForm})
-    elif user_type == StaticHelpers.UserTypes.doctor or user_type == StaticHelpers.UserTypes.nurse:
-        for app in apps:
-            events.append({
-                'title': "Appointment with " + str(app.patient),
-                'start': str(app.start_time),
-                'end': str(app.end_time)
-            })
-        form = SelectAppointment(user)
-        addForm = AddAppointment(user_type)
-        return render(request, 'HealthApp/doctorIndex.html', {"events": events, 'form': form, 'addForm': addForm})
+    else:
+        events = []
+        apps = StaticHelpers.find_appointments(user_type, user)
+
+        if user_type == StaticHelpers.UserTypes.patient:
+            for app in apps:
+                events.append({
+                    'title': "Appointment with " + str(app.doctor),
+                    'start': str(app.start_time),
+                    'end': str(app.end_time)
+                })
+            form = SelectAppointment(user)
+            addForm = AddAppointment(user_type)
+            return render(request, 'HealthApp/patientIndex.html', {"events": events, 'form': form, 'addForm': addForm})
+        elif user_type == StaticHelpers.UserTypes.doctor or user_type == StaticHelpers.UserTypes.nurse:
+            for app in apps:
+                events.append({
+                    'title': "Appointment with " + str(app.patient),
+                    'start': str(app.start_time),
+                    'end': str(app.end_time)
+                })
+            form = SelectAppointment(user)
+            addForm = AddAppointment(user_type)
+            return render(request, 'HealthApp/doctorIndex.html', {"events": events, 'form': form, 'addForm': addForm})
 
 
 @login_required(login_url="login/")

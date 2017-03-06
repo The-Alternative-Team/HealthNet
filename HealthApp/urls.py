@@ -13,5 +13,4 @@ urlpatterns = [
     url(r'^forms', views.forms, name="forms"),
     url(r'^grid', views.grid, name="grid"),
     url(r'^tables', views.tables, name="tables"),
-    url(r'^panels', views.panels_wells, name="panels"),
 ]

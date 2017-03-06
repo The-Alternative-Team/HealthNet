@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^doctor', views.doctor, name="doctor"),
     url(r'^patient', views.patient, name="patient"),
     url(r'^login', views.authForm, name="login"),
+    url(r'^login', views.unauth, name="logout"),
     url(r'^register', views.register, name="register"),
     url(r'^blank', views.blank, name="blank"),
     url(r'^forms', views.forms, name="forms"),

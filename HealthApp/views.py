@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
-import datetime
+from django.contrib.auth import authenticate, login, logout
 
 from .forms import Register, Login, SelectAppointment, AddAppointment
 from HealthApp import StaticHelpers
@@ -111,6 +110,11 @@ def authForm(request):
     else:
         form = Login()
         return render(request, 'HealthApp/login.html', {'form': form})
+
+
+def unauth(request):
+    logout(request)
+    return redirect('/')
 
 
 def register(request):

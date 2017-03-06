@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('HealthApp.urls')),
     url(r'^login/$', views.login, {'template_name': 'login.html', 'authentication_form': Login}),
+    url(r'^logout/', include('HealthApp.urls')),
 ]

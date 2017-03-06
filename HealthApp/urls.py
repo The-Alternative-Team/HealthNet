@@ -1,13 +1,12 @@
 from django.conf.urls import url
-
-from . import views
+from .views import home, auth, register
 
 # app_name = 'HealthApp'
 urlpatterns = [
-    url(r'^$', views.home, name='home'),
-    url(r'^doctor', views.home, name="doctor"),
-    url(r'^patient', views.home, name="patient"),
-    url(r'^login', views.authForm, name="login"),
-    url(r'^logout', views.unauth, name="logout"),
-    url(r'^register', views.register, name="register"),
+    url(r'^$', home.home, name='home'),
+    url(r'^doctor', home.home, name="doctor"),
+    url(r'^patient', home.home, name="patient"),
+    url(r'^login', auth.authForm, name="login"),
+    url(r'^logout', auth.unauth, name="logout"),
+    url(r'^register', register.register, name="register"),
 ]

@@ -42,7 +42,7 @@ def phone(phone_number):
     digit_counter = 0
     for digit in phone_number:
         digit_counter += 1
-        if digit_counter > 10 :
+        if digit_counter > 10:
             raise forms.ValidationError(
                 'Invalid phone number.',
                 code='phone number is too long'
@@ -72,8 +72,8 @@ def email(email_address):
                     'Invalid email address.',
                     code='@ at index 0'
                 )
-        if ( not character.isalpha() and not character.isdigit()
-             and not character == '@' and not character == '.'):
+        if (not character.isalpha() and not character.isdigit()
+            and not character == '@' and not character == '.'):
             raise forms.ValidationError(
                 'Invalid email address.',
                 code='illegal character in address'
@@ -104,7 +104,7 @@ def email(email_address):
 
 
 def ssn(social):
-    social = social.replace('-','')
+    social = social.replace('-', '')
     index = 0
     for digit in social:
         index += 1

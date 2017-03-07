@@ -6,12 +6,14 @@ admin.site.register(Doctor)
 admin.site.register(Hospital)
 admin.site.register(Nurse)
 admin.site.register(Patient)
-#admin.site.register(UserProfile)
+
+
+# admin.site.register(UserProfile)
 
 class LogAdmin(admin.ModelAdmin):
     list_display = ('userMail', 'time', 'action')
     list_filter = ['time']
     search_fields = ['userMail', 'action']
+
+
 admin.site.register(LogEntry, LogAdmin)
-
-

@@ -26,12 +26,14 @@ from HealthApp.models.Patient import Patient
 from HealthApp.models.Nurse import Nurse
 from HealthApp.models import Appointment
 
+
 # Static definitions of the user type strings used by user_to_subclass() below
 class UserTypes:
     patient = "Patient"
     doctor = "Doctor"
     nurse = "Nurse"
     admin = "Admin"
+
 
 # Takes a base user object and returns a list that contains the user's type as a string and the most complete
 #   instance of the user's database object

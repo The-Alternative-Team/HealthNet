@@ -21,7 +21,7 @@ def register(request):
             # TODO: Cry about bad passwords
             return redirect("/register")
 
-        email = request.POST['username']     # TODO: Figure out what happens with duped usernames
+        email = request.POST['username']  # TODO: Figure out what happens with duped usernames
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         date_of_birth = request.POST['date_of_birth']
@@ -52,12 +52,11 @@ def register(request):
                           e_cont_home_phone=e_cont_home_phone, e_cont_cell_phone=e_cont_cell_phone)
         patient.set_password(password1)
 
-        #catches invalid data and refreshes page with no error message(right now)
+        # catches invalid data and refreshes page with no error message(right now)
         try:
             patient.save()
         except (IntegrityError, ValidationError):
             return redirect("/register")
-
 
         # Log them in
         user = authenticate(username=email, password=password1)

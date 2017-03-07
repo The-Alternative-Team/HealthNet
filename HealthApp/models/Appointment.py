@@ -25,6 +25,7 @@ from .Hospital import Hospital
 from .Doctor import Doctor
 from .Patient import Patient
 
+
 class Appointment(models.Model):
     hospital = models.ForeignKey(Hospital, verbose_name='Hospital')
     doctor = models.ForeignKey(Doctor, verbose_name='Doctor')
@@ -34,7 +35,8 @@ class Appointment(models.Model):
     notes = models.CharField(default='', max_length=1000, verbose_name='Notes')
 
     def __str__(self):
-        return "Appointment on " + self.start_time.strftime('%B %d, %Y') + " at " + self.start_time.strftime('%I:%M %p') + "."
+        return "Appointment on " + self.start_time.strftime('%B %d, %Y') + " at " + self.start_time.strftime(
+            '%I:%M %p') + "."
 
     @classmethod
     def create_appointment(cls, hospital, doctor, patient, start_time, end_time, notes):

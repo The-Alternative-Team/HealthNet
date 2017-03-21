@@ -94,8 +94,54 @@
                 <!-- /.panel -->
             </div>
             <!-- /.col-lg-8 -->
+            <div class="col-lg-4">
+                {% if user_type == "Doctor" %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-address-book fa-fw"></i> Patents
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <a href="#" data-toggle="modal" data-target="#showPatient" class="list-group-item">
+                                    <i class="fa fa-user fa-fw"></i> [[Patient Name]]
+                                    <span class="pull-right text-muted small"><b>[[Doctor]]</b>
+                                    </span>
+                                    <span class="pull-right text-muted small">  -  </span>
+                                    <span class="pull-right text-muted small"><em>[[Hospital]]</em>
+                                    </span>
+                                </a>
+                            </div>
+                            <!-- /.list-group -->
+                            <a href="#" class="btn btn-default btn-block">View All Patients</a>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <div class="modal fade showPatient" tabindex="-1" role="dialog"
+                         aria-labelledby="showPatient" aria-hidden="true" id="showPatient">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="showPatientLabel">[[Patient Name]]</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form role="form" method="post">
+                                    <div class="modal-body">
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="submit" value="Save Changes" class="btn btn-primary"/>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <!-- /.panel -->
+            </div>
+            <!-- /.row -->
         </div>
-        <!-- /.row -->
-    </div>
-    <!-- /#page-wrapper -->
+        <!-- /#page-wrapper -->
 {% endblock content %}

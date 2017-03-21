@@ -98,7 +98,8 @@ def home(request):
             add_form = AddAppointment(user_type)
             update_form = UpdatePatient(user)
             return render(request, 'HealthApp/index.html',
-                          {"events": events, 'form': form, 'addForm': add_form, 'profileForm': update_form})
+                          {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
+                           'profileForm': update_form})
         elif user_type == staticHelpers.UserTypes.doctor or user_type == staticHelpers.UserTypes.nurse:
             for app in apps:
                 events.append({
@@ -112,4 +113,5 @@ def home(request):
             add_form = AddAppointment(user_type)
             update_form = UpdatePatient(user)
             return render(request, 'HealthApp/index.html',
-                          {"events": events, 'form': form, 'addForm': add_form, 'profileForm': update_form})
+                          {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
+                           'profileForm': update_form})

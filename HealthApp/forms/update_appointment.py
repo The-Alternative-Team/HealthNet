@@ -5,7 +5,7 @@ from HealthApp.models import Appointment
 
 
 class UpdateAppointment(forms.ModelForm):
-    def __init__(self, user_type):
+    def __init__(self, user_type, user):
         super().__init__()
 
         # Only allow nurses to set custom doctors

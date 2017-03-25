@@ -90,7 +90,7 @@ def render_view(request, user_type, user):
                 'start': str(app.start_time),
                 'end': str(app.end_time)
             })
-            form = UpdateAppointment(user_type)
+            form = UpdateAppointment(user_type, user)
             add_form = AddAppointment(user_type)
             update_form = UpdatePatient(user)
             return render(request, 'HealthApp/index.html',
@@ -104,7 +104,7 @@ def render_view(request, user_type, user):
                 'start': str(app.start_time),
                 'end': str(app.end_time)
             })
-            form = UpdateAppointment(user_type)
+            form = UpdateAppointment(user_type, user)
             add_form = AddAppointment(user_type)
             return render(request, 'HealthApp/index.html',
                           {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form})
@@ -116,7 +116,7 @@ def render_view(request, user_type, user):
                 'start': str(app.start_time),
                 'end': str(app.end_time)
             })
-            form = UpdateAppointment(user_type)
+            form = UpdateAppointment(user_type, user)
             add_form = AddAppointment(user_type)
             return render(request, 'HealthApp/index.html',
                           {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form})

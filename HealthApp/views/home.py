@@ -84,34 +84,38 @@ def home(request):
     else:
         events = []
         apps = staticHelpers.find_appointments(user_type, user)
+        return render_view(request, apps, events, user_type, user)
 
+
+def render_view(request, apps, events, user_type, user):
+    for app in apps:
         if user_type == staticHelpers.UserTypes.patient:
-            for app in apps:
-                events.append({
-                    'id': str(app.id),
-                    'title': "Appointment with " + str(app.doctor),
-                    'description': str(app.notes),
-                    'start': str(app.start_time),
-                    'end': str(app.end_time)
-                })
-            form = UpdateAppointment(user_type)
-            add_form = AddAppointment(user_type)
-            update_form = UpdatePatient(user)
-            return render(request, 'HealthApp/index.html',
-                          {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
-                           'profileForm': update_form})
-        elif user_type == staticHelpers.UserTypes.doctor or user_type == staticHelpers.UserTypes.nurse:
-            for app in apps:
-                events.append({
-                    'id': str(app.id),
-                    'title': "Appointment with " + str(app.patient),
-                    'description': str(app.notes),
-                    'start': str(app.start_time),
-                    'end': str(app.end_time)
-                })
-            form = UpdateAppointment(user_type)
-            add_form = AddAppointment(user_type)
-            update_form = UpdatePatient(user)
-            return render(request, 'HealthApp/index.html',
-                          {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
-                           'profileForm': update_form})
+            events.append({
+                'id': str(app.id),
+                'title': "Appointment with " + str(app.doctor),
+                'description': str(app.notes),
+                'start': str(app.start_time),
+                'end': str(app.end_time)
+            })
+        elif user_type == staticHelpers.UserTypes.doctor:
+            events.append({
+                'id': str(app.id),
+                'title': "Appointment with " + str(app.patient),
+                'description': str(app.notes),
+                'start': str(app.start_time),
+                'end': str(app.end_time)
+            })
+        elif user_type == staticHelpers.UserTypes.nurse:
+            events.append({
+                'id': str(app.id),
+                'title': "Appointment between " + str(app.patient) + " & " + str(app.doctor),
+                'description': str(app.notes),
+                'start': str(app.start_time),
+                'end': str(app.end_time)
+            })
+    form = UpdateAppointment(user_type)
+    add_form = AddAppointment(user_type)
+    update_form = UpdatePatient(user)
+    return render(request, 'HealthApp/index.html',
+                  {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
+                   'profileForm': update_form})

@@ -58,8 +58,8 @@
                 // Fill in the doctor drop down if it exists
                 if ($("#updateAppointment #id_doctor").length == 1) {
                     var doctorPos = appointment.title.indexOf("Dr.");
-                    var doctorStr = appointment.title.substr(doctorPos, appointment.title.indexOf(")", doctorPos) - doctorPos + 1);
-                    console.log(doctorStr);
+                    var doctorStr = appointment.title.substr(doctorPos, appointment.title.indexOf(")", doctorPos) -
+                        doctorPos + 1);
 
                     $("#updateAppointment #id_doctor option").each(function (index) {
                         if ($(this).html() == doctorStr) {
@@ -71,8 +71,8 @@
                 // Fill in the patient drop down if it exists
                 if ($("#updateAppointment #id_patient").length == 1) {
                     var patientPos = appointment.title.indexOf("Patient");
-                    var patientStr = appointment.title.substr(patientPos, appointment.title.indexOf(")") - patientPos + 1);
-                    console.log(patientStr);
+                    var patientStr = appointment.title.substr(patientPos, appointment.title.indexOf(")") - patientPos
+                        + 1);
 
                     $("#updateAppointment #id_patient option").each(function (index) {
                         if ($(this).html() == patientStr) {
@@ -81,6 +81,7 @@
                     });
                 }
 
+                // Fill in the text fields
                 $("#updateAppointment #id_start_time").val(appointment.start);
                 $("#updateAppointment #id_end_time").val(appointment.end);
                 $("#updateAppointment #id_notes").val(appointment.description);

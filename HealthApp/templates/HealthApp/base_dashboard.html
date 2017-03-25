@@ -136,9 +136,11 @@
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="" data-toggle="modal" data-target="#updateProfile"><i class="fa fa-user fa-fw"></i>
-                        User Profile</a>
-                    </li>
+                    {% if user_type == "Patient" %}
+                        <li><a href="" data-toggle="modal" data-target="#updateProfile"><i class="fa fa-user fa-fw"></i>
+                            User Profile</a>
+                        </li>
+                    {% endif %}
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                     </li>
                     <li class="divider"></li>
@@ -163,30 +165,32 @@
         </div>
         <!-- /.navbar-static-side -->
     </nav>
-    <div class="modal fade updateProfile" tabindex="-1" role="dialog"
-         aria-labelledby="updateProfile" aria-hidden="true" id="updateProfile">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateProfileLabel">Update Profile</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form role="form" method="post">
-                    <div class="modal-body">
-                        {% csrf_token %}
-                        {{ profileForm }}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+    {% if user_type == "Patient" %}
+        <div class="modal fade updateProfile" tabindex="-1" role="dialog"
+             aria-labelledby="updateProfile" aria-hidden="true" id="updateProfile">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateProfileLabel">Update Profile</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
                         </button>
-                        <input type="submit" value="Save Changes" class="btn btn-primary"/>
                     </div>
-                </form>
+                    <form role="form" method="post">
+                        <div class="modal-body">
+                            {% csrf_token %}
+                            {{ profileForm }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                            </button>
+                            <input type="submit" value="Save Changes" class="btn btn-primary"/>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
     {% block content %}
     {% endblock content %}
 

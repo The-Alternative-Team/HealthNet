@@ -90,6 +90,12 @@ def render_view(request, user_type, user):
                 'start': str(app.start_time),
                 'end': str(app.end_time)
             })
+            form = UpdateAppointment(user_type)
+            add_form = AddAppointment(user_type)
+            update_form = UpdatePatient(user)
+            return render(request, 'HealthApp/index.html',
+                          {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
+                           'profileForm': update_form})
         elif user_type == staticHelpers.UserTypes.doctor:
             events.append({
                 'id': str(app.id),
@@ -98,6 +104,10 @@ def render_view(request, user_type, user):
                 'start': str(app.start_time),
                 'end': str(app.end_time)
             })
+            form = UpdateAppointment(user_type)
+            add_form = AddAppointment(user_type)
+            return render(request, 'HealthApp/index.html',
+                          {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form})
         elif user_type == staticHelpers.UserTypes.nurse:
             events.append({
                 'id': str(app.id),
@@ -106,13 +116,10 @@ def render_view(request, user_type, user):
                 'start': str(app.start_time),
                 'end': str(app.end_time)
             })
-
-    form = UpdateAppointment(user_type)
-    add_form = AddAppointment(user_type)
-    update_form = UpdatePatient(user)
-    return render(request, 'HealthApp/index.html',
-                  {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
-                   'profileForm': update_form})
+            form = UpdateAppointment(user_type)
+            add_form = AddAppointment(user_type)
+            return render(request, 'HealthApp/index.html',
+                          {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form})
 
 
 @login_required(login_url="login/")

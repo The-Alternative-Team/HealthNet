@@ -46,32 +46,3 @@ class Patient(UserProfile):
 
     def __str__(self):
         return "Patient " + self.first_name + " " + self.last_name + " (" + self.username + ")"
-
-    def update_patient(self, address_street, address_city, address_state, address_zip, home_phone, cell_phone,
-                       desired_hospital, e_cont_fname, e_cont_lname, e_cont_home_phone, e_cont_cell_phone):
-        self.address_street = address_street
-        self.address_city = address_city
-        self.address_state = address_state
-        self.address_zip = address_zip
-        self.home_phone = home_phone
-        self.cell_phone = cell_phone
-        self.desired_hospital = desired_hospital
-        self.e_cont_fname = e_cont_fname
-        self.e_cont_lname = e_cont_lname
-        self.e_cont_home_phone = e_cont_home_phone
-        self.e_cont_cell_phone = e_cont_cell_phone
-        self.save()
-
-        # Not needed anymore for now
-        # @classmethod
-        # def create_patient(cls, first_name, last_name, email, password, hospital, doctor, desired_hospital, e_cont_fname,
-        #                    e_cont_lname, e_cont_home_phone, e_cont_cell_phone):
-        #     # Create the user object first
-        #     user = User.objects.create_user(email, password=password)
-        #     user.first_name = first_name
-        #     user.last_name = last_name
-        #     user.save()
-        #
-        #     # Now create and save the patient
-        #     patient = cls(user=user, hospital=hospital, Doctor=doctor, desired_hospital=desired_hospital, e_cont_fname=e_cont_fname, e_cont_lname=e_cont_lname, e_cont_home_phone=e_cont_home_phone, e_cont_cell_phone=e_cont_cell_phone)
-        #     patient.save()

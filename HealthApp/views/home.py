@@ -80,6 +80,7 @@ def delete_appointment(request):
 def render_view(request, user_type, user):
     events = []
     appointments = staticHelpers.find_appointments(user_type, user)
+    patients = staticHelpers.find_patients(user_type, user)
 
     if user_type == staticHelpers.UserTypes.patient:
         for app in appointments:
@@ -105,7 +106,6 @@ def render_view(request, user_type, user):
                 'start': str(app.start_time),
                 'end': str(app.end_time)
             })
-        patients = staticHelpers.find_patients(user_type, user)
         form = UpdateAppointment(user_type, user)
         add_form = AddAppointment(user_type)
         return render(request, 'HealthApp/index.html',

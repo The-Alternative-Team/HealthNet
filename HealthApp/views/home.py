@@ -8,87 +8,80 @@ from HealthApp.models import Hospital
 from HealthApp.models import Patient, Doctor, Appointment, LogEntry
 
 
-@login_required(login_url="login/")
-def home(request):
-    user_type, user = staticHelpers.user_to_subclass(request.user)
+# Handles submit of the update patient data form
+def save_patient(request):
+    user_type, patient = staticHelpers.user_to_subclass(request.user)
 
-    # Redirect an admin over the admin page before trying to pull real-user only data
-    if user_type == staticHelpers.UserTypes.admin:
-        return redirect('/admin/')
+    patient.first_name = request.POST['first_name']
+    patient.last_name = request.POST['last_name']
+    patient.address_street = request.POST['address_street']
+    patient.address_city = request.POST['address_city']
+    patient.address_state = request.POST['address_state']
+    patient.address_zip = request.POST['address_zip']
+    patient.home_phone = request.POST['home_phone']
+    patient.cell_phone = request.POST['cell_phone']
+    patient.e_cont_fname = request.POST['e_cont_fname']
+    patient.e_cont_lname = request.POST['e_cont_lname']
+    patient.e_cont_home_phone = request.POST['e_cont_home_phone']
+    patient.e_cont_cell_phone = request.POST['e_cont_cell_phone']
+    # TODO: Validate this data (and steal their identity) before saving it
 
-    if request.method == 'POST':
-        # A form was submitted
-        if 'first_name' in request.POST:
-            user_type, patient = staticHelpers.user_to_subclass(request.user)
+    hospital_id = request.POST['hospital']
+    patient.hospital = Hospital.objects.all().filter(id=hospital_id)[0]
+    patient.desired_hospital = patient.hospital
+    doctor_id = request.POST['doctor']
+    patient.primary_doctor = Doctor.objects.all().filter(id=doctor_id)[0]
 
-            patient.first_name = request.POST['first_name']
-            patient.last_name = request.POST['last_name']
-            patient.address_street = request.POST['address_street']
-            patient.address_city = request.POST['address_city']
-            patient.address_state = request.POST['address_state']
-            patient.address_zip = request.POST['address_zip']
-            patient.home_phone = request.POST['home_phone']
-            patient.cell_phone = request.POST['cell_phone']
-            patient.e_cont_fname = request.POST['e_cont_fname']
-            patient.e_cont_lname = request.POST['e_cont_lname']
-            patient.e_cont_home_phone = request.POST['e_cont_home_phone']
-            patient.e_cont_cell_phone = request.POST['e_cont_cell_phone']
-            # TODO: Validate this data (and steal their identity) before saving it
+    patient.save()
 
-            hospital_id = request.POST['hospital']
-            patient.hospital = Hospital.objects.all().filter(id=hospital_id)[0]
-            patient.desired_hospital = patient.hospital
-            doctor_id = request.POST['doctor']
-            patient.primary_doctor = Doctor.objects.all().filter(id=doctor_id)[0]
+    LogEntry.log_action(request.user.username, "Updated their patient data")
 
-            patient.save()
 
-            LogEntry.log_action(request.user.username, "Updated their patient data")
-
-        elif 'Cancel Appointment' not in request.POST:
-            # Get appointment_doctor
-            if user_type == staticHelpers.UserTypes.nurse:
-                doctor_id = int(request.POST['doctor'])
-                appointment_doctor = Doctor.objects.all().filter(id=doctor_id)[0]
-            elif user_type == staticHelpers.UserTypes.doctor:
-                appointment_doctor = user
-            else:
-                # It's a patient
-                appointment_doctor = user.primary_doctor
-
-            # Get appointment_patient
-            if user_type == staticHelpers.UserTypes.patient:
-                appointment_patient = user
-            else:
-                patient_id = int(request.POST['patient'])
-                appointment_patient = Patient.objects.all().filter(id=patient_id)[0]
-            if 'event-id-update' in request.POST:
-                Appointment.objects.all().get(id=request.POST['event-id-update']).update_appointment(
-                    hospital=appointment_patient.hospital, doctor=appointment_doctor,
-                    patient=appointment_patient, start_time=request.POST['start_time'],
-                    end_time=request.POST['end_time'], notes=request.POST['notes'])
-                LogEntry.log_action(request.user.username, "Updated an appointment")
-            else:
-                appointment = Appointment(hospital=appointment_patient.hospital, doctor=appointment_doctor,
-                                          patient=appointment_patient, start_time=request.POST['start_time'],
-                                          end_time=request.POST['end_time'], notes=request.POST['notes'])
-                appointment.save()
-                LogEntry.log_action(request.user.username, "Created an appointment")
-        else:
-            Appointment.objects.all().get(id=request.POST['event-id-update']).delete()
-            LogEntry.log_action(request.user.username, "Canceled an appointment")
-
-        # Redirect as a GET so refreshing works
-        return redirect('/')
-
+# Handles submit of the create and edit appointment forms
+def set_appointment(request, user_type, user):
+    # Get appointment_doctor
+    if user_type == staticHelpers.UserTypes.nurse:
+        doctor_id = int(request.POST['doctor'])
+        appointment_doctor = Doctor.objects.all().filter(id=doctor_id)[0]
+    elif user_type == staticHelpers.UserTypes.doctor:
+        appointment_doctor = user
     else:
-        events = []
-        apps = staticHelpers.find_appointments(user_type, user)
-        return render_view(request, apps, events, user_type, user)
+        # It's a patient
+        appointment_doctor = user.primary_doctor
+
+    # Get appointment_patient
+    if user_type == staticHelpers.UserTypes.patient:
+        appointment_patient = user
+    else:
+        patient_id = int(request.POST['patient'])
+        appointment_patient = Patient.objects.all().filter(id=patient_id)[0]
+
+    if 'event-id-update' in request.POST:
+        Appointment.objects.all().get(id=request.POST['event-id-update']).update_appointment(
+            hospital=appointment_patient.hospital, doctor=appointment_doctor,
+            patient=appointment_patient, start_time=request.POST['start_time'],
+            end_time=request.POST['end_time'], notes=request.POST['notes'])
+        LogEntry.log_action(request.user.username, "Updated an appointment")
+    else:
+        appointment = Appointment(hospital=appointment_patient.hospital, doctor=appointment_doctor,
+                                  patient=appointment_patient, start_time=request.POST['start_time'],
+                                  end_time=request.POST['end_time'], notes=request.POST['notes'])
+        appointment.save()
+        LogEntry.log_action(request.user.username, "Created an appointment")
 
 
-def render_view(request, apps, events, user_type, user):
-    for app in apps:
+# Handles submit of the delete appointment form
+def delete_appointment(request):
+    Appointment.objects.all().get(id=request.POST['event-id-update']).delete()
+    LogEntry.log_action(request.user.username, "Canceled an appointment")
+
+
+# Renders the home page with the correct data for the current user
+def render_view(request, user_type, user):
+    events = []
+    appointments = staticHelpers.find_appointments(user_type, user)
+
+    for app in appointments:
         if user_type == staticHelpers.UserTypes.patient:
             events.append({
                 'id': str(app.id),
@@ -113,9 +106,32 @@ def render_view(request, apps, events, user_type, user):
                 'start': str(app.start_time),
                 'end': str(app.end_time)
             })
+
     form = UpdateAppointment(user_type)
     add_form = AddAppointment(user_type)
     update_form = UpdatePatient(user)
     return render(request, 'HealthApp/index.html',
                   {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
                    'profileForm': update_form})
+
+
+@login_required(login_url="login/")
+def home(request):
+    user_type, user = staticHelpers.user_to_subclass(request.user)
+
+    # Redirect an admin over the admin page before trying to pull real user only data
+    if user_type == staticHelpers.UserTypes.admin:
+        return redirect('/admin/')
+    elif request.method == 'POST':
+        # A form was submitted
+        if 'first_name' in request.POST:
+            save_patient(request)
+        elif 'Cancel Appointment' in request.POST:
+            delete_appointment(request)
+        else:
+            set_appointment(request, user_type, user)
+
+        # Form submit has been handled so redirect as a GET (this way refreshing the page works)
+        return redirect('/')
+    else:
+        return render_view(request, user_type, user)

@@ -38,12 +38,6 @@ class Appointment(models.Model):
         return "Appointment on " + self.start_time.strftime('%B %d, %Y') + " at " + self.start_time.strftime(
             '%I:%M %p') + "."
 
-    @classmethod
-    def create_appointment(cls, hospital, doctor, patient, start_time, end_time, notes):
-        appointment = cls(hospital=hospital, doctor=doctor, patient=patient, start_time=start_time, end_time=end_time,
-                          notes=notes)
-        appointment.save()
-
     def update_appointment(self, hospital, doctor, patient, start_time, end_time, notes):
         self.hospital = hospital
         self.doctor = doctor

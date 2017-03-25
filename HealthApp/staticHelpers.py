@@ -79,3 +79,6 @@ def find_patients(user_type, user):
     if user_type == UserTypes.doctor:
         # Doctors get their patients
         return Patient.objects.all().filter(primary_doctor_id=user_id)
+    if user_type == UserTypes.nurse:
+        # Doctors get their patients
+        return Patient.objects.all().filter(hospital=user.hospital)

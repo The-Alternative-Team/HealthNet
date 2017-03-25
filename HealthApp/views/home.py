@@ -123,7 +123,7 @@ def render_view(request, user_type, user):
         form = UpdateAppointment(user_type, user)
         add_form = AddAppointment(user_type)
         return render(request, 'HealthApp/index.html',
-                      {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form})
+                      {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form, 'patients': patients})
 
 
 @login_required(login_url="login/")

@@ -103,14 +103,16 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="list-group">
-                                <a href="#" data-toggle="modal" data-target="#showPatient" class="list-group-item">
-                                    <i class="fa fa-user fa-fw"></i> [[Patient Name]]
-                                    <span class="pull-right text-muted small"><b>[[Doctor]]</b>
+                                {% for patient in patients %}
+                                    <a href="#" data-toggle="modal" data-target="#showPatient" class="list-group-item">
+                                        <i class="fa fa-user fa-fw"></i> [[Patient Name]]
+                                        <span class="pull-right text-muted small"><b>[[Doctor]]</b>
                                     </span>
-                                    <span class="pull-right text-muted small">  -  </span>
-                                    <span class="pull-right text-muted small"><em>[[Hospital]]</em>
+                                        <span class="pull-right text-muted small">  -  </span>
+                                        <span class="pull-right text-muted small"><em>[[Hospital]]</em>
                                     </span>
-                                </a>
+                                    </a>
+                                {% endfor %}
                             </div>
                             <!-- /.list-group -->
                             <a href="#" class="btn btn-default btn-block">View All Patients</a>

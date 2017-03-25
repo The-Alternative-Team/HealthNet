@@ -72,3 +72,10 @@ def find_appointments(user_type, user):
     elif user_type == UserTypes.patient:
         # Patients get their appointments only
         return Appointment.objects.all().filter(patient_id=user_id)
+
+
+def find_patients(user_type, user):
+    user_id = user.userprofile_ptr_id
+    if user_type == UserTypes.doctor:
+        # Doctors get their patients
+        return Patient.objects.all().filter(primary_doctor_id=user_id)

@@ -171,7 +171,11 @@
             </li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    {% if user_type == "Patient" %}
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    {% elif user_type == "Doctor" or user_type == "Nurse" %}
+                    <i class="fa fa-user-md fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    {% endif %}
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     {% if user_type == "Patient" %}

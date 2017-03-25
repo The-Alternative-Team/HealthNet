@@ -26,8 +26,8 @@ class LogEntry(models.Model):
     action = models.CharField(default='', max_length=1000, verbose_name='Action Completed')
 
     class Meta:
-        verbose_name = "Log Entry"
-        verbose_name_plural = "Log Entries"
+        verbose_name = "Log entry"
+        verbose_name_plural = "Log entries"
 
     @classmethod
     def log_action(cls, user_mail, action):

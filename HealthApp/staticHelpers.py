@@ -64,8 +64,8 @@ def user_to_subclass(user):
 def find_appointments(user_type, user):
     user_id = user.userprofile_ptr_id
     if user_type == UserTypes.nurse:
-        # Nurses can view all appointments
-        return Appointment.objects.all()
+        # Nurses can view all appointments in their hospital
+        return Appointment.objects.all().filter(hospital=user.hospital)
     elif user_type == UserTypes.doctor:
         # Doctors get their appointments only
         return Appointment.objects.all().filter(doctor_id=user_id)

@@ -84,6 +84,7 @@ def render_view(request, user_type, user):
 
     if user_type == staticHelpers.UserTypes.patient:
         for app in appointments:
+            # Don't change the title - it'll break the pre-filling of the update appointment form
             events.append({
                 'id': str(app.id),
                 'title': "Appointment with " + str(app.doctor),
@@ -99,6 +100,7 @@ def render_view(request, user_type, user):
                        'profileForm': update_form})
     elif user_type == staticHelpers.UserTypes.doctor:
         for app in appointments:
+            # Don't change the title - it'll break the pre-filling of the update appointment form
             events.append({
                 'id': str(app.id),
                 'title': "Appointment with " + str(app.patient),
@@ -113,6 +115,7 @@ def render_view(request, user_type, user):
                        'patients': patients})
     elif user_type == staticHelpers.UserTypes.nurse:
         for app in appointments:
+            # Don't change the title - it'll break the pre-filling of the update appointment form
             events.append({
                 'id': str(app.id),
                 'title': "Appointment between " + str(app.patient) + " & " + str(app.doctor),

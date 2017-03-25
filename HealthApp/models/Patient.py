@@ -44,5 +44,6 @@ class Patient(UserProfile):
         verbose_name = "Patient"
         verbose_name_plural = "Patients"
 
+    # Don't change this - it'll break the pre-filling of the update appointment form
     def __str__(self):
         return "Patient " + self.first_name + " " + self.last_name + " (" + self.username + ")"

@@ -98,6 +98,87 @@
                 {% if user_type == "Doctor" or user_type == "Nurse" %}
                     <div class="panel panel-default">
                         <div class="panel-heading">
+                            <i class="fa fa-hospital-o fa-fw"></i> Admitted Patients
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group">
+                                {% for patient in patients %}
+                                    <a href="#" data-toggle="modal" data-target="#showPatient" class="list-group-item">
+                                        <i class="fa fa-user fa-fw"></i> {{ patient.first_name }} {{ patient.last_name }}
+                                        {% if user_type == "Nurse" %}
+                                            <span class="pull-right text-muted small">
+                                            <b>{{ patient.primary_doctor }}</b>
+                                        {% endif %}
+                                        </span>
+                                        {% if user_type == "Doctor" %}
+                                            <span class="pull-right text-muted small"><em>{{ patient.hospital }}</em>
+                                        {% endif %}
+                                        </span>
+                                    </a>
+                                    <div class="modal fade showPatient" tabindex="-1" role="dialog"
+                                         aria-labelledby="showPatient" aria-hidden="true" id="showPatient">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title"
+                                                        id="showPatientLabel">{{ patient.first_name }} {{ patient.last_name }}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form role="form" method="post">
+                                                    <div class="modal-body">
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade updateProfilePatient" tabindex="-1" role="dialog"
+                                         aria-labelledby="updateProfilePatient" aria-hidden="true"
+                                         id="updateProfilePatient">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="updateProfilePatientLabel">Update
+                                                        Profile</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form role="form" method="post">
+                                                    <div class="modal-body">
+                                                        {% csrf_token %}
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">Close
+                                                        </button>
+                                                        <input type="submit" value="Save Changes"
+                                                               class="btn btn-primary"/>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <!-- /.list-group -->
+                            <a href="#" class="btn btn-default btn-block">View All Patients</a>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
                             <i class="fa fa-address-book fa-fw"></i> Patients
                         </div>
                         <!-- /.panel-heading -->
@@ -130,10 +211,7 @@
                                                 </div>
                                                 <form role="form" method="post">
                                                     <div class="modal-body">
-                                                        <button type="button" class="btn btn-default"
-                                                                data-toggle="modal" data-target="#updateProfilePatient">
-                                                            Update Information
-                                                        </button>
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"

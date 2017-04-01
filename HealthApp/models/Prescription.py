@@ -1,3 +1,5 @@
+#work in progress model (not in __init__.py)
+
 """
 Prescription model
 

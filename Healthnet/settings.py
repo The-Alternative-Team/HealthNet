@@ -83,6 +83,9 @@ DATABASES = {
 
 LOGIN_REDIRECT_URL = '/'  # It means home view
 
+MEDIA_URL = '/uploads/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 

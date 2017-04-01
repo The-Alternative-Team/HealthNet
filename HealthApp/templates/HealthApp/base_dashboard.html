@@ -201,6 +201,7 @@
                     <li>
                         <a href="{% url 'home' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
+                    {% if user_type == "Doctor" or user_type == "Nurse" %}
                     <li>
                         <a href="#"><i class="fa fa-users fa-fw"></i> Patients<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
@@ -213,6 +214,7 @@
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
+                    {% endif %}
 
                     <li>
                         <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>

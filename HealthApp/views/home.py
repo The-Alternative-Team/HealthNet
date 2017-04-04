@@ -129,6 +129,7 @@ def render_view(request, user_type, user):
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form, 'patients': patients})
 
 
+# Called when the home view is loaded or a form is submitted
 @login_required(login_url="login/")
 def home(request):
     user_type, user = staticHelpers.user_to_subclass(request.user)

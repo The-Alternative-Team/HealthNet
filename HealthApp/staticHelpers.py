@@ -1,7 +1,7 @@
 """
 staticHelpers
 
-Module that includes methods that are often utilized.
+Provides easy access to functions that perform cross-model db calls.
 
 === Methods ===
 

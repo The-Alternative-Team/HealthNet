@@ -87,8 +87,11 @@ def find_patients(user_type, user):
 
 
 def get_admitted_patients():
-    log_list = AdmissionLog.objects.all().filter(admitStatus=True)
     patient_list = []
-    for log in log_list:
-        patient_list += Patient.objects.get(username=log.userMail)
+    try:
+        log_list = AdmissionLog.objects.all().filter(admitStatus=True)
+        for log in log_list:
+            patient_list += Patient.objects.get(username=log.userMail)
+    except AdmissionLog.DoesNotExist:
+        pass
     return patient_list

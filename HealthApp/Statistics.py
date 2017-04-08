@@ -7,32 +7,59 @@ from datetime import datetime
 '''
 NOT TESTED
 '''
+
+
 def number_admitted_patients():
     return len(get_admitted_patients())
 
 
 def avg_visits():
-    admissions_list = AdmissionLog.objects.all()
-    patient_list = Patient.objects.all()
+    try:
+        admissions_list = AdmissionLog.objects.all()
+    except AdmissionLog.DoesNotExist:
+        admissions_list = []
+    try:
+        patient_list = Patient.objects.all()
+    except Patient.DoesNotExist:
+        patient_list = []
     admissions_number = len(admissions_list)
     patient_number = len(patient_list)
-    avg = admissions_number / patient_number
+    try:
+        avg = admissions_number / patient_number
+    except ZeroDivisionError:
+        avg = 0
     return avg
 
 
 def avg_length_of_stay():
     total_length_of_stay = datetime.timedelta(0)
-    log_list = AdmissionLog.objects.all().filter(admitStatus=False)
+    try:
+        log_list = AdmissionLog.objects.all().filter(admitStatus=False)
+        for log in log_list:
+            total_length_of_stay += (log.timeDischarged - log.timeAdmitted)
+    except AdmissionLog.DoesNotExist:
+        log_list = []
     num_admissions = len(log_list)
-    for log in log_list:
-        total_length_of_stay += (log.timeDischarged - log.timeAdmitted)
-    avg = total_length_of_stay / num_admissions
+    try:
+        avg = total_length_of_stay / num_admissions
+    except ZeroDivisionError:
+        avg = 0
     return avg
 
+
 def avg_prescriptions():
-    prescription_list = Prescriptions.objects.all()
-    patient_list = Patient.objects.all()
+    try:
+        prescription_list = Prescriptions.objects.all()
+    except Patient.DoesNotExist:
+        prescription_list = []
+    try:
+        patient_list = Patient.objects.all()
+    except Patient.DoesNotExist:
+        patient_list = []
     prescription_number = len(prescription_list)
     patient_number = len(patient_list)
-    avg = prescription_number / patient_number
+    try:
+        avg = prescription_number / patient_number
+    except ZeroDivisionError:
+        avg = 0
     return avg

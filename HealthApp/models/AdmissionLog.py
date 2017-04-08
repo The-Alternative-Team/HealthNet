@@ -4,6 +4,7 @@ from django.utils import timezone
 
 class AdmissionLog(models.Model):
     userMail = models.CharField(default='', max_length=100, verbose_name='User Email')
+    reason = models.CharField(default='', max_length=250, verbose_name='reason')
     timeAdmitted = models.DateTimeField(default=None, verbose_name='Time Admitted')
     admittedBy = models.CharField(default='', max_length=100, verbose_name='Admitted by')
     timeDischarged = models.DateTimeField(default=None, verbose_name='Time Discharged')

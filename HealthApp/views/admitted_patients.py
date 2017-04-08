@@ -5,11 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from HealthApp import staticHelpers
-from HealthApp.models import Patient
+from HealthApp.models import Patient, AdmissionLog
 
 
 def render_view(request, user_type, user):
     patients = staticHelpers.find_patients(user_type, user)
+    # TODO: Create list of all admitted patients and then apply same parameters that are applied normally through statichelpers
+    # admitted_patients = AdmissionLog.objects.all().filter(admitStatus=True)
     all_patients = Patient.objects.all()
 
     if user_type == staticHelpers.UserTypes.patient:

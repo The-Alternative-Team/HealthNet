@@ -11,164 +11,170 @@
                 <!-- /.col-lg-12 -->
             </div>
             <div class="row">
-                <div class="col-lg-8">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-address-book fa-fw"></i> Patients
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="list-group">
-                                {% for patient in patients %}
-                                    <a href="#" data-toggle="modal" data-target="#showPatient" class="list-group-item">
-                                        <i class="fa fa-user fa-fw"></i> {{ patient.first_name }} {{ patient.last_name }}
-                                        {% if user_type == "Nurse" %}
-                                            <span class="pull-right text-muted small">
-                                            <b>{{ patient.primary_doctor }}</b>
-                                        {% endif %}
-                                        </span>
-                                        {% if user_type == "Doctor" %}
-                                            <span class="pull-right text-muted small"><em>{{ patient.hospital }}</em>
-                                        {% endif %}
-                                        </span>
-                                    </a>
-                                    <div class="modal fade showPatient" tabindex="-1" role="dialog"
-                                         aria-labelledby="showPatient" aria-hidden="true" id="showPatient">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title"
-                                                        id="showPatientLabel">{{ patient.first_name }} {{ patient.last_name }}</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <form role="form" method="post">
-                                                    <div class="modal-body">
+                {% if user_type == "Doctor" %}
+                    <div class="col-lg-8">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-address-book fa-fw"></i> Patients
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div class="list-group">
+                                    {% for patient in all_patients %}
+                                        <a href="#" data-toggle="modal" data-target="#showPatient"
+                                           class="list-group-item">
+                                            <i class="fa fa-user fa-fw"></i> {{ patient.first_name }} {{ patient.last_name }}
+                                            {% if user_type == "Nurse" %}
+                                                <span class="pull-right text-muted small">
+                                                <b>{{ patient.primary_doctor }}</b>
+                                            {% endif %}
+                                            </span>
+                                            {% if user_type == "Doctor" %}
+                                                <span class="pull-right text-muted small">
+                                                <em>{{ patient.hospital }}</em>
+                                            {% endif %}
+                                            </span>
+                                        </a>
+                                        <div class="modal fade showPatient" tabindex="-1" role="dialog"
+                                             aria-labelledby="showPatient" aria-hidden="true" id="showPatient">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title"
+                                                            id="showPatientLabel">{{ patient.first_name }} {{ patient.last_name }}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form role="form" method="post">
+                                                        <div class="modal-body">
 
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">Close
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal fade updateProfilePatient" tabindex="-1" role="dialog"
-                                         aria-labelledby="updateProfilePatient" aria-hidden="true"
-                                         id="updateProfilePatient">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="updateProfilePatientLabel">Update
-                                                        Profile</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close
+                                                            </button>
+                                                        </div>
+                                                    </form>
                                                 </div>
-                                                <form role="form" method="post">
-                                                    <div class="modal-body">
-                                                        {% csrf_token %}
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">Close
-                                                        </button>
-                                                        <input type="submit" value="Save Changes"
-                                                               class="btn btn-primary"/>
-                                                    </div>
-                                                </form>
                                             </div>
                                         </div>
-                                    </div>
-                                {% endfor %}
+                                        <div class="modal fade updateProfilePatient" tabindex="-1" role="dialog"
+                                             aria-labelledby="updateProfilePatient" aria-hidden="true"
+                                             id="updateProfilePatient">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="updateProfilePatientLabel">Update
+                                                            Profile</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form role="form" method="post">
+                                                        <div class="modal-body">
+                                                            {% csrf_token %}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close
+                                                            </button>
+                                                            <input type="submit" value="Save Changes"
+                                                                   class="btn btn-primary"/>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-address-book fa-fw"></i> Patients
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="list-group">
-                                {% for patient in all_patients %}
-                                    <a href="#" data-toggle="modal" data-target="#showPatient" class="list-group-item">
-                                        <i class="fa fa-user fa-fw"></i> {{ patient.first_name }} {{ patient.last_name }}
-                                        {% if user_type == "Nurse" %}
-                                            <span class="pull-right text-muted small">
-                                            <b>{{ patient.primary_doctor }}</b>
-                                        {% endif %}
-                                        </span>
-                                        {% if user_type == "Doctor" %}
-                                            <span class="pull-right text-muted small"><em>{{ patient.hospital }}</em>
-                                        {% endif %}
-                                        </span>
-                                    </a>
-                                    <div class="modal fade showPatient" tabindex="-1" role="dialog"
-                                         aria-labelledby="showPatient" aria-hidden="true" id="showPatient">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title"
-                                                        id="showPatientLabel">{{ patient.first_name }} {{ patient.last_name }}</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <form role="form" method="post">
-                                                    <div class="modal-body">
+                    <div class="col-lg-4">
+                {% endif %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-address-book fa-fw"></i> Patients
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="list-group">
+                            {% for patient in patients %}
+                                <a href="#" data-toggle="modal" data-target="#showPatient" class="list-group-item">
+                                    <i class="fa fa-user fa-fw"></i> {{ patient.first_name }} {{ patient.last_name }}
+                                    {% if user_type == "Nurse" %}
+                                        <span class="pull-right text-muted small">
+                                        <b>{{ patient.primary_doctor }}</b>
+                                    {% endif %}
+                                    </span>
+                                    {% if user_type == "Doctor" %}
+                                        <span class="pull-right text-muted small"><em>{{ patient.hospital }}</em>
+                                    {% endif %}
+                                    </span>
+                                </a>
+                                <div class="modal fade showPatient" tabindex="-1" role="dialog"
+                                     aria-labelledby="showPatient" aria-hidden="true" id="showPatient">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title"
+                                                    id="showPatientLabel">{{ patient.first_name }} {{ patient.last_name }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form role="form" method="post">
+                                                <div class="modal-body">
 
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">Close
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal fade updateProfilePatient" tabindex="-1" role="dialog"
-                                         aria-labelledby="updateProfilePatient" aria-hidden="true"
-                                         id="updateProfilePatient">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="updateProfilePatientLabel">Update
-                                                        Profile</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close
                                                     </button>
                                                 </div>
-                                                <form role="form" method="post">
-                                                    <div class="modal-body">
-                                                        {% csrf_token %}
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">Close
-                                                        </button>
-                                                        <input type="submit" value="Save Changes"
-                                                               class="btn btn-primary"/>
-                                                    </div>
-                                                </form>
-                                            </div>
+                                            </form>
                                         </div>
                                     </div>
-                                {% endfor %}
-                            </div>
+                                </div>
+                                <div class="modal fade updateProfilePatient" tabindex="-1" role="dialog"
+                                     aria-labelledby="updateProfilePatient" aria-hidden="true"
+                                     id="updateProfilePatient">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="updateProfilePatientLabel">Update
+                                                    Profile</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form role="form" method="post">
+                                                <div class="modal-body">
+                                                    {% csrf_token %}
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close
+                                                    </button>
+                                                    <input type="submit" value="Save Changes"
+                                                           class="btn btn-primary"/>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
+                {% if user_type == "Doctor" %}
+                    </div>
+                {% endif %}
             </div>
         {% endif %}
     </div>

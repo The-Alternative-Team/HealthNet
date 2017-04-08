@@ -1,4 +1,4 @@
-#work in progress model (not in __init__.py)
+# work in progress model (not in __init__.py)
 
 
 """
@@ -25,9 +25,10 @@ __str__ ------------- Returns the string representation of the existing MedInfo
 from django.db import models
 from .Patient import Patient
 
+
 class MedInfo(models.Model):
     patient = models.ForeignKey(Patient, verbose_name='Patient')
-    time = models.DateTimeField(auto_now= True, verbose_name='Time recorded')
+    time = models.DateTimeField(auto_now=True, verbose_name='Time recorded')
     heart_rate = models.IntegerField(help_text='beats per minute', verbose_name='Heart Rate')
     systolic_pressure = models.IntegerField(help_text='mmHg', verbose_name='Systolic Blood Pressure')
     diastolic_pressure = models.IntegerField(help_text='mmHg', verbose_name='Diastolic Blood Pressure')
@@ -37,3 +38,15 @@ class MedInfo(models.Model):
 
     def __str__(self):
         return self.patient.__str__() + "'s Medical Info"
+
+    def update_medInfo(self, patient, time, heart_rate, systolic_pressure, diastolic_pressure, body_temp,
+                       respiratory_rate, notes):
+        self.patient = patient
+        self.time = time
+        self.heart_rate = heart_rate
+        self.systolic_pressure = systolic_pressure
+        self.diastolic_pressure = diastolic_pressure
+        self.body_temp = body_temp
+        self.respiratory_rate = respiratory_rate
+        self.notes = notes
+        self.save()

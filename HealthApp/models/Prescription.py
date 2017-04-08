@@ -23,6 +23,7 @@ from django.db import models
 from .Doctor import Doctor
 from .Patient import Patient
 
+
 class Prescriptions(models.Model):
     drug = models.CharField(max_length=50, verbose_name='Drug Name')
     doctor = models.ForeignKey(Doctor, verbose_name='Doctor')

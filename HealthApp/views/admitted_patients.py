@@ -6,6 +6,7 @@ from django.shortcuts import render
 
 from HealthApp import staticHelpers
 from HealthApp.models import Patient, AdmissionLog
+from django.template.defaulttags import register
 
 
 def render_view(request, user_type, user):
@@ -22,6 +23,10 @@ def render_view(request, user_type, user):
     elif user_type == staticHelpers.UserTypes.nurse:
         return render(request, 'HealthApp/admitted_patients.html',
                       {'user_type': user_type, 'patients': patients})
+
+    @register.filter(name='get_item')
+    def get_item(dictionary, key):
+        return dictionary.get(key)  # Called when the home view is loaded or a form is submitted
 
 
 # Called when the home view is loaded or a form is submitted

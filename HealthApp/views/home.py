@@ -133,7 +133,7 @@ def render_view(request, user_type, user):
                        'patients': patients})
 
 
-@register.filter
+@register.filter(name='get_item')
 def get_item(dictionary, key):
     return dictionary.get(key)  # Called when the home view is loaded or a form is submitted
 

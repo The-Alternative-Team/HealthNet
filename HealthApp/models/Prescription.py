@@ -22,6 +22,7 @@ __str__ ------------- Returns the string representation of the existing prescrip
 from django.db import models
 from .Doctor import Doctor
 from .Patient import Patient
+from django.utils import timezone
 
 
 class Prescriptions(models.Model):
@@ -33,4 +34,9 @@ class Prescriptions(models.Model):
     notes = models.CharField(default='', max_length=1000, verbose_name='Notes')
 
     def __str__(self):
-        return self.drug + " Prescription for " + self.patient.__str__()
+        return self.drug + " prescription for " + self.patient.__str__() + " (" + self.doctor + ")"
+
+    @classmethod
+    def add_prescription(cls, drug, doctor, patient, refills, notes):
+        log = cls(drug=drug, doctor=doctor, patient=patient, date=timezone.now(), refills=refills, notes=notes)
+        log.save()

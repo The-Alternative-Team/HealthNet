@@ -15,7 +15,7 @@
                 <div class="modal-body">
                     {% if user_type == "Doctor" %}
                         {% csrf_token %}
-                        {{ setPatientHospitalForms }}
+                        {{ setPatientHospitalForms|get_item:patient.username }}
                     {% endif %}
                 </div>
                 <div class="modal-footer">

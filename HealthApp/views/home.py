@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from HealthApp.forms import UpdateAppointment, AddAppointment, UpdatePatient, SetPatientHospital
 from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry
 from HealthApp import staticHelpers
+from django.template.defaulttags import register
 
 
 # Handles submit of the update patient data form
@@ -128,10 +129,15 @@ def render_view(request, user_type, user):
         form = UpdateAppointment(user_type, user)
         add_form = AddAppointment(user_type)
         return render(request, 'HealthApp/index.html',
-                      {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form, 'patients': patients})
+                      {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
+                       'patients': patients})
 
 
-# Called when the home view is loaded or a form is submitted
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)  # Called when the home view is loaded or a form is submitted
+
+
 @login_required(login_url="login/")
 def home(request):
     user_type, user = staticHelpers.user_to_subclass(request.user)

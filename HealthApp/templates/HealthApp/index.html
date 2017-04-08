@@ -126,11 +126,14 @@
                         <!-- /.panel-body -->
                     </div>
                     {% include "HealthApp/patients.html" %}
+                    <a href="{% url 'all_patients' %}" class="btn btn-default btn-block">View All Patients</a>
+                    </div>
+                    </div>
                 {% endif %}
-                <!-- /.panel -->
-            </div>
-            <!-- /.row -->
-        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.row -->
+    </div>
     </div>
     <!-- /#page-wrapper -->
 {% endblock content %}

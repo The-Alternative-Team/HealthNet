@@ -4,7 +4,7 @@ import os
 
 
 class UploadedFile(models.Model):
-    title = models.CharField(max_length=255, blank=True)
+    title = models.CharField(max_length=255, default="An uploaded file")
     file = models.FileField(upload_to='')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 

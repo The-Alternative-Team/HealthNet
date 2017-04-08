@@ -6,12 +6,16 @@ admin.site.register(Doctor)
 admin.site.register(Hospital)
 admin.site.register(Nurse)
 admin.site.register(Patient)
-admin.site.register(UploadedFile)
+
+
+class UploadedFileAdmin(admin.ModelAdmin):
+    list_display = ('title', 'file', 'uploaded_at')
+
+admin.site.register(UploadedFile, UploadedFileAdmin)
 
 
 class AppointmentAdmin(admin.ModelAdmin):
     list_display = ('start_time', 'doctor', 'patient')
-
 
 admin.site.register(Appointment, AppointmentAdmin)
 
@@ -20,7 +24,6 @@ class LogAdmin(admin.ModelAdmin):
     list_display = ('userMail', 'time', 'action')
     list_filter = ['time']
     search_fields = ['userMail', 'action']
-
 
 admin.site.register(LogEntry, LogAdmin)
 

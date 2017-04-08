@@ -1,11 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from HealthApp.forms import UpdateAppointment, AddAppointment
+from HealthApp.forms import UpdateAppointment, AddAppointment, UpdatePatient, SetPatientHospital
+from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry
 from HealthApp import staticHelpers
-from HealthApp.forms import UpdatePatient
-from HealthApp.models import Hospital
-from HealthApp.models import Patient, Doctor, Appointment, LogEntry
 
 
 # Handles submit of the update patient data form
@@ -107,11 +105,16 @@ def render_view(request, user_type, user):
                 'start': str(app.start_time),
                 'end': str(app.end_time)
             })
+
+        setPatientHospitalForms = dict()
+        for patient in patients:
+            setPatientHospitalForms[patient.username] = SetPatientHospital(patient)
+
         form = UpdateAppointment(user_type, user)
         add_form = AddAppointment(user_type)
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
-                       'patients': patients})
+                       'patients': patients, 'setPatientHospitalForms': setPatientHospitalForms})
     elif user_type == staticHelpers.UserTypes.nurse:
         for app in appointments:
             # Don't change the title - it'll break the pre-filling of the update appointment form

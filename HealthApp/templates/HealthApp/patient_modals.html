@@ -13,6 +13,10 @@
             </div>
             <form role="form" method="post">
                 <div class="modal-body">
+                    {% if user_type == "Doctor" %}
+                        {% csrf_token %}
+                        {{ setPatientHospitalForms }}
+                    {% endif %}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary"

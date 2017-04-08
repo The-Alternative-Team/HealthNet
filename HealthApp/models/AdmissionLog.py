@@ -8,7 +8,7 @@ class AdmissionLog(models.Model):
     reason = models.CharField(default='', max_length=250, verbose_name='reason')
     timeAdmitted = models.DateTimeField(default=None, verbose_name='Time Admitted')
     admittedBy = models.CharField(default='', max_length=100, verbose_name='Admitted by')
-    hospital = models.ForeignKey(Hospital, related_name="Hospital", verbose_name="Hospital")
+    hospital = models.ForeignKey(Hospital, default=None, related_name="Hospital", verbose_name="Hospital")
     timeDischarged = models.DateTimeField(default=None, verbose_name='Time Discharged')
     dischargedBy = models.CharField(default='', max_length=100, verbose_name='Discharged by')
     admitStatus = models.BooleanField(default=False, verbose_name="Admission Status")

@@ -30,14 +30,14 @@ from  HealthApp import staticHelpers
 
 class Prescription(models.Model):
     drug = models.CharField(max_length=50, verbose_name='Drug Name')
-    doctor = models.OneToOneField(Doctor, on_delete=models.CASCADE, primary_key=True, verbose_name='Doctor')
-    patient = models.OneToOneField(Patient, on_delete=models.CASCADE, primary_key=True, verbose_name='Patient')
+    doctor = models.OneToOneField(Doctor, on_delete=models.CASCADE, verbose_name='Doctor')
+    patient = models.OneToOneField(Patient, on_delete=models.CASCADE, verbose_name='Patient')
     date = models.DateField(auto_now=True, verbose_name='Date prescribed')
     refills = models.IntegerField(verbose_name='Number of Refills')
     notes = models.CharField(default='', max_length=1000, verbose_name='Notes')
 
     def __str__(self):
-        return self.drug + " prescription for " + self.patient.__str__() + " (" + self.doctor + ")"
+        return self.drug + " prescription for " + str(self.patient) + " (" + str(self.doctor) + ")"
 
     @classmethod
     def add_prescription(cls, drug, doctor, patient, refills, notes):

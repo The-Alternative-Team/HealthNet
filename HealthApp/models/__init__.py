@@ -6,3 +6,6 @@ from .Patient import Patient
 from .UserProfile import UserProfile
 from .LogEntry import LogEntry
 from .UploadedFile import UploadedFile
+from .AdmissionLog import AdmissionLog
+from .MedInfo import MedInfo
+from .Prescription import Prescription

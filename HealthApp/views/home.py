@@ -27,8 +27,7 @@ def save_patient(request):
     # TODO: Validate this data (and steal their identity) before saving it
 
     hospital_id = request.POST['hospital']
-    patient.hospital = Hospital.objects.all().filter(id=hospital_id)[0]
-    patient.desired_hospital = patient.hospital
+    patient.desired_hospital = Hospital.objects.all().filter(id=hospital_id)[0]
     doctor_id = request.POST['doctor']
     patient.primary_doctor = Doctor.objects.all().filter(id=doctor_id)[0]
 

@@ -5,7 +5,6 @@ from HealthApp.models import Doctor, Hospital, Patient
 
 
 class UpdatePatient(forms.ModelForm):
-    # Query for hospitals on form generate
     def __init__(self, patient):
         super().__init__()
 

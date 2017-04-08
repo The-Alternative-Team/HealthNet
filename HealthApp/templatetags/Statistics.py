@@ -2,7 +2,7 @@ from django import template
 import datetime
 
 from HealthApp.staticHelpers import *
-from HealthApp.models import AdmissionLog, Patient, Prescription
+from HealthApp.models import AdmissionLog, Patient, Prescription, LogEntry
 
 register = template.Library()
 
@@ -65,3 +65,7 @@ def avg_prescriptions():
     except ZeroDivisionError:
         avg = 0
     return avg
+
+@register.simple_tag
+def num_logs():
+    return len(LogEntry.objects.all())

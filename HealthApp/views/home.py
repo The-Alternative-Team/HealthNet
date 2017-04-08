@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.template.defaulttags import register
 
 from HealthApp.forms import UpdateAppointment, AddAppointment, UpdatePatient, SetPatientHospital
 from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry
 from HealthApp import staticHelpers
-from django.template.defaulttags import register
 
 
 # Handles submit of the update patient data form

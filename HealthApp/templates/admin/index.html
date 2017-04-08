@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_static %}
+{% load Statistics %}
 
 {% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}" />{% endblock %}
 
@@ -51,20 +52,20 @@
                 <span class="section">System Statistics</span>
             </caption>
             <tr>
-                <td>Number of Patients Currently Admitted:</td>
-                <td>000</td>
+                <td>Number of patients currently admitted:</td>
+                <td>{% number_admitted_patients %}</td>
             </tr>
             <tr>
-                <td>Average Number of Visits per Patient:</td>
-                <td>000</td>
+                <td>Average number of visits per patient:</td>
+                <td>{% avg_visits %}</td>
             </tr>
             <tr>
-                <td>Average Length of Stay:</td>
-                <td>000</td>
+                <td>Average length of stay:</td>
+                <td>{% avg_length_of_stay %}</td>
             </tr>
             <tr>
                 <td>Average Prescriptions per Patient:</td>
-                <td>000</td>
+                <td>{% avg_prescriptions %}</td>
             </tr>
         </table>
     </div>

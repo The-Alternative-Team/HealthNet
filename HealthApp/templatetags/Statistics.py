@@ -1,18 +1,18 @@
-from .staticHelpers import *
-from HealthApp.models.AdmissionLog import AdmissionLog
-from HealthApp.models.Patient import Patient
-from HealthApp.models.Prescription import Prescriptions
-from datetime import datetime
+from django import template
+import datetime
 
-'''
-NOT TESTED
-'''
+from HealthApp.staticHelpers import *
+from HealthApp.models import AdmissionLog, Patient, Prescription
+
+register = template.Library()
 
 
+@register.simple_tag
 def number_admitted_patients():
     return len(get_admitted_patients())
 
 
+@register.simple_tag
 def avg_visits():
     try:
         admissions_list = AdmissionLog.objects.all()
@@ -31,6 +31,7 @@ def avg_visits():
     return avg
 
 
+@register.simple_tag
 def avg_length_of_stay():
     total_length_of_stay = datetime.timedelta(0)
     try:
@@ -47,9 +48,10 @@ def avg_length_of_stay():
     return avg
 
 
+@register.simple_tag
 def avg_prescriptions():
     try:
-        prescription_list = Prescriptions.objects.all()
+        prescription_list = Prescription.objects.all()
     except Patient.DoesNotExist:
         prescription_list = []
     try:

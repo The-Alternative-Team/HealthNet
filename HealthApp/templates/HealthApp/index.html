@@ -104,7 +104,7 @@
                         <div class="panel-body">
                             <div class="list-group">
                                 {% for patient in patients %}
-                                    <a href="#" data-toggle="modal" data-target="#showPatient" class="list-group-item">
+                                    <a href="#" data-toggle="modal" data-target="#showPatient{{ patient.social }}" class="list-group-item">
                                         <i class="fa fa-user fa-fw"></i> {{ patient.first_name }} {{ patient.last_name }}
                                         {% if user_type == "Nurse" %}
                                             <span class="pull-right text-muted small">
@@ -116,8 +116,8 @@
                                         {% endif %}
                                         </span>
                                     </a>
-                                    <div class="modal fade showPatient" tabindex="-1" role="dialog"
-                                         aria-labelledby="showPatient" aria-hidden="true" id="showPatient">
+                                    <div class="modal fade showPatient{{ patient.social }}" tabindex="-1" role="dialog"
+                                         aria-labelledby="showPatient{{ patient.social }}" aria-hidden="true" id="showPatient{{ patient.social }}">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -144,7 +144,7 @@
                                 {% endfor %}
                             </div>
                             <!-- /.list-group -->
-                            <a href="#" class="btn btn-default btn-block">View All Admitted Patients</a>
+                            <a href="{% url 'admitted_patients' %}" class="btn btn-default btn-block">View All Admitted Patients</a>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -157,7 +157,7 @@
                         <div class="panel-body">
                             <div class="list-group">
                                 {% for patient in patients %}
-                                    <a href="#" data-toggle="modal" data-target="#showPatient" class="list-group-item">
+                                    <a href="#" data-toggle="modal" data-target="#showPatient{{ patient.social }}" class="list-group-item">
                                         <i class="fa fa-user fa-fw"></i> {{ patient.first_name }} {{ patient.last_name }}
                                         {% if user_type == "Nurse" %}
                                             <span class="pull-right text-muted small">
@@ -169,8 +169,8 @@
                                         {% endif %}
                                         </span>
                                     </a>
-                                    <div class="modal fade showPatient" tabindex="-1" role="dialog"
-                                         aria-labelledby="showPatient" aria-hidden="true" id="showPatient">
+                                    <div class="modal fade showPatient{{ patient.social }}" tabindex="-1" role="dialog"
+                                         aria-labelledby="showPatient{{ patient.social }}" aria-hidden="true" id="showPatient{{ patient.social }}">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -199,7 +199,7 @@
                                 {% endfor %}
                             </div>
                             <!-- /.list-group -->
-                            <a href="#" class="btn btn-default btn-block">View All Patients</a>
+                            <a href="{% url 'all_patients' %}" class="btn btn-default btn-block">View All Patients</a>
                         </div>
                         <!-- /.panel-body -->
                     </div>

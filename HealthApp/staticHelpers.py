@@ -25,6 +25,7 @@ from HealthApp.models.Doctor import Doctor
 from HealthApp.models.Patient import Patient
 from HealthApp.models.Nurse import Nurse
 from HealthApp.models import Appointment
+from HealthApp.models import AdmissionLog
 
 
 # Static definitions of the user type strings used by user_to_subclass() below
@@ -83,3 +84,11 @@ def find_patients(user_type, user):
     if user_type == UserTypes.nurse:
         # Doctors get their patients
         return Patient.objects.all().filter(hospital=user.hospital)
+
+
+def get_admitted_patients():
+    log_list = AdmissionLog.objects.all().filter(admitStatus=True)
+    patient_list = []
+    for log in log_list:
+        patient_list += Patient.objects.get(username=log.userMail)
+    return patient_list

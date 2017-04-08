@@ -1,0 +1,26 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-address-book fa-fw"></i> Patients
+    </div>
+    <div class="panel-body">
+        <div class="list-group">
+            {% for patient in patients %}
+                <a href="#" data-toggle="modal" data-target="#showPatient{{ patient.social }}"
+                   class="list-group-item">
+                    <i class="fa fa-user fa-fw"></i> {{ patient.first_name }} {{ patient.last_name }}
+                    {% if user_type == "Nurse" %}
+                        <span class="pull-right text-muted small">
+                        <b>{{ patient.primary_doctor }}</b>
+                    {% endif %}
+                    </span>
+                    {% if user_type == "Doctor" %}
+                        <span class="pull-right text-muted small"><em>{{ patient.hospital }}</em>
+                    {% endif %}
+                    </span>
+                </a>
+                {% include "HealthApp/patient_modals.html" %}
+            {% endfor %}
+        </div>
+        <a href="{% url 'all_patients' %}" class="btn btn-default btn-block">View All Patients</a>
+    </div>
+</div>

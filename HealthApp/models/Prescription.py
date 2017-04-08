@@ -1,9 +1,9 @@
-#work in progress model (not in __init__.py)
+# work in progress model (not in __init__.py)
 
 """
 Prescription model
 
-Django model for prescriptions.
+Django model for prescription.
 
 === Fields ===
 
@@ -17,18 +17,21 @@ notes ------- (char) Additional notes for the prescription.
 === Methods ===
 
 __str__ ------------- Returns the string representation of the existing prescription
+add_prescription ---- Creates a new prescription with the given info
 
 """
 from django.db import models
 from .Doctor import Doctor
 from .Patient import Patient
 from django.utils import timezone
+from  HealthApp import staticHelpers
+# doctor needs to be automatically set to the doc that is signed in (only docs can write prescriptions)
 
 
-class Prescriptions(models.Model):
+class Prescription(models.Model):
     drug = models.CharField(max_length=50, verbose_name='Drug Name')
-    doctor = models.ForeignKey(Doctor, verbose_name='Doctor')
-    patient = models.ForeignKey(Patient, verbose_name='Patient')
+    doctor = models.OneToOneField(Doctor, on_delete=models.CASCADE, primary_key=True, verbose_name='Doctor')
+    patient = models.OneToOneField(Patient, on_delete=models.CASCADE, primary_key=True, verbose_name='Patient')
     date = models.DateField(auto_now=True, verbose_name='Date prescribed')
     refills = models.IntegerField(verbose_name='Number of Refills')
     notes = models.CharField(default='', max_length=1000, verbose_name='Notes')

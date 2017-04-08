@@ -20,6 +20,7 @@ notes ---------------- (char) Additional notes for Medical Info.
 === Methods ===
 
 __str__ ------------- Returns the string representation of the existing MedInfo
+update_medInfo ------ Updates a patient's existing MedInfo with the given new values
 
 """
 from django.db import models
@@ -27,7 +28,7 @@ from .Patient import Patient
 
 
 class MedInfo(models.Model):
-    patient = models.ForeignKey(Patient, verbose_name='Patient')
+    patient = models.OneToOneField(Patient, on_delete=models.CASCADE, primary_key=True, verbose_name='Patient')
     time = models.DateTimeField(auto_now=True, verbose_name='Time recorded')
     heart_rate = models.IntegerField(help_text='beats per minute', verbose_name='Heart Rate')
     systolic_pressure = models.IntegerField(help_text='mmHg', verbose_name='Systolic Blood Pressure')

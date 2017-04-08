@@ -1,0 +1,28 @@
+<div class="modal fade showPatient{{ patient.social }}" tabindex="-1" role="dialog"
+     aria-labelledby="showPatient{{ patient.social }}" aria-hidden="true"
+     id="showPatient{{ patient.social }}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"
+                    id="showPatientLabel">{{ patient.first_name }} {{ patient.last_name }}</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form role="form" method="post">
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                            data-dismiss="modal">Close
+                    </button>
+                    <button type="submit">Upload</button>
+                    <input type="submit" value="Save Changes"
+                           class="btn btn-primary"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

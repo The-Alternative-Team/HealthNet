@@ -12,7 +12,6 @@ class AdmissionLog(models.Model):
     timeDischarged = models.DateTimeField(default=None, verbose_name='Time Discharged')
     dischargedBy = models.CharField(default='', max_length=100, verbose_name='Discharged by')
     admitStatus = models.BooleanField(default=False, verbose_name="Admission Status")
-
     class Meta:
         verbose_name = "Admission Log entry"
         verbose_name_plural = "Admission Log entries"

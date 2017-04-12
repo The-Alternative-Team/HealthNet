@@ -25,6 +25,8 @@ from .Doctor import Doctor
 from .Patient import Patient
 from django.utils import timezone
 from  HealthApp import staticHelpers
+
+
 # doctor needs to be automatically set to the doc that is signed in (only docs can write prescriptions)
 
 
@@ -39,7 +41,9 @@ class Prescription(models.Model):
     def __str__(self):
         return self.drug + " prescription for " + str(self.patient) + " (" + str(self.doctor) + ")"
 
-    @classmethod
-    def add_prescription(cls, drug, doctor, patient, refills, notes):
-        log = cls(drug=drug, doctor=doctor, patient=patient, date=timezone.now(), refills=refills, notes=notes)
-        log.save()
+    def update_prescription(self, drug, doctor, patient, refills, notes):
+        self.drug = drug
+        self.doctor = doctor
+        self.patient = patient
+        self.refills = refills
+        self.notes = notes

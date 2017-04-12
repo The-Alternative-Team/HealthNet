@@ -9,3 +9,4 @@ from .UploadedFile import UploadedFile
 from .AdmissionLog import AdmissionLog
 from .MedInfo import MedInfo
 from .Prescription import Prescription
+from .Test import Test

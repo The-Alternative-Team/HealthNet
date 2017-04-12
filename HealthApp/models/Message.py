@@ -25,6 +25,8 @@ send_msg ------- Sets the sent_at datetime field to the time in which the messag
 
 """
 from django.db import models
+from time import timezone
+from HealthApp.models import LogEntry
 
 
 class Message(models.Model):
@@ -56,10 +58,14 @@ class Message(models.Model):
 
     def open_msg(self):
         self.unread = False
-        self.read_at = models.DateTimeField(auto_now_add=True)
+        self.read_at = timezone.now()
+        self.save()
+        LogEntry.log_action(self.recipient, self.recipient + " read message from " + self.sender)
 
     def send_msg(self):
-        self.sent_at = models.DateTimeField(auto_now_add=True)
+        self.sent_at = timezone.now()
+        self.save()
+        LogEntry.log_action(self.sender, self.sender + " sent message to " + self.recipient)
 
     def __str__(self):
         string = "Message sent on " + self.sent_at.strftime('%B %d, %Y') + " at " + self.sent_at.strftime('%I:%M:%p') + " from " + self.sender + " to " + self.recipient + " ."

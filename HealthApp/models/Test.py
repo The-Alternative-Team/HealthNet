@@ -18,9 +18,7 @@ class Test(models.Model):
 
     def update_test(self, date, doctor, patient, file, notes):
         self.date = date
-        self. doctor = doctor
+        self.doctor = doctor
         self.patient = patient
         self.file = file
         self.notes = notes
-
-    

@@ -1,3 +1,21 @@
+"""
+Uploaded File model
+
+Django model for a uploaded file.
+
+=== Fields ===
+
+title ------- (char) The title of the file being uploaded.
+file -------- (file) The file being uploaded.
+uploaded_at - (dateTime) The time that the file was uploaded.
+
+
+=== Methods ===
+
+__str__ ----- Returns the string representation of the existing file model.
+
+"""
+
 from django.db import models
 from django.dispatch import receiver
 import os

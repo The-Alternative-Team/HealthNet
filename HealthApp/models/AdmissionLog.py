@@ -1,3 +1,26 @@
+"""
+Admission Log model
+
+Django model for an admission log for a Patient.
+
+=== Fields ===
+
+userMail ----- (char) The email ID of the patient admitted to the hospital.
+reason ------- (char) The reason for the patient's visit.
+timeAdmitted - (datetime) The time the patient is admitted. 
+admittedBy --- (char) The email ID of the person who admitted the patient to the hospital.
+hospital ----- (model) The hospital in which the patient is admitted.
+timeDischarged (datetime) The time the patient is discharged.
+dischargedBy - (char) The email ID of the person who discharged the patient from the hospital.
+admitStatus -- (boolean) The status of whether the patient is currently admitted in a hospital.
+
+=== Methods ===
+
+__str__ ------------- Returns the string representation of the admission log.
+admit_patient ------- Class method that creates an admission log object and saves it in the SQLite database.
+discharge_patient --- Static method that discharges a patient in an existing admission log and saves it.
+"""
+
 from django.db import models
 from django.utils import timezone
 from .Hospital import Hospital
@@ -26,6 +49,7 @@ class AdmissionLog(models.Model):
         self.timeDischarged = timezone.now()
         self.dischargedBy = discharged_by
         self.admitStatus = False
+        self.save()
 
     def __str__(self):
         return self.userMail + " was admitted at " + self.timeAdmitted.strftime(

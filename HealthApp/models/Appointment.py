@@ -15,8 +15,7 @@ notes ------- (char) Additional notes for the appointment.
 === Methods ===
 
 __str__ ------------- Returns the string representation of the existing appointment
-create_appointment -- Static method that creates an appointment object and saves it in the SQLite database.
-update_appointment -- Static method that updates appointment fields for an existing appointment
+update_appointment -- Static method that updates fields for an appointment
 
 """
 

@@ -1,5 +1,3 @@
-# work in progress model (not in __init__.py)
-
 """
 Prescription model
 
@@ -20,6 +18,7 @@ __str__ ------------- Returns the string representation of the existing prescrip
 add_prescription ---- Creates a new prescription with the given info
 
 """
+
 from django.db import models
 from .Doctor import Doctor
 from .Patient import Patient
@@ -47,3 +46,4 @@ class Prescription(models.Model):
         self.patient = patient
         self.refills = refills
         self.notes = notes
+        self.save()

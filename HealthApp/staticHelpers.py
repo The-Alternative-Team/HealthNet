@@ -104,7 +104,8 @@ def get_admitted_patients():
     try:
         log_list = AdmissionLog.objects.all().filter(admitStatus=True)
         for log in log_list:
-            patient_list += Patient.objects.get(username=log.userMail)
+            patient = Patient.objects.filter(username=log.userMail)
+            patient_list.extend(patient)
     except AdmissionLog.DoesNotExist:
         pass
     return patient_list

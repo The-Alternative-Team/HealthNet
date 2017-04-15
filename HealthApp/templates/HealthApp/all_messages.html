@@ -1,0 +1,41 @@
+{% extends "HealthApp/base_dashboard.html" %}
+
+{% block content %}
+    <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        All Patients</h1>
+                </div>
+            </div>
+            <div class="row">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-address-book fa-fw"></i> Messages
+                            </div>
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div class="list-group">
+                                    {% for patient in all_patients %}
+                                        <a href="#" data-toggle="modal" data-target="#showPatient{{ patient.social }}"
+                                           class="list-group-item">
+                                            <i class="fa fa-user fa-fw"></i> {{ patient.first_name }} {{ patient.last_name }}
+                                            {% if user_type == "Nurse" %}
+                                                <span class="pull-right text-muted small">
+                                                <b>{{ patient.primary_doctor }}</b>
+                                            {% endif %}
+                                            </span>
+                                            {% if user_type == "Doctor" %}
+                                                <span class="pull-right text-muted small">
+                                                <em>{{ patient.hospital }}</em>
+                                            {% endif %}
+                                            </span>
+                                        </a>
+                                        {% include "HealthApp/patient_modals.html" %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+            </div>
+    </div>
+{% endblock content %}

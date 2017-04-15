@@ -24,8 +24,7 @@ find_appointments -- Takes two the parameters that are returned by user_to_subcl
 from HealthApp.models.Doctor import Doctor
 from HealthApp.models.Patient import Patient
 from HealthApp.models.Nurse import Nurse
-from HealthApp.models import Appointment
-from HealthApp.models import AdmissionLog
+from HealthApp.models import Appointment, Message, AdmissionLog
 
 
 # Static definitions of the user type strings used by user_to_subclass() below
@@ -73,6 +72,11 @@ def find_appointments(user_type, user):
     elif user_type == UserTypes.patient:
         # Patients get their appointments only
         return Appointment.objects.all().filter(patient_id=user_id)
+
+
+def find_messages(user):
+    user_id = user.username
+    return Message.objects.all().filter(recipient=user_id)
 
 
 # Builds the list of patients the given doctor or nurse is responsible for

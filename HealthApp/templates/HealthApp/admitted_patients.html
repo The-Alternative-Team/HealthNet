@@ -11,38 +11,6 @@
                 <!-- /.col-lg-12 -->
             </div>
             <div class="row">
-                {% if user_type == "Doctor" %}
-                    <div class="col-lg-8">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-hospital-o fa-fw"></i> Admitted Patients
-                            </div>
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div class="list-group">
-                                    {% for patient in all_patients %}
-                                        <a href="#" data-toggle="modal" data-target="#showPatient{{ patient.social }}"
-                                           class="list-group-item">
-                                            <i class="fa fa-user fa-fw"></i> {{ patient.first_name }} {{ patient.last_name }}
-                                            {% if user_type == "Nurse" %}
-                                                <span class="pull-right text-muted small">
-                                                <b>{{ patient.primary_doctor }}</b>
-                                            {% endif %}
-                                            </span>
-                                            {% if user_type == "Doctor" %}
-                                                <span class="pull-right text-muted small">
-                                                <em>{{ patient.hospital }}</em>
-                                            {% endif %}
-                                            </span>
-                                        </a>
-                                        {% include "HealthApp/patient_modals.html" %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                {% endif %}
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <i class="fa fa-hospital-o fa-fw"></i> Admitted Patients
@@ -50,7 +18,7 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div class="list-group">
-                            {% for patient in patients %}
+                            {% for patient in admitted_patients %}
                                 <a href="#" data-toggle="modal" data-target="#showPatient{{ patient.social }}"
                                    class="list-group-item">
                                     <i class="fa fa-user fa-fw"></i> {{ patient.first_name }} {{ patient.last_name }}
@@ -60,7 +28,8 @@
                                     {% endif %}
                                     </span>
                                     {% if user_type == "Doctor" %}
-                                        <span class="pull-right text-muted small"><em>{{ patient.hospital }}</em>
+                                        <span class="pull-right text-muted small">
+                                        <em>{{ patient.hospital }}</em>
                                     {% endif %}
                                     </span>
                                 </a>
@@ -69,9 +38,6 @@
                         </div>
                     </div>
                 </div>
-                {% if user_type == "Doctor" %}
-                    </div>
-                {% endif %}
             </div>
         {% endif %}
     </div>

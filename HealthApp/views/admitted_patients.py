@@ -12,23 +12,21 @@ from django.template.defaulttags import register
 
 
 def render_view(request, user_type, user):
-    # TODO: Create list of all admitted patients and then apply same parameters that are applied normally through statichelpers
-    # admitted_patients = AdmissionLog.objects.all().filter(admitStatus=True)
-    patients = staticHelpers.find_patients(user_type, user)
-    all_patients = Patient.objects.all()
+    admitted_patients = staticHelpers.get_admitted_patients()
     sendMessage = SendMessage(user_type)
 
     if user_type == staticHelpers.UserTypes.patient:
         return redirect('/')
     elif user_type == staticHelpers.UserTypes.doctor:
         setPatientHospitalForms = dict()
-        for patient in all_patients:
+        for patient in admitted_patients:
             setPatientHospitalForms[patient.username] = SetPatientHospital(patient)
         return render(request, 'HealthApp/admitted_patients.html',
-                      {'user_type': user_type, 'patients': patients, 'all_patients': all_patients, 'setPatientHospitalForms': setPatientHospitalForms, 'sendMessage': sendMessage})
+                      {'user_type': user_type, 'admitted_patients': admitted_patients,
+                       'setPatientHospitalForms': setPatientHospitalForms, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
         return render(request, 'HealthApp/admitted_patients.html',
-                      {'user_type': user_type, 'patients': patients, 'sendMessage': sendMessage})
+                      {'user_type': user_type, 'admitted_patients': admitted_patients, 'sendMessage': sendMessage})
 
     @register.filter(name='get_item')
     def get_item(dictionary, key):

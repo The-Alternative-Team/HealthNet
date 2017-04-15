@@ -6,26 +6,69 @@
             <div class="modal-header">
                 <h5 class="modal-title"
                     id="showPatientLabel">{{ patient.first_name }} {{ patient.last_name }}</h5>
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+            </div>
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#transfer" data-toggle="tab">Transfer Hospital</a>
+                </li>
+                <li><a href="#profile" data-toggle="tab">Profile</a>
+                </li>
+                <li><a href="#messages" data-toggle="tab">Messages</a>
+                </li>
+                <li><a href="#settings" data-toggle="tab">Settings</a>
+                </li>
+            </ul>
+
+            <div class="modal-body">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="transfer">
+                        <form role="form" method="post">
+                            <h4>Transfer Hospital</h4>
+                            {% if user_type == "Doctor" %}
+                                {% csrf_token %}
+                                {{ setPatientHospitalForms|get_item:patient.username }}
+                            {% endif %}
+                            <div class="modal-body">
+                                <input type="submit" value="Make Transfer"
+                                       class="btn btn-primary"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="profile">
+                        <h4>Profile Tab</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                            incididunt ut
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                            ullamco
+                            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+                            in
+                            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                            laborum.</p>
+                    </div>
+                    <div class="tab-pane fade" id="messages">
+                        <h4>Messages Tab</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                            incididunt ut
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                            ullamco
+                            laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
+                            in
+                            voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                            laborum.</p>
+                    </div>
+                    <div class="tab-pane fade" id="settings">
+                        <h4>Settings Tab</h4>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Close
                 </button>
             </div>
-            <form role="form" method="post">
-                <div class="modal-body">
-                    {% if user_type == "Doctor" %}
-                        {% csrf_token %}
-                        {{ setPatientHospitalForms|get_item:patient.username }}
-                    {% endif %}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                            data-dismiss="modal">Close
-                    </button>
-                    <input type="submit" value="Save Changes"
-                           class="btn btn-primary"/>
-                </div>
-            </form>
         </div>
     </div>
 </div>

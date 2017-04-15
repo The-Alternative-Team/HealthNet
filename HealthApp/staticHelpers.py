@@ -111,5 +111,5 @@ def get_admitted_patients():
 
 
 # Sets an id for a form so it can be easily detected on POST
-def setFormId(form, id):
+def set_form_id(form, id):
     form.fields['form_id'] = forms.CharField(widget=forms.HiddenInput(), initial=id)

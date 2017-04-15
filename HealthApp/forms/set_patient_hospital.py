@@ -1,13 +1,13 @@
 from django import forms
 
 from HealthApp.models import Hospital, Patient
-from HealthApp.staticHelpers import setFormId
+from HealthApp.staticHelpers import set_form_id
 
 
 class SetPatientHospital(forms.ModelForm):
     def __init__(self, patient):
         super().__init__()
-        setFormId(self, "SetPatientHospital")
+        set_form_id(self, "SetPatientHospital")
 
         self.fields['patient_id'] = forms.CharField(widget=forms.HiddenInput(), initial=patient.id)
 

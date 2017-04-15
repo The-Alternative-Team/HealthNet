@@ -12,7 +12,8 @@ uploaded_at - (dateTime) The time that the file was uploaded.
 
 === Methods ===
 
-__str__ ----- Returns the string representation of the existing file model.
+__str__ ------------- Returns the string representation of the existing file model.
+auto_delete_on_disk - Deletes the file on the user's disk when the model is deleted from the SQLite database. 
 
 """
 

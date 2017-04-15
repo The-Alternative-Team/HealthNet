@@ -15,7 +15,7 @@ notes ------- (char) Additional notes for the prescription.
 === Methods ===
 
 __str__ ------------- Returns the string representation of the existing prescription
-add_prescription ---- Creates a new prescription with the given info
+update_prescription - Updates an existing prescription with the given information
 
 """
 

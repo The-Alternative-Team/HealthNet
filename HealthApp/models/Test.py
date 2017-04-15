@@ -10,11 +10,13 @@ doctor ------ (model) The doctor administering the test.
 patient ----- (model) The patient being tested.
 file -------- (model) The file containing the test results/information.
 notes ------- (char) Additional notes for the test.
-
+releaseStatus (boolean) A boolean value that is default False. This value determines if a patient has permission to
+                        view the test.
 === Methods ===
 
 __str__ ------------- Returns the string representation of the existing test.
 update_test --------- Updates the fields of the test.
+release_test -------- Sets the releaseStatus boolean value to True.
 
 """
 

@@ -15,13 +15,15 @@ unread ----- (boolean) A boolean which is True if the message has not been read.
 
 === Methods ===
 
-__str__ -------- Returns the string representation of the message object.
-is_msg_unread -- Static method that creates an appointment object and saves it in the SQLite database.
-msg_sender ----- Returns the email address of the registered user who sent the message.
-msg_recipient -- Returns the email address of the registered user of whom the message was sent to.
-open_msg ------- Sets the read_at datetime field to the time in which the message was opened. Sets unread
-                 boolean field to False.
-send_msg ------- Sets the sent_at datetime field to the time in which the message was sent.
+__str__ -------- Returns the string representation of the message object. If the message was read,
+                 string will contain additional info on when it was read.
+is_unread ------ Returns boolean value for unread
+mark_read ------ Static method that sets the read_at datetime field to the current time. 
+                 Sets unread boolean field to False. Event is logged.
+get_sender ----- Returns the email address of the registered user who sent the message.
+get_recipient -- Returns the email address of the registered user of whom the message was sent to.
+send ----------- Static method that sets the sent_at datetime field to the current time. 
+                 Then creates an appointment object and saves it in the SQLite database.
 
 """
 from django.db import models

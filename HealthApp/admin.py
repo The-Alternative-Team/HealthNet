@@ -1,3 +1,24 @@
+"""
+Admin controller
+
+This file contains the logic behind our admin site. We register our models with the Django Admin system. 
+Through the admin interface, admins can view and edit most models. 
+Custom functionality for certain models is implemented below. 
+
+Models we have included:
+Doctor -------- All doctors and their profile information
+Hospital ------ All hospitals and their profile information
+Nurse --------- All nurses and their profile information
+Patient ------- All patients and their profile information
+Message ------- All messages and their contents
+UploadedFile -- All files and their contents.
+Appointment --- All appointments and their contents.
+LogEntry ------ Displays logs for all user actions. Read only
+AdminLog ------ Displays logs for Admin actions. Read only
+AdmissionLog -- Used to provide statistics on patient admissions. Read only 
+"""
+
+
 from django.contrib import admin
 from django.contrib.admin.models import LogEntry as AdminLogEntry
 from .models import Appointment, Doctor, Hospital, Nurse, Patient, LogEntry, UploadedFile, Message, AdmissionLog
@@ -21,14 +42,27 @@ class AppointmentAdmin(admin.ModelAdmin):
 
 admin.site.register(Appointment, AppointmentAdmin)
 
-
+# User Logs are read only. Styling included to allow filtering of all Log Entries
 class LogAdmin(admin.ModelAdmin):
+    readonly_fields = ('userMail', 'time', 'action')
     list_display = ('userMail', 'time', 'action')
     list_filter = ['time']
     search_fields = ['userMail', 'action']
 
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request):
+        return False
+
+    def get_actions(self, request):
+        actions = super(LogAdmin, self).get_actions(request)
+        del actions['delete_selected']
+        return actions
+
 admin.site.register(LogEntry, LogAdmin)
 
+# Admin Logs are read only and cannot be added or deleted on command.
 class AdminLogEntryAdmin(admin.ModelAdmin):
     readonly_fields = ('content_type',
         'user',

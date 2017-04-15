@@ -7,13 +7,16 @@ from django.shortcuts import render
 from HealthApp import staticHelpers
 from django.template.defaulttags import register
 
+from HealthApp.forms.send_message import SendMessage
+
 
 def render_view(request, user_type, user):
     messages = staticHelpers.find_messages(user)
     unread_messages = staticHelpers.find_unread_messages(user)
+    sendMessage = SendMessage(user_type)
 
     return render(request, 'HealthApp/all_messages.html',
-                  {'user_type': user_type, 'messages': messages, 'unread_messages': unread_messages})
+                  {'user_type': user_type, 'messages': messages, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
 
 
 @register.filter(name='get_item')

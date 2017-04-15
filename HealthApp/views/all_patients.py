@@ -6,6 +6,7 @@ from django.shortcuts import render
 
 from HealthApp import staticHelpers
 from HealthApp.forms import SetPatientHospital
+from HealthApp.forms.send_message import SendMessage
 from HealthApp.models import Patient
 from django.template.defaulttags import register
 
@@ -13,6 +14,7 @@ from django.template.defaulttags import register
 def render_view(request, user_type, user):
     patients = staticHelpers.find_patients(user_type, user)
     all_patients = Patient.objects.all()
+    sendMessage = SendMessage(user_type)
 
     if user_type == staticHelpers.UserTypes.patient:
         return redirect('/')
@@ -22,10 +24,10 @@ def render_view(request, user_type, user):
             setPatientHospitalForms[patient.username] = SetPatientHospital(patient)
 
         return render(request, 'HealthApp/all_patients.html',
-                      {'user_type': user_type, 'patients': patients, 'all_patients': all_patients, 'setPatientHospitalForms': setPatientHospitalForms})
+                      {'user_type': user_type, 'patients': patients, 'all_patients': all_patients, 'setPatientHospitalForms': setPatientHospitalForms, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
         return render(request, 'HealthApp/all_patients.html',
-                      {'user_type': user_type, 'patients': patients})
+                      {'user_type': user_type, 'patients': patients, 'sendMessage': sendMessage})
 
     @register.filter(name='get_item')
     def get_item(dictionary, key):

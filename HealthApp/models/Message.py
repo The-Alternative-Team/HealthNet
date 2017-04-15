@@ -25,7 +25,7 @@ send_msg ------- Sets the sent_at datetime field to the time in which the messag
 
 """
 from django.db import models
-from time import timezone
+from django.utils import timezone
 from HealthApp.models import LogEntry
 
 

@@ -30,6 +30,7 @@ class Test(models.Model):
     patient = models.ForeignKey(Patient, verbose_name='Patient')
     file = models.ForeignKey(UploadedFile, verbose_name='Test File')
     notes = models.CharField(default='', max_length=1000, verbose_name='Notes')
+    releaseStatus = models.BooleanField(default=False, verbose_name='Released to Patient Status')
 
     class Meta:
         verbose_name = "Test"
@@ -47,3 +48,6 @@ class Test(models.Model):
         self.file = file
         self.notes = notes
         self.save()
+
+    def release_test(self):
+        self.releaseStatus = True

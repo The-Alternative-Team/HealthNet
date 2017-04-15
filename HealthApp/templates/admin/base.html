@@ -8,6 +8,10 @@
 {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
 {% block extrahead %}{% endblock %}
 {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+
+<!-- jQuery -->
+<script src="{% static 'HealthApp/vendor/jquery/jquery.min.js' %}"></script>
+
 </head>
 {% load i18n %}
 
@@ -86,10 +90,14 @@
 
 <script>
     // Code to make uploaded file links open in a new tab
-    for (var link of document.getElementsByTagName("a")) {
-        if (link.href.indexOf("uploads") != -1) {
-            link.target = "_blank";
-        }
+    $("a[href*='uploads']").attr("target", "_blank")
+
+    // Code to fix viewing admin log entries
+    if (document.documentURI.indexOf("/admin/admin/logentry/") != -1) {
+        $("h1").eq(1).remove();
+        $("a[href*='/change/']").each(function(index) {
+            $(this).replaceWith("<span>" + $("a[href*='/change/']").html() + "</span>");
+        });
     }
 </script>
 </body>

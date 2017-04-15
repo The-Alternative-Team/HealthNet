@@ -105,6 +105,10 @@
     // Marks a message as read
     function markMsgRead(id) {
         $.get("/ajax/mark_read?id=" + id);
+
+        // Update UI
+        $("[name='message-" + id + "'] > div > strong").css("font-weight", "normal");
+        $("[name='all-message-" + id + "'] > i").removeClass("fa-envelope").addClass("fa-envelope-o");
     }
 </script>
 
@@ -166,7 +170,7 @@
                     <li class="divider"></li>
                     {% for message in unread_messages %}
                         <li>
-                            <a href="#" data-toggle="modal"
+                            <a name="message-{{ message.id }}" href="#" data-toggle="modal"
                                data-target="#showmessage{{ message.id }}" onclick="markMsgRead({{ message.id }});">
                                 <div>
                                     <strong>{{ message.sender }}</strong>

@@ -17,7 +17,7 @@
                 <div class="panel-body">
                     <div class="list-group">
                         {% for message in unread_messages %}
-                            <a href="#" data-toggle="modal"
+                            <a name="all-message-{{ message.id }}" href="#" data-toggle="modal"
                                data-target="#showmessage{{ message.id }}" onclick="markMsgRead({{ message.id }});"
                                class="list-group-item">
                                 <i class="fa fa-envelope fa-fw"></i> {{ message.sender }}
@@ -41,7 +41,7 @@
                 <div class="panel-body">
                     <div class="list-group">
                         {% for message in messages %}
-                            <a href="#" data-toggle="modal"
+                            <a name="all-message-{{ message.id }}" href="#" data-toggle="modal"
                                data-target="#showmessage{{ message.id }}" onclick="markMsgRead({{ message.id }});"
                                class="list-group-item">
                                 {% if message.unread == False %}

@@ -15,7 +15,7 @@ class SetPatientHospital(forms.ModelForm):
         hospital_tuple = tuple(Hospital.objects.all().values_list("id", "name").order_by("name"))
 
         self.fields['hospital'] = forms.ChoiceField(
-            widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'State'}),
+            widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Hospital'}),
             choices=hospital_tuple,
             label='Hospital',
             initial=patient.hospital)

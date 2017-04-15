@@ -2,7 +2,7 @@
 
 from django import forms
 
-from HealthApp.models import Prescription, Patient
+from HealthApp.models import Prescription
 
 
 class AddPrescription(forms.ModelForm):
@@ -16,8 +16,6 @@ class AddPrescription(forms.ModelForm):
         self.fields['drug'].widget.attrs = {'class': 'form-control', 'placeholder': 'Drug Name'}
         self.fields['refills'].widget.attrs = {'class': 'form-control', 'placeholder': 'Refills'}
         self.fields['notes'].widget.attrs = {'class': 'form-control', 'placeholder': 'Notes'}
-
-
 
     class Meta:
         model = Prescription

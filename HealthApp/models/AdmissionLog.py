@@ -35,13 +35,15 @@ class AdmissionLog(models.Model):
     timeDischarged = models.DateTimeField(default=None, verbose_name='Time Discharged')
     dischargedBy = models.CharField(default='', max_length=100, verbose_name='Discharged by')
     admitStatus = models.BooleanField(default=False, verbose_name="Admission Status")
+
     class Meta:
         verbose_name = "Admission Log entry"
         verbose_name_plural = "Admission Log entries"
 
     @classmethod
-    def admit_patient(cls, user_mail, admitted_by, hospital):
-        log = cls(userMail=user_mail, timeAdmitted=timezone.now(), admittedBy=admitted_by, hospital=hospital,
+    def admit_patient(cls, user_mail, reason, admitted_by, hospital):
+        log = cls(userMail=user_mail, reason=reason, timeAdmitted=timezone.now(), admittedBy=admitted_by,
+                  hospital=hospital,
                   admitStatus=True)
         log.save()
 

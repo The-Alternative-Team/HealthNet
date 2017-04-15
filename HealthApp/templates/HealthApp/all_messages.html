@@ -18,7 +18,7 @@
                     <div class="list-group">
                         {% for message in unread_messages %}
                             <a href="#" data-toggle="modal"
-                               data-target="#showmessage{{ message.sender }}{{ message.sent_at }}"
+                               data-target="#showMessage{{ message.id }}"
                                class="list-group-item">
                                 <i class="fa fa-envelope fa-fw"></i> {{ message.sender }}
                                 <span class="small">
@@ -28,6 +28,7 @@
                                                 <em>{{ message.sent_at }}</em>
                                         </span>
                             </a>
+                            {% include "HealthApp/view_message_modal.html" %}
                         {% endfor %}
                     </div>
                 </div>
@@ -41,7 +42,7 @@
                     <div class="list-group">
                         {% for message in messages %}
                             <a href="#" data-toggle="modal"
-                               data-target="#showmessage{{ message.sender }}{{ message.sent_at }}"
+                               data-target="#showMessage{{ message.id }}"
                                class="list-group-item">
                                 {% if message.unread == False %}
                                     <i class="fa fa-envelope-o fa-fw"></i> {{ message.sender }}
@@ -55,6 +56,7 @@
                                                 <em>{{ message.sent_at }}</em>
                                         </span>
                             </a>
+                            {% include "HealthApp/view_message_modal.html" %}
                         {% endfor %}
                     </div>
                 </div>

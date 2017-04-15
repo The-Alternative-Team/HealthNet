@@ -151,7 +151,7 @@
                     {% for message in unread_messages %}
                         <li>
                             <a href="#" data-toggle="modal"
-                               data-target="#showmessage{{ message.sender }}{{ message.sent_at }}">
+                               data-target="#showMessage{{ message.id }}">
                                 <div>
                                     <strong>{{ message.sender }}</strong>
                                     <span class="pull-right text-muted">
@@ -160,6 +160,7 @@
                                 </div>
                                 <div>{{ message.subject }}</div>
                             </a>
+                            {% include "HealthApp/view_message_modal.html" %}
                         </li>
                     {% endfor %}
 

@@ -64,6 +64,11 @@
 
             <p><a class="btn btn-primary btn-lg" role="button">Learn more</a>
             </p>
+            {% if form.isRetry %}
+                <div style="text-align:center;color:red">
+                    <p1>Incorrect email or password. Please try again.</p1>
+                </div>
+            {% endif %}
             <form role="form" action="{% url 'login' %}" method="post">
                 <fieldset>
                     <div class="form-group">

@@ -55,6 +55,10 @@ class LogAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
 
+    def save_model(self, request, obj, form, change):
+        # Return nothing to make sure user can't update any data
+        pass
+
     def get_actions(self, request):
         actions = super(LogAdmin, self).get_actions(request)
         del actions['delete_selected']
@@ -78,6 +82,10 @@ class AdminLogEntryAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return False
+
+    def save_model(self, request, obj, form, change):
+        # Return nothing to make sure user can't update any data
+        pass
 
     def get_actions(self, request):
         actions = super(AdminLogEntryAdmin, self).get_actions(request)

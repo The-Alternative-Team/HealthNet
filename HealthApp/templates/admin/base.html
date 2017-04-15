@@ -92,13 +92,16 @@
     // Code to make uploaded file links open in a new tab
     $("a[href*='uploads']").attr("target", "_blank");
 
-    // Code to fix viewing admin log entries
-    if (document.documentURI.indexOf("/admin/admin/logentry/") != -1) {
+    // Code to fix viewing admin and user log entries
+    if (document.documentURI.indexOf("/logentry/") != -1) {
         $("h1").eq(1).remove();
         $("a[href*='/change/']").each(function(index) {
-            $(this).replaceWith("<span>" + $("a[href*='/change/']").html() + "</span>");
+            $(this).replaceWith("<span style='font-weight: normal;'>" + $(this).html() + "</span>");
         });
     }
+
+    // Code to remove change link for user log entries
+    $("tr.model-logentry > td:nth-child(3)").remove();
 </script>
 </body>
 </html>

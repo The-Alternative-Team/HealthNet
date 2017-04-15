@@ -37,8 +37,8 @@ class AdmissionLog(models.Model):
     admitStatus = models.BooleanField(default=False, verbose_name="Admission Status")
 
     class Meta:
-        verbose_name = "Admission Log entry"
-        verbose_name_plural = "Admission Log entries"
+        verbose_name = "Admission log entry"
+        verbose_name_plural = "Admission log entries"
 
     @classmethod
     def admit_patient(cls, user_mail, reason, admitted_by, hospital):

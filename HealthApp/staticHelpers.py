@@ -24,7 +24,9 @@ find_appointments -- Takes two the parameters that are returned by user_to_subcl
 from HealthApp.models.Doctor import Doctor
 from HealthApp.models.Patient import Patient
 from HealthApp.models.Nurse import Nurse
-from HealthApp.models import Appointment, Message, AdmissionLog
+from HealthApp.models.Appointment import Appointment
+from HealthApp.models.Message import Message
+from HealthApp.models.AdmissionLog import AdmissionLog
 
 
 # Static definitions of the user type strings used by user_to_subclass() below

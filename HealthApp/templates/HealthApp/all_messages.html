@@ -16,7 +16,7 @@
                             <!-- /.panel-heading -->
                             <div class="panel-body">
                                 <div class="list-group">
-                                    {% for message in all_messages %}
+                                    {% for message in messages %}
                                         <a href="#" data-toggle="modal" data-target="#showmessage{{ message.sender }}{{ message.sent_at }}"
                                            class="list-group-item">
                                             <i class="fa fa-user fa-fw"></i> {{ message.sender }}

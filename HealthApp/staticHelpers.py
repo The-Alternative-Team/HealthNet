@@ -75,8 +75,8 @@ def find_appointments(user_type, user):
 
 
 def find_messages(user):
-    user_id = user.username
-    return Message.objects.all().filter(recipient=user_id)
+    username = user.username
+    return Message.objects.all().filter(recipient=username)
 
 
 # Builds the list of patients the given doctor or nurse is responsible for

@@ -9,10 +9,10 @@ from django.template.defaulttags import register
 
 
 def render_view(request, user_type, user):
-    all_messages = staticHelpers.find_messages(user)
+    messages = staticHelpers.find_messages(user)
 
     return render(request, 'HealthApp/all_messages.html',
-                  {'user_type': user_type, 'all_messages': all_messages})
+                  {'user_type': user_type, 'messages': messages})
 
 
 @register.filter(name='get_item')

@@ -81,6 +81,11 @@ def find_messages(user):
     return Message.objects.all().filter(recipient=username)
 
 
+def find_unread_messages(user):
+    username = user.username
+    return Message.objects.all().filter(recipient=username, unread=True)
+
+
 # Builds the list of patients the given doctor or nurse is responsible for
 def find_patients(user_type, user):
     user_id = user.userprofile_ptr_id

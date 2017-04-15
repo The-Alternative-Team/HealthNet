@@ -11,7 +11,30 @@
         <div class="row">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="fa fa-envelope fa-fw"></i> Messages
+                    <i class="fa fa-envelope fa-fw"></i> Unread Messages
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="list-group">
+                        {% for message in unread_messages %}
+                            <a href="#" data-toggle="modal"
+                               data-target="#showmessage{{ message.sender }}{{ message.sent_at }}"
+                               class="list-group-item">
+                                <i class="fa fa-envelope fa-fw"></i> {{ message.sender }}
+                                <span class="small">
+                                                <em>{{ message.subject }}</em>
+                                        </span>
+                                <span class="pull-right text-muted small">
+                                                <em>{{ message.sent_at }}</em>
+                                        </span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-envelope-o fa-fw"></i> Messages
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -20,7 +43,11 @@
                             <a href="#" data-toggle="modal"
                                data-target="#showmessage{{ message.sender }}{{ message.sent_at }}"
                                class="list-group-item">
-                                <i class="fa fa-envelope fa-fw"></i> {{ message.sender }}
+                                {% if message.unread == False %}
+                                    <i class="fa fa-envelope-o fa-fw"></i> {{ message.sender }}
+                                {% elif message.unread == True %}
+                                    <i class="fa fa-envelope fa-fw"></i> {{ message.sender }}
+                                {% endif %}
                                 <span class="small">
                                                 <em>{{ message.subject }}</em>
                                         </span>

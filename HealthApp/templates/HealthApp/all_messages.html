@@ -2,29 +2,36 @@
 
 {% block content %}
     <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">
-                        All Messages</h1>
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    All Messages</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-envelope fa-fw"></i> Messages
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="list-group">
+                        {% for message in messages %}
+                            <a href="#" data-toggle="modal"
+                               data-target="#showmessage{{ message.sender }}{{ message.sent_at }}"
+                               class="list-group-item">
+                                <i class="fa fa-envelope fa-fw"></i> {{ message.sender }}
+                                <span class="small">
+                                                <em>{{ message.subject }}</em>
+                                        </span>
+                                <span class="pull-right text-muted small">
+                                                <em>{{ message.sent_at }}</em>
+                                        </span>
+                            </a>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <i class="fa fa-address-book fa-fw"></i> Messages
-                            </div>
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div class="list-group">
-                                    {% for message in messages %}
-                                        <a href="#" data-toggle="modal" data-target="#showmessage{{ message.sender }}{{ message.sent_at }}"
-                                           class="list-group-item">
-                                            <i class="fa fa-user fa-fw"></i> {{ message.sender }}
-                                        </a>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-            </div>
+        </div>
     </div>
 {% endblock content %}

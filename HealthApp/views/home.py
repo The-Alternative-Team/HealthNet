@@ -79,6 +79,7 @@ def render_view(request, user_type, user):
     events = []
     appointments = staticHelpers.find_appointments(user_type, user)
     patients = staticHelpers.find_patients(user_type, user)
+    messages = staticHelpers.find_messages(user)
 
     if user_type == staticHelpers.UserTypes.patient:
         for app in appointments:
@@ -95,7 +96,7 @@ def render_view(request, user_type, user):
         update_form = UpdatePatient(user)
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
-                       'profileForm': update_form})
+                       'profileForm': update_form, 'messages': messages})
     elif user_type == staticHelpers.UserTypes.doctor:
         for app in appointments:
             # Don't change the title - it'll break the pre-filling of the update appointment form
@@ -115,7 +116,7 @@ def render_view(request, user_type, user):
         add_form = AddAppointment(user_type)
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
-                       'patients': patients, 'setPatientHospitalForms': setPatientHospitalForms})
+                       'patients': patients, 'setPatientHospitalForms': setPatientHospitalForms, 'messages': messages})
     elif user_type == staticHelpers.UserTypes.nurse:
         for app in appointments:
             # Don't change the title - it'll break the pre-filling of the update appointment form
@@ -130,7 +131,7 @@ def render_view(request, user_type, user):
         add_form = AddAppointment(user_type)
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
-                       'patients': patients})
+                       'patients': patients, 'messages': messages})
 
 
 @register.filter(name='get_item')

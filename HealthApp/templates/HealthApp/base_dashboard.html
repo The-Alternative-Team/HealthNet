@@ -148,20 +148,24 @@
                     <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-messages">
-                    <li>
-                        <a href="#">
-                            <div>
-                                <strong>HealthNet System</strong>
-                                <span class="pull-right text-muted">
-                                        <em>Today</em>
+                    {% for message in messages %}
+                        <li>
+                            <a href="#" data-toggle="modal"
+                               data-target="#showmessage{{ message.sender }}{{ message.sent_at }}">
+                                <div>
+                                    <strong>{{ message.sender }}</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>{{ message.sent_at }}</em>
                                     </span>
-                            </div>
-                            <div>Welcome to HealthNet!</div>
-                        </a>
-                    </li>
+                                </div>
+                                <div>{{ message.subject }}</div>
+                            </a>
+                        </li>
+                    {% endfor %}
+
                     <li class="divider"></li>
                     <li>
-                        <a class="text-center" href="#">
+                        <a class="text-center" href="{% url 'all_messages' %}">
                             <strong>Read All Messages</strong>
                             <i class="fa fa-angle-right"></i>
                         </a>
@@ -202,18 +206,18 @@
                         <a href="{% url 'home' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
                     {% if user_type == "Doctor" or user_type == "Nurse" %}
-                    <li>
-                        <a href="#"><i class="fa fa-users fa-fw"></i> Patients<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="{%  url 'admitted_patients' %}">Admitted Patients</a>
-                            </li>
-                            <li>
-                                <a href="{%  url 'all_patients' %}">All Patients</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
+                        <li>
+                            <a href="#"><i class="fa fa-users fa-fw"></i> Patients<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{% url 'admitted_patients' %}">Admitted Patients</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'all_patients' %}">All Patients</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
                     {% endif %}
 
                     <li>

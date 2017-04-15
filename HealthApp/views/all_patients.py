@@ -14,6 +14,7 @@ from django.template.defaulttags import register
 def render_view(request, user_type, user):
     patients = staticHelpers.find_patients(user_type, user)
     all_patients = Patient.objects.all()
+    unread_messages = staticHelpers.find_unread_messages(user)
     sendMessage = SendMessage(user_type)
 
     if user_type == staticHelpers.UserTypes.patient:
@@ -24,10 +25,10 @@ def render_view(request, user_type, user):
             setPatientHospitalForms[patient.username] = SetPatientHospital(patient)
 
         return render(request, 'HealthApp/all_patients.html',
-                      {'user_type': user_type, 'patients': patients, 'all_patients': all_patients, 'setPatientHospitalForms': setPatientHospitalForms, 'sendMessage': sendMessage})
+                      {'user_type': user_type, 'patients': patients, 'unread_messages': unread_messages, 'all_patients': all_patients, 'setPatientHospitalForms': setPatientHospitalForms, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
         return render(request, 'HealthApp/all_patients.html',
-                      {'user_type': user_type, 'patients': patients, 'sendMessage': sendMessage})
+                      {'user_type': user_type, 'patients': patients, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
 
     @register.filter(name='get_item')
     def get_item(dictionary, key):

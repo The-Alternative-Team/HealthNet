@@ -3,11 +3,13 @@ from django.contrib.auth.decorators import login_required
 
 # Renders the home page with the correct data for the current user
 from django.shortcuts import render
+from django.utils import timezone
 
 from HealthApp import staticHelpers
 from django.template.defaulttags import register
 
 from HealthApp.forms.send_message import SendMessage
+from HealthApp.models import Message
 
 
 def render_view(request, user_type, user):
@@ -33,5 +35,13 @@ def all_messages(request):
     # Redirect an admin over the admin page before trying to pull real user only data
     if user_type == staticHelpers.UserTypes.admin:
         return redirect('/admin/')
+    elif request.method == 'POST':
+        if request.POST['form_id'] == 'SendMessage':
+            time = timezone.now()
+            message = Message(subject=request.POST['subject'], body=request.POST['body'], sender=user.username,
+                              recipient=request.POST['recipient'], sent_at=time)
+            message.save()
+            # Form submit has been handled so redirect as a GET (this way refreshing the page works)
+            return redirect('/')
     else:
         return render_view(request, user_type, user)

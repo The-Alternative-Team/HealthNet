@@ -35,7 +35,7 @@ def save_patient(request):
     LogEntry.log_action(request.user.username, "Updated their patient data")
 
 
-# Handles submit of the create and edit appointment forms
+# Handles submit of the add and update appointment forms
 def set_appointment(request, user_type, user):
     # Get appointment_doctor
     if user_type == staticHelpers.UserTypes.nurse:
@@ -134,6 +134,23 @@ def render_view(request, user_type, user):
                        'patients': patients, 'unread_messages': unread_messages})
 
 
+# Handles submit of the transfer patient data form
+def set_patient_hospital(request):
+    user_type, doctor = staticHelpers.user_to_subclass(request.user)
+
+    if user_type == staticHelpers.UserTypes.doctor:
+        patient_id = request.POST['patient_id']
+        patient = Patient.objects.all().filter(id=patient_id)[0]
+
+        hospital_id = request.POST['hospital']
+        patient.hospital = Hospital.objects.all().filter(id=hospital_id)[0]
+
+        patient.save()
+
+        LogEntry.log_action(request.user.username, "Transferred patient " + patient.username + " to " +
+                            patient.hospital.name)
+
+
 @register.filter(name='get_item')
 def get_item(dictionary, key):
     return dictionary.get(key)  # Called when the home view is loaded or a form is submitted
@@ -147,13 +164,16 @@ def home(request):
     if user_type == staticHelpers.UserTypes.admin:
         return redirect('/admin/')
     elif request.method == 'POST':
-        # A form was submitted
-        if 'first_name' in request.POST:
+        # A form was submitted so handle based on id
+        if request.POST['form_id'] == 'UpdatePatient':
             save_patient(request)
-        elif 'Cancel Appointment' in request.POST:
-            delete_appointment(request)
-        else:
-            set_appointment(request, user_type, user)
+        elif request.POST['form_id'] == 'UpdateAppointment' or request.POST['form_id'] == 'AddAppointment':
+            if 'Cancel Appointment' in request.POST:
+                delete_appointment(request)
+            else:
+                set_appointment(request, user_type, user)
+        elif request.POST['form_id'] == 'SetPatientHospital':
+            set_patient_hospital(request)
 
         # Form submit has been handled so redirect as a GET (this way refreshing the page works)
         return redirect('/')

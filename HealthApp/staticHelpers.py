@@ -1,7 +1,7 @@
 """
 staticHelpers
 
-Provides easy access to functions that perform cross-model db calls.
+Provides easy access to functions that perform cross-model db calls and other support work.
 
 === Methods ===
 
@@ -20,6 +20,8 @@ find_appointments -- Takes two the parameters that are returned by user_to_subcl
     :returns (list of database objects) - A list of appointments relevant to the user in question.
 
 """
+
+from django import forms
 
 from HealthApp.models.Doctor import Doctor
 from HealthApp.models.Patient import Patient
@@ -106,3 +108,8 @@ def get_admitted_patients():
     except AdmissionLog.DoesNotExist:
         pass
     return patient_list
+
+
+# Sets an id for a form so it can be easily detected on POST
+def setFormId(form, id):
+    form.fields['form_id'] = forms.CharField(widget=forms.HiddenInput(), initial=id)

@@ -1,15 +1,15 @@
 from django import forms
 
 from HealthApp.models import Hospital, Patient
+from HealthApp.staticHelpers import setFormId
 
 
 class SetPatientHospital(forms.ModelForm):
     def __init__(self, patient):
         super().__init__()
+        setFormId(self, "SetPatientHospital")
 
-        self.fields['patient_id'] = forms.CharField(
-            widget=forms.TextInput(attrs={'class': 'form-control', 'aria-hidden': 'true'}),
-            initial=patient.id)
+        self.fields['patient_id'] = forms.CharField(widget=forms.HiddenInput(), initial=patient.id)
 
         # Generate hospital ChoiceField
         hospital_tuple = tuple(Hospital.objects.all().values_list("id", "name").order_by("name"))

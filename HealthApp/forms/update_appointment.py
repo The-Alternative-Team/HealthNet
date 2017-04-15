@@ -2,11 +2,13 @@ from django import forms
 
 from HealthApp import staticHelpers
 from HealthApp.models import Appointment
+from HealthApp.staticHelpers import setFormId
 
 
 class UpdateAppointment(forms.ModelForm):
     def __init__(self, user_type, user):
         super().__init__()
+        setFormId(self, "UpdateAppointment")
 
         # Only allow nurses to set custom doctors
         if user_type == staticHelpers.UserTypes.nurse:

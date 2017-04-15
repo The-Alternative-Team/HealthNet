@@ -2,11 +2,13 @@ from django import forms
 
 from HealthApp import statesList
 from HealthApp.models import Doctor, Hospital, Patient
+from HealthApp.staticHelpers import setFormId
 
 
 class UpdatePatient(forms.ModelForm):
     def __init__(self, patient):
         super().__init__()
+        setFormId(self, "UpdatePatient")
 
         # TODO: Use patient obj to fill in form
 

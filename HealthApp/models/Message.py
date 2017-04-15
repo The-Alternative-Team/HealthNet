@@ -46,22 +46,22 @@ class Message(models.Model):
         verbose_name = "Message"
         verbose_name_plural = "Messages"
 
-    def is_msg_unread(self):
+    def is_unread(self):
         return self.unread
 
-    def msg_sender(self):
+    def get_sender(self):
         return self.sender
 
-    def msg_recipient(self):
+    def get_recipient(self):
         return self.recipient
 
-    def open_msg(self):
+    def mark_read(self):
         self.unread = False
         self.read_at = timezone.now()
         self.save()
         LogEntry.log_action(self.recipient, self.recipient + " read message from " + self.sender)
 
-    def send_msg(self):
+    def send(self):
         self.sent_at = timezone.now()
         self.save()
         LogEntry.log_action(self.sender, self.sender + " sent message to " + self.recipient)

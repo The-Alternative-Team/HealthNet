@@ -101,6 +101,10 @@
         });
     });
 
+    // Marks a message as read
+    function markMsgRead(id) {
+        $.get("/ajax/mark_read?id=" + id);
+    }
 </script>
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -162,7 +166,7 @@
                     {% for message in unread_messages %}
                         <li>
                             <a href="#" data-toggle="modal"
-                               data-target="#showmessage{{ message.id }}">
+                               data-target="#showmessage{{ message.id }}" onclick="markMsgRead({{ message.id }});">
                                 <div>
                                     <strong>{{ message.sender }}</strong>
                                     <span class="pull-right text-muted">

@@ -17,11 +17,10 @@ class SendMessage(forms.ModelForm):
             label='recipient')
 
         # CharFields
-        self.fields['subject'].widget.attrs = {'class': 'form-control', 'placeholder': 'Sender'}
+        self.fields['subject'].widget.attrs = {'class': 'form-control', 'placeholder': 'Subject'}
 
-        # TestField
-        self.fields['body'].widget.attrs = {'class': 'form-control', 'placeholder': 'Sender'}
-        # is a textfield hadled differently than a charfield?
+        # TextField
+        self.fields['body'].widget.attrs = {'class': 'form-control', 'placeholder': 'Message'}
 
     class Meta:
         model = Message

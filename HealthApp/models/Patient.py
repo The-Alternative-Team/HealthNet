@@ -16,7 +16,6 @@ e_cont_cell_phone -- (integer) The cell phone number of the patiend's emergency 
 === Methods ===
 
 __str__ --------- Returns the string representation of the existing Patient object.
-update_patient -- Updates the fields of an existing Patient object.
 
 """
 

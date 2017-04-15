@@ -1,4 +1,4 @@
-# work in progress model (not in __init__.py)
+# work in progress model
 
 
 """
@@ -10,11 +10,11 @@ Django model for Medical Info.
 
 patient -------------- (model) The patient who the prescription is for.
 time ----------------- (datetime) The date and time these stats were recorded (automatically set to now)
-heart rate ----------- (integer) Patient's heart rate in beats per minute
-Systolic pressure ---- (integer) Patient's Systolic blood pressure in mmHg
-Diastolic pressure --- (integer) Patient's Diastolic blood pressure in mmHg 
-Body Temp ------------ (integer) Patient's body temperature in degree Fahrenheit 
-Respiratory rate ----- (integer) Patient's respiratory rate in breaths per minute
+heart_rate ----------- (integer) Patient's heart rate in beats per minute
+systolic_pressure ---- (integer) Patient's Systolic blood pressure in mmHg
+diastolic_pressure --- (integer) Patient's Diastolic blood pressure in mmHg 
+body_temp ------------ (integer) Patient's body temperature in degrees Fahrenheit 
+respiratory_rate ----- (integer) Patient's respiratory rate in breaths per minute
 notes ---------------- (char) Additional notes for Medical Info.
 
 === Methods ===

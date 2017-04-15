@@ -18,7 +18,7 @@ def authForm(request):
                 return redirect('/')
 
         LogEntry.log_action(email, "Failed to log in")
-        # Login(True) generates an error message
+        # Login(True) generates an error message on the form
         return render(request, 'HealthApp/login.html', {'form': Login(True)})
 
         # if a GET (or any other method) we'll create a blank form

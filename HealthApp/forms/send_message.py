@@ -1,23 +1,23 @@
 from django import forms
 
 from HealthApp.models import Message
+from HealthApp.staticHelpers import set_form_id
+from django.contrib.auth.models import User
 
 
 class SendMessage(forms.ModelForm):
     def __init__(self, user_type):
         super().__init__()
+        set_form_id(self, "SendMessage")
 
-        # DateTimes
-        self.fields['sent_at'].widget.attrs = {'class': 'form-control', 'placeholder': 'Sent at: (YYYY-MM-DD HH:MM)'}
-        self.fields['read_at'].widget.attrs = {'class': 'form-control', 'placeholder': 'Read at: (YYYY-MM-DD HH:MM)'}
+        user_tuple = tuple(User.objects.all().values_list("id", "username").order_by("username"))
+
+        self.fields['recipient'] = forms.ChoiceField(
+            widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'User'}), choices=user_tuple,
+            label='recipient')
 
         # CharFields
-        self.fields['sender'].widget.attrs = {'class': 'form-control', 'placeholder': 'Sender'}
         self.fields['subject'].widget.attrs = {'class': 'form-control', 'placeholder': 'Sender'}
-        self.fields['recipient'].widget.attrs = {'class': 'form-control', 'placeholder': 'Recipient'}
-
-        # BoolField
-        self.fields['unread'].widget.attrs = {}  # this is a bool, not sure what to put
 
         # TestField
         self.fields['body'].widget.attrs = {'class': 'form-control', 'placeholder': 'Sender'}
@@ -25,4 +25,4 @@ class SendMessage(forms.ModelForm):
 
     class Meta:
         model = Message
-        fields = ['subject', 'body', 'sender', 'recipient', 'sent_at', 'read_at', 'unread']
+        fields = ['subject', 'body', 'recipient']

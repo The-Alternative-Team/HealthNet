@@ -39,8 +39,8 @@ class Message(models.Model):
     recipient = models.CharField(default='', max_length=100, verbose_name='recipient email')
 
     sent_at = models.DateTimeField(verbose_name='sent at')
-    read_at = models.DateTimeField(verbose_name='read at')
-    unread = models.BooleanField(verbose_name='unread')
+    read_at = models.DateTimeField(verbose_name='read at', blank=True)
+    unread = models.BooleanField(verbose_name='unread', default=True)
 
     class Meta:
         verbose_name = "Message"

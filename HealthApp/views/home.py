@@ -3,8 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.template.defaulttags import register
 
 from HealthApp.forms import UpdateAppointment, AddAppointment, UpdatePatient, SetPatientHospital
-from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry
+from HealthApp.forms.send_message import SendMessage
+from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry, Message
 from HealthApp import staticHelpers
+from django.utils import timezone
 
 
 # Handles submit of the update patient data form
@@ -80,6 +82,7 @@ def render_view(request, user_type, user):
     appointments = staticHelpers.find_appointments(user_type, user)
     patients = staticHelpers.find_patients(user_type, user)
     unread_messages = staticHelpers.find_unread_messages(user)
+    sendMessage = SendMessage(user_type)
 
     if user_type == staticHelpers.UserTypes.patient:
         for app in appointments:
@@ -96,7 +99,7 @@ def render_view(request, user_type, user):
         update_form = UpdatePatient(user)
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
-                       'profileForm': update_form, 'unread_messages': unread_messages})
+                       'profileForm': update_form, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.doctor:
         for app in appointments:
             # Don't change the title - it'll break the pre-filling of the update appointment form
@@ -116,7 +119,7 @@ def render_view(request, user_type, user):
         add_form = AddAppointment(user_type)
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
-                       'patients': patients, 'setPatientHospitalForms': setPatientHospitalForms, 'unread_messages': unread_messages})
+                       'patients': patients, 'setPatientHospitalForms': setPatientHospitalForms, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
         for app in appointments:
             # Don't change the title - it'll break the pre-filling of the update appointment form
@@ -131,7 +134,7 @@ def render_view(request, user_type, user):
         add_form = AddAppointment(user_type)
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
-                       'patients': patients, 'unread_messages': unread_messages})
+                       'patients': patients, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
 
 
 # Handles submit of the transfer patient data form
@@ -174,6 +177,10 @@ def home(request):
                 set_appointment(request, user_type, user)
         elif request.POST['form_id'] == 'SetPatientHospital':
             set_patient_hospital(request)
+        elif request.POST['form_id'] == 'SendMessage':
+            time = timezone.now()
+            message = Message(subject=request.POST['subject'], body=request.POST['body'], sender=user.username, recipient=request.POST['recipient'], sent_at=time)
+            message.save()
 
         # Form submit has been handled so redirect as a GET (this way refreshing the page works)
         return redirect('/')

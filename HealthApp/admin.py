@@ -1,11 +1,12 @@
 from django.contrib import admin
 from django.contrib.admin.models import LogEntry as AdminLogEntry
-from .models import Appointment, Doctor, Hospital, Nurse, Patient, LogEntry, UploadedFile
+from .models import Appointment, Doctor, Hospital, Nurse, Patient, LogEntry, UploadedFile, Message
 
 admin.site.register(Doctor)
 admin.site.register(Hospital)
 admin.site.register(Nurse)
 admin.site.register(Patient)
+admin.site.register(Message)
 
 
 class UploadedFileAdmin(admin.ModelAdmin):

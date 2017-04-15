@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.conf import settings
 from django.conf.urls.static import static
 
-from HealthApp.views import home, auth, register, uploadFile, all_patients, admitted_patients
+from HealthApp.views import home, auth, register, uploadFile, all_patients, admitted_patients, all_messages
 
 # app_name = 'HealthApp'
 urlpatterns = [
@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^upload$', uploadFile, name="upload_form"),
     url(r'^all_patients', all_patients, name="all_patients"),
     url(r'^admitted_patients', admitted_patients, name="admitted_patients"),
+    url(r'^all_messages', all_messages, name="all_messages"),
 ]
 
 # Add the uploaded files to the URLs

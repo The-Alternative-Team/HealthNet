@@ -7,22 +7,21 @@ class SendMessage(forms.ModelForm):
     def __init__(self, user_type):
         super().__init__()
 
-        #DateTimes
-        self.fields.['sent_at'].widget.attrs = {'class': 'form-control', 'placeholder': 'Sent at: (YYYY-MM-DD HH:MM)'}
-        self.fields.['read_at'].widget.attrs = {'class': 'form-control', 'placeholder': 'Read at: (YYYY-MM-DD HH:MM)'}
+        # DateTimes
+        self.fields['sent_at'].widget.attrs = {'class': 'form-control', 'placeholder': 'Sent at: (YYYY-MM-DD HH:MM)'}
+        self.fields['read_at'].widget.attrs = {'class': 'form-control', 'placeholder': 'Read at: (YYYY-MM-DD HH:MM)'}
 
-        #CharFields
+        # CharFields
         self.fields['sender'].widget.attrs = {'class': 'form-control', 'placeholder': 'Sender'}
         self.fields['subject'].widget.attrs = {'class': 'form-control', 'placeholder': 'Sender'}
         self.fields['recipient'].widget.attrs = {'class': 'form-control', 'placeholder': 'Recipient'}
 
-        #BoolField
-        self.fields['unread'].widget.attrs = { } #this is a bool, not sure what to put
+        # BoolField
+        self.fields['unread'].widget.attrs = {}  # this is a bool, not sure what to put
 
-
-        #TestField
+        # TestField
         self.fields['body'].widget.attrs = {'class': 'form-control', 'placeholder': 'Sender'}
-        #is a textfield hadled differently than a charfield?
+        # is a textfield hadled differently than a charfield?
 
     class Meta:
         model = Message

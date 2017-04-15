@@ -30,7 +30,6 @@ from HealthApp.models import LogEntry
 
 
 class Message(models.Model):
-
     SUBJECT_MAX_LENGTH = 120
 
     subject = models.CharField(default='', max_length=SUBJECT_MAX_LENGTH, verbose_name='subject')
@@ -68,7 +67,9 @@ class Message(models.Model):
         LogEntry.log_action(self.sender, self.sender + " sent message to " + self.recipient)
 
     def __str__(self):
-        string = "Message sent on " + self.sent_at.strftime('%B %d, %Y') + " at " + self.sent_at.strftime('%I:%M:%p') + " from " + self.sender + " to " + self.recipient + " ."
+        string = "Message sent on " + self.sent_at.strftime('%B %d, %Y') + " at " + self.sent_at.strftime(
+            '%I:%M:%p') + " from " + self.sender + " to " + self.recipient + " ."
         if not self.unread:
-            string += " The message was read on " + self.read_at.strftime('%B %d, %Y') + " at " + self.read_at.strftime('%I:%M:%p') + " ."
+            string += " The message was read on " + self.read_at.strftime('%B %d, %Y') + " at " + self.read_at.strftime(
+                '%I:%M:%p') + " ."
         return string

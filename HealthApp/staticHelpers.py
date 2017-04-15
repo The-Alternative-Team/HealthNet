@@ -80,12 +80,12 @@ def find_appointments(user_type, user):
 
 def find_messages(user):
     username = user.username
-    return Message.objects.all().filter(recipient=username)
+    return Message.objects.all().filter(recipient=username).order_by("-sent_at")
 
 
 def find_unread_messages(user):
     username = user.username
-    return Message.objects.all().filter(recipient=username, unread=True)
+    return Message.objects.all().filter(recipient=username, unread=True).order_by("-sent_at")
 
 
 # Builds the list of patients the given doctor or nurse is responsible for

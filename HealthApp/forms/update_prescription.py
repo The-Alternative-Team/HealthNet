@@ -1,9 +1,9 @@
 # not sure if this works
 
 from django import forms
+from django.utils import timezone
 
 from HealthApp.models import Prescription
-from django.utils import timezone
 
 
 class AddPrescription(forms.ModelForm):

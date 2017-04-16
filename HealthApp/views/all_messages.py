@@ -1,13 +1,10 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-
+from django.shortcuts import redirect
 # Renders the home page with the correct data for the current user
 from django.shortcuts import render
-from django.utils import timezone
-
-from HealthApp import staticHelpers
 from django.template.defaulttags import register
 
+from HealthApp import staticHelpers
 from HealthApp.forms.send_message import SendMessage
 from HealthApp.models import Message
 

@@ -1,7 +1,7 @@
 from django import forms
 
-from HealthApp.staticHelpers import set_form_id
 from HealthApp.models.Test import Test
+from HealthApp.staticHelpers import set_form_id
 
 
 class CreateTestForm(forms.ModelForm):

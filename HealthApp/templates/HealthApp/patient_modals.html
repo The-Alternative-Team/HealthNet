@@ -8,13 +8,20 @@
                     id="showPatientLabel">{{ patient.first_name }} {{ patient.last_name }}</h5>
             </div>
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#medInfo{{ patient.userprofile_ptr_id }}" data-toggle="tab">Medical Information</a>
+                <li class="active"><a href="#medInfo{{ patient.userprofile_ptr_id }}" data-toggle="tab">Medical
+                    Information</a>
                 </li>
                 {% if user_type == "Doctor" %}
                     <li><a href="#transfer{{ patient.userprofile_ptr_id }}" data-toggle="tab">Transfer Hospital</a>
                     </li>
                     <li><a href="#admit{{ patient.userprofile_ptr_id }}" data-toggle="tab">Admit/Discharge</a>
                     </li>
+                {% endif %}
+                {% if user_type == "Nurse" %}
+                    {% if set_patient_admission|get_item:patient.username != None %}
+                        <li><a href="#admit{{ patient.userprofile_ptr_id }}" data-toggle="tab">Admit</a>
+                        </li>
+                    {% endif %}
                 {% endif %}
                 <li><a href="#prescriptions{{ patient.userprofile_ptr_id }}" data-toggle="tab">Prescriptions</a>
                 </li>
@@ -43,6 +50,8 @@
                                 </div>
                             </form>
                         </div>
+                    {% endif %}
+                    {% if user_type == "Doctor" %}
                         <div class="tab-pane fade" id="admit{{ patient.userprofile_ptr_id }}">
                             <form role="form" method="post">
                                 <h4>Admit/Discharge</h4>
@@ -59,6 +68,26 @@
                                 </div>
                             </form>
                         </div>
+                    {% endif %}
+                    {% if user_type == "Nurse" %}
+                        {% if set_patient_admission|get_item:patient.username != None %}
+                            <div class="tab-pane fade" id="admit{{ patient.userprofile_ptr_id }}">
+                                <form role="form" method="post">
+                                    <h4>Admit</h4>
+
+                                    {% csrf_token %}
+                                    {{ set_patient_admission|get_item:patient.username }}
+
+                                    <div class="modal-footer">
+                                        <input type="submit" value="Admit"
+                                               class="btn btn-primary"/>
+                                        <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        {% endif %}
                     {% endif %}
                     <div class="tab-pane fade" id="prescriptions{{ patient.userprofile_ptr_id }}">
                         <h4>Prescriptions</h4>

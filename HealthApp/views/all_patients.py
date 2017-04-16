@@ -38,8 +38,13 @@ def render_view(request, user_type, user):
                        'set_patient_admission': set_patient_admission, 'all_patients': all_patients,
                        'set_patient_hospital_forms': set_patient_hospital_forms, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
+        set_patient_admission = dict()
+        for patient in all_patients:
+            if not staticHelpers.get_admitted_patients().__contains__(patient):
+                set_patient_admission[patient.username] = AdmitPatient(patient)
         return render(request, 'HealthApp/all_patients.html',
                       {'user_type': user_type, 'patients': patients, 'unread_messages': unread_messages,
+                       'set_patient_admission': set_patient_admission, 'all_patients': all_patients,
                        'sendMessage': sendMessage})
 
     @register.filter(name='get_item')
@@ -74,8 +79,10 @@ def all_patients(request):
             log_entry.dischargedBy = user.username
             log_entry.timeDischarged = timezone.now()
             log_entry.save()
+        elif 'form_id' not in request.POST:
+            return redirect('/all_patients')
 
             # Form submit has been handled so redirect as a GET (this way refreshing the page works)
-            return redirect('/all_patients')
+        return redirect('/all_patients')
     else:
         return render_view(request, user_type, user)

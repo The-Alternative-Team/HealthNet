@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from HealthApp.models import MedInfo
+from HealthApp.models import MedInfo, LogEntry
 from HealthApp import staticHelpers
 
 
@@ -27,8 +27,10 @@ def export_medInfo(request):
         export_string += "No Medical Info Found."
 
     return HttpResponse(export_string)
+    LogEntry.log_action(patient.username, "exported medical information")
 
 
 @login_required(login_url="login/")
 def export_test(request):
     return "Test Exporting coming soon to a theater near you."
+    LogEntry.log_action(patient.username, "exported a test file")

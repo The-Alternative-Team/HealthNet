@@ -13,9 +13,9 @@
                 {% if user_type == "Doctor" %}
                     <li><a href="#transfer" data-toggle="tab">Transfer Hospital</a>
                     </li>
+                    <li><a href="#admit" data-toggle="tab">Admit/Discharge</a>
+                    </li>
                 {% endif %}
-                <li><a href="#admit" data-toggle="tab">Admit/Discharge</a>
-                </li>
                 <li><a href="#prescriptions" data-toggle="tab">Prescriptions</a>
                 </li>
             </ul>
@@ -32,7 +32,7 @@
                                 <h4>Transfer Hospital</h4>
 
                                 {% csrf_token %}
-                                {{ setPatientHospitalForms|get_item:patient.username }}
+                                {{ set_patient_hospital_forms|get_item:patient.username }}
 
                                 <div class="modal-footer">
                                     <input type="submit" value="Make Transfer"
@@ -43,10 +43,25 @@
                                 </div>
                             </form>
                         </div>
+                        <div class="tab-pane fade" id="admit">
+                            <h4>Admit/Discharge</h4>
+                            <form role="form" method="post">
+                                <h4>Admit/Discharge Patient</h4>
+
+                                {% csrf_token %}
+                                {{ set_patient_admission|get_item:patient.username }}
+
+
+                                <div class="modal-footer">
+                                    <input type="submit" value="Admit/Discharge"
+                                           class="btn btn-primary"/>
+                                    <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     {% endif %}
-                    <div class="tab-pane fade" id="admit">
-                        <h4>Admit/Discharge</h4>
-                    </div>
                     <div class="tab-pane fade" id="prescriptions">
                         <h4>Prescriptions</h4>
                     </div>

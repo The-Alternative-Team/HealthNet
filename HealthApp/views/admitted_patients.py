@@ -7,6 +7,7 @@ from django.utils import timezone
 
 from HealthApp import staticHelpers
 from HealthApp.forms import SetPatientHospital
+from HealthApp.forms.admit_patient import AdmitPatient
 from HealthApp.forms.send_message import SendMessage
 from HealthApp.models import Patient, AdmissionLog, Message
 from django.template.defaulttags import register
@@ -20,15 +21,22 @@ def render_view(request, user_type, user):
     if user_type == staticHelpers.UserTypes.patient:
         return redirect('/')
     elif user_type == staticHelpers.UserTypes.doctor:
-        setPatientHospitalForms = dict()
+        set_patient_hospital_forms = dict()
         for patient in admitted_patients:
-            setPatientHospitalForms[patient.username] = SetPatientHospital(patient)
+            set_patient_hospital_forms[patient.username] = SetPatientHospital(patient)
+
+        set_patient_admission = dict()
+        for patient in admitted_patients:
+            set_patient_admission[patient.username] = AdmitPatient(patient)
         return render(request, 'HealthApp/admitted_patients.html',
                       {'user_type': user_type, 'admitted_patients': admitted_patients,
-                       'setPatientHospitalForms': setPatientHospitalForms, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
+                       'set_patient_hospital_forms': set_patient_hospital_forms,
+                       'set_patient_admission': set_patient_admission, 'unread_messages': unread_messages,
+                       'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
         return render(request, 'HealthApp/admitted_patients.html',
-                      {'user_type': user_type, 'admitted_patients': admitted_patients, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
+                      {'user_type': user_type, 'admitted_patients': admitted_patients,
+                       'unread_messages': unread_messages, 'sendMessage': sendMessage})
 
     @register.filter(name='get_item')
     def get_item(dictionary, key):

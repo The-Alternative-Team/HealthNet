@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.template.defaulttags import register
 
 from HealthApp.forms import UpdateAppointment, AddAppointment, UpdatePatient, SetPatientHospital
+from HealthApp.forms.admit_patient import AdmitPatient
 from HealthApp.forms.send_message import SendMessage
 from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry, Message
 from HealthApp import staticHelpers
@@ -118,12 +119,19 @@ def render_view(request, user_type, user):
         for patient in admitted_patients:
             set_patient_hospital_forms[patient.username] = SetPatientHospital(patient)
 
+        set_patient_admission = dict()
+        for patient in patients:
+            set_patient_admission[patient.username] = AdmitPatient(patient)
+        for patient in admitted_patients:
+            set_patient_admission[patient.username] = AdmitPatient(patient)
+
         form = UpdateAppointment(user_type, user)
         add_form = AddAppointment(user_type)
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
                        'patients': patients, 'admitted_patients': admitted_patients,
                        'set_patient_hospital_forms': set_patient_hospital_forms,
+                       'set_patient_admission': set_patient_admission,
                        'unread_messages': unread_messages, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
         for app in appointments:
@@ -162,6 +170,7 @@ def set_patient_hospital(request):
 
 @register.filter(name='get_item')
 def get_item(dictionary, key):
+    print(dictionary)
     return dictionary.get(key)  # Called when the home view is loaded or a form is submitted
 
 

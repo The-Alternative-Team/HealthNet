@@ -71,49 +71,6 @@ def phone(phone_number):
         )
     return int(phone_number)
 
-# Django has EmailField look into this
-def email(email_address):
-    at_sign_present = False
-    at_sign_index = 0
-    period_present = False
-    index = 0
-    for character in email_address:
-        if index == 0:
-            if character == '@':
-                raise forms.ValidationError(
-                    'Invalid email address.',
-                    code='@ at index 0'
-                )
-        if (not character.isalpha() and not character.isdigit()
-            and not character == '@' and not character == '.'):
-            raise forms.ValidationError(
-                'Invalid email address.',
-                code='Illegal character in address'
-            )
-        if character == '@':
-            if at_sign_present:
-                raise forms.ValidationError(
-                    'Invalid email address.',
-                    code='Multiple @'
-                )
-            at_sign_present = True
-            at_sign_index = index
-        if at_sign_present:
-            if character == '.' and index == at_sign_index + 1:
-                raise forms.ValidationError(
-                    'Invalid email address.',
-                    code='Invalid email server'
-                )
-        if character == '.':
-            period_present = True
-        index += 1
-    if not period_present:
-        raise forms.ValidationError(
-            'Invalid email address.',
-            code='Invalid mail server'
-        )
-    return email_address
-
 
 def ssn(social):
     social = social.replace('-', '')

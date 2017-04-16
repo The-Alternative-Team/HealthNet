@@ -71,7 +71,7 @@ class Register(UserCreationForm):
             label='Doctor')
 
         # Style django's user registration fields
-        self.fields['username'].widget.attrs = {'class': 'form-control', 'placeholder': 'E-Mail'}
+        self.fields['username'] = forms.EmailField(widget=forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'E-Mail'}))
         self.fields['password1'].widget.attrs = {'class': 'form-control', 'placeholder': 'Password'}
         self.fields['password2'].widget.attrs = {'class': 'form-control', 'placeholder': 'Confirm Password'}
 
@@ -108,11 +108,6 @@ class Register(UserCreationForm):
             validate.ssn(self.cleaned_data['social'])
         except forms.ValidationError as e:
             self.add_error('social', e.code)
-            valid = False
-        try:
-            validate.email(self.cleaned_data['username'])
-        except forms.ValidationError as e:
-            self.add_error('username', e.code)
             valid = False
         try:
             validate.zip(self.cleaned_data['address_zip'])

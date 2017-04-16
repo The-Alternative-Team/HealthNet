@@ -270,6 +270,10 @@
                             <li>
                                 <a href="{% url 'make_test_result' %}">Make Test Result</a>
                             </li>
+                            <li>
+                                <a href="#" data-toggle="modal" data-target="#addAppointment">Add
+                                    Appointment (TODO: Currently Only if on Index)</a>
+                            </li>
                         </ul>
                         <!-- /.nav-second-level -->
                     </li>
@@ -308,6 +312,7 @@
     {% for message in unread_messages %}
         {% include "HealthApp/view_message_modal.html" %}
     {% endfor %}
+    {% include "HealthApp/add_appointment.html" %}
     {% block content %}
     {% endblock content %}
 

@@ -33,31 +33,6 @@
                     <div class="panel-body">
                         <div id="calendar"></div>
                     </div>
-                    <div class="modal fade addAppointment" tabindex="-1" role="dialog"
-                         aria-labelledby="addAppointment" aria-hidden="true" id="addAppointment">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="addAppointmentLabel">Add Appointment</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form role="form" method="post">
-                                    <div class="modal-body">
-
-                                        {% csrf_token %}
-                                        {{ addForm }}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
-                                        </button>
-                                        <input type="submit" value="Save Changes" class="btn btn-primary"/>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                     <div class="modal fade updateAppointment" tabindex="-1" role="dialog"
                          aria-labelledby="updateAppointment" aria-hidden="true" id="updateAppointment">
                         <div class="modal-dialog" role="document">

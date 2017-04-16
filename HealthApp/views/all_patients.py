@@ -11,7 +11,8 @@ from HealthApp.forms.add_prescription import AddPrescription
 from HealthApp.forms.admit_patient import AdmitPatient
 from HealthApp.forms.discharge_patient import DischargePatient
 from HealthApp.forms.send_message import SendMessage
-from HealthApp.models import Patient, Message, AdmissionLog, Hospital, LogEntry
+from HealthApp.forms.update_med_info import UpdateMedInfo
+from HealthApp.models import Patient, Message, AdmissionLog, Hospital, Prescription
 from django.template.defaulttags import register
 
 from HealthApp.staticHelpers import get_all_prescriptions
@@ -42,10 +43,14 @@ def render_view(request, user_type, user):
             add_prescriptions[patient.username] = AddPrescription(patient)
             prescriptions[patient.username] = get_all_prescriptions(patient)
 
+        update_med_info_forms = dict()
+        for patient in all_patients:
+            update_med_info_forms[patient.username] = UpdateMedInfo(patient)
+
         return render(request, 'HealthApp/all_patients.html',
                       {'user_type': user_type, 'patients': patients, 'unread_messages': unread_messages,
                        'set_patient_admission': set_patient_admission, 'all_patients': all_patients,
-                       'add_prescriptions': add_prescriptions, 'prescriptions': prescriptions,
+                       'add_prescriptions': add_prescriptions, 'prescriptions': prescriptions, 'update_med_info_forms': update_med_info_forms,
                        'set_patient_hospital_forms': set_patient_hospital_forms, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
         set_patient_admission = dict()
@@ -56,10 +61,15 @@ def render_view(request, user_type, user):
         prescriptions = dict()
         for patient in all_patients:
             prescriptions[patient.username] = get_all_prescriptions(patient)
+
+        update_med_info_forms = dict()
+        for patient in all_patients:
+            update_med_info_forms[patient.username] = UpdateMedInfo(patient)
+
         return render(request, 'HealthApp/all_patients.html',
                       {'user_type': user_type, 'patients': patients, 'unread_messages': unread_messages,
                        'set_patient_admission': set_patient_admission, 'all_patients': all_patients,
-                       'prescriptions': prescriptions, 'sendMessage': sendMessage})
+                       'prescriptions': prescriptions, 'sendMessage': sendMessage, 'update_med_info_forms': update_med_info_forms})
 
     @register.filter(name='get_item')
     def get_item(dictionary, key):
@@ -80,14 +90,12 @@ def all_patients(request):
             message = Message(subject=request.POST['subject'], body=request.POST['body'], sender=user.username,
                               recipient=request.POST['recipient'], sent_at=time)
             message.save()
-            LogEntry.log_action(user.username, "sent a message")
         elif request.POST['form_id'] == 'AdmitPatient':
             admit_patient = AdmissionLog(userMail=request.POST['userMail'], reason=request.POST['reason'],
                                          timeAdmitted=timezone.now(), admittedBy=user.username,
                                          hospital=Hospital.objects.all().filter(id=request.POST['hospital'])[0],
                                          admitStatus=True)
             admit_patient.save()
-            LogEntry.log_action(user.username, ("admitted " + request.POST['userMail']))
         elif request.POST['form_id'] == 'DischargePatient':
             user_mail = request.POST['userMail']
             log_entry = AdmissionLog.objects.all().filter(userMail=user_mail, admitStatus=True)[0]
@@ -95,7 +103,12 @@ def all_patients(request):
             log_entry.dischargedBy = user.username
             log_entry.timeDischarged = timezone.now()
             log_entry.save()
-            LogEntry.log_action(user.username, ("discharged " + user_mail))
+        elif request.POST['form_id'] == 'AddPrescription':
+            prescription = Prescription(drug=request.POST['drug'], doctor=user,
+                                        patient=Patient.objects.all().filter(username=request.POST['patient'])[0],
+                                        date=timezone.now(), refills=request.POST['refills'],
+                                        notes=request.POST['notes'])
+            prescription.save()
         elif 'form_id' not in request.POST:
             return redirect('/all_patients')
 

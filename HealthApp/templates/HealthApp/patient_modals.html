@@ -1,7 +1,7 @@
 <div class="modal fade showPatient{{ patient.userprofile_ptr_id }}" tabindex="-1" role="dialog"
      aria-labelledby="showPatient{{ patient.userprofile_ptr_id }}" aria-hidden="true"
      id="showPatient{{ patient.userprofile_ptr_id }}">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"
@@ -44,20 +44,23 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                </tr>
-                                <tr>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                </tr>
-                                <tr>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
+                                    <td>TODO</td>
+                                    <td>TODO</td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
+                        <form role="form" method="post">
+                            {% csrf_token %}
+                            {{ update_med_info_forms|get_item:patient.username }}
+                            <div class="modal-footer">
+                                <input type="submit" value="Update Medical Info"
+                                       class="btn btn-primary"/>
+                                <button type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">Close
+                                </button>
+                            </div>
+                        </form>
                     </div>
                     <div class="tab-pane fade" id="testResults{{ patient.userprofile_ptr_id }}">
                         <h4>Test Results</h4>

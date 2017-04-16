@@ -9,6 +9,7 @@ from HealthApp.forms.add_prescription import AddPrescription
 from HealthApp.forms.admit_patient import AdmitPatient
 from HealthApp.forms.discharge_patient import DischargePatient
 from HealthApp.forms.send_message import SendMessage
+from HealthApp.forms.update_med_info import UpdateMedInfo
 from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry, Message, AdmissionLog, Prescription
 
 # Handles submit of the update patient data form
@@ -122,6 +123,10 @@ def render_view(request, user_type, user):
         for patient in all_patients:
             set_patient_hospital_forms[patient.username] = SetPatientHospital(patient)
 
+        update_med_info_forms = dict()
+        for patient in all_patients:
+            update_med_info_forms[patient.username] = UpdateMedInfo(patient)
+
         add_prescriptions = dict()
         prescriptions = dict()
         for patient in all_patients:
@@ -140,7 +145,7 @@ def render_view(request, user_type, user):
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
                        'patients': patients, 'all_patients': all_patients, 'admitted_patients': admitted_patients,
-                       'set_patient_hospital_forms': set_patient_hospital_forms,
+                       'set_patient_hospital_forms': set_patient_hospital_forms, 'update_med_info_forms': update_med_info_forms,
                        'set_patient_admission': set_patient_admission, 'add_prescriptions': add_prescriptions,
                        'prescriptions': prescriptions, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
@@ -159,6 +164,10 @@ def render_view(request, user_type, user):
             if not staticHelpers.get_admitted_patients().__contains__(patient):
                 set_patient_admission[patient.username] = AdmitPatient(patient)
 
+        update_med_info_forms = dict()
+        for patient in all_patients:
+            update_med_info_forms[patient.username] = UpdateMedInfo(patient)
+
         prescriptions = dict()
         for patient in all_patients:
             prescriptions[patient.username] = get_all_prescriptions(patient)
@@ -168,7 +177,7 @@ def render_view(request, user_type, user):
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
                        'patients': patients, 'all_patients': all_patients, 'admitted_patients': admitted_patients,
-                       'set_patient_admission': set_patient_admission,
+                       'set_patient_admission': set_patient_admission, 'update_med_info_forms': update_med_info_forms,
                        'prescriptions': prescriptions, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
 
 

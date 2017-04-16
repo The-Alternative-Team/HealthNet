@@ -5,12 +5,13 @@ Log in Information
 ------------------
 All users (including admins) can log in through http://127.0.0.1:8000
 
-## Default admin account:
+#### Default admin account:
  - Username: admin
  - Passord: `qwerty123456`
  
- ##### Global Password for All Test Accounts: `qwerty123456`
- 
+##### Global Password for All Test Accounts: `qwerty123456`
+
+### Test Accounts:
 | Email (username)  | Name                              | Type      |
 |-------------------|-----------------------------------|-----------|
 | ary9123@rit.edu	| Andre	Young	                    | Doctor    |

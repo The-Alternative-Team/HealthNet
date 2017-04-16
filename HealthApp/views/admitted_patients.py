@@ -11,7 +11,8 @@ from HealthApp.forms.add_prescription import AddPrescription
 from HealthApp.forms.admit_patient import AdmitPatient
 from HealthApp.forms.discharge_patient import DischargePatient
 from HealthApp.forms.send_message import SendMessage
-from HealthApp.models import Patient, AdmissionLog, Message, Hospital, LogEntry
+from HealthApp.forms.update_med_info import UpdateMedInfo
+from HealthApp.models import Patient, AdmissionLog, Message, Hospital, Prescription
 from HealthApp.staticHelpers import get_all_prescriptions
 
 
@@ -40,11 +41,15 @@ def render_view(request, user_type, user):
             add_prescriptions[patient.username] = AddPrescription(patient)
             prescriptions[patient.username] = get_all_prescriptions(patient)
 
+        update_med_info_forms = dict()
+        for patient in all_patients:
+            update_med_info_forms[patient.username] = UpdateMedInfo(patient)
+
         return render(request, 'HealthApp/admitted_patients.html',
                       {'user_type': user_type, 'admitted_patients': admitted_patients,
                        'set_patient_hospital_forms': set_patient_hospital_forms,
                        'set_patient_admission': set_patient_admission, 'unread_messages': unread_messages,
-                       'sendMessage': sendMessage, 'add_prescriptions': add_prescriptions,
+                       'sendMessage': sendMessage, 'add_prescriptions': add_prescriptions, 'update_med_info_forms': update_med_info_forms,
                        'prescriptions': prescriptions})
     elif user_type == staticHelpers.UserTypes.nurse:
         set_patient_admission = dict()
@@ -55,9 +60,14 @@ def render_view(request, user_type, user):
         prescriptions = dict()
         for patient in all_patients:
             prescriptions[patient.username] = get_all_prescriptions(patient)
+
+        update_med_info_forms = dict()
+        for patient in all_patients:
+            update_med_info_forms[patient.username] = UpdateMedInfo(patient)
+
         return render(request, 'HealthApp/admitted_patients.html',
                       {'user_type': user_type, 'admitted_patients': admitted_patients, 'all_patients': all_patients,
-                       'set_patient_admission': set_patient_admission, 'prescriptions': prescriptions,
+                       'set_patient_admission': set_patient_admission, 'prescriptions': prescriptions, 'update_med_info_forms': update_med_info_forms,
                        'unread_messages': unread_messages, 'sendMessage': sendMessage})
 
     @register.filter(name='get_item')
@@ -79,7 +89,6 @@ def admitted_patients(request):
             message = Message(subject=request.POST['subject'], body=request.POST['body'], sender=user.username,
                               recipient=request.POST['recipient'], sent_at=time)
             message.save()
-            LogEntry.log_action(user.username, "sent a message")
 
         elif request.POST['form_id'] == 'AdmitPatient':
             admit_patient = AdmissionLog(userMail=request.POST['userMail'], reason=request.POST['reason'],
@@ -87,7 +96,6 @@ def admitted_patients(request):
                                          hospital=Hospital.objects.all().filter(id=request.POST['hospital'])[0],
                                          admitStatus=True)
             admit_patient.save()
-            LogEntry.log_action(user.username, ("admitted " + request.POST['userMail']))
         elif request.POST['form_id'] == 'DischargePatient':
             user_mail = request.POST['userMail']
             log_entry = AdmissionLog.objects.all().filter(userMail=user_mail, admitStatus=True)[0]
@@ -95,7 +103,12 @@ def admitted_patients(request):
             log_entry.dischargedBy = user.username
             log_entry.timeDischarged = timezone.now()
             log_entry.save()
-            LogEntry.log_action(user.username, ("discharged " + user_mail))
+        elif request.POST['form_id'] == 'AddPrescription':
+            prescription = Prescription(drug=request.POST['drug'], doctor=user,
+                                        patient=Patient.objects.all().filter(username=request.POST['patient'])[0],
+                                        date=timezone.now(), refills=request.POST['refills'],
+                                        notes=request.POST['notes'])
+            prescription.save()
         elif 'form_id' not in request.POST:
             return redirect('/admitted_patients')
             # Form submit has been handled so redirect as a GET (this way refreshing the page works)

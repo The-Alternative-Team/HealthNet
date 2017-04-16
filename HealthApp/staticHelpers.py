@@ -127,7 +127,6 @@ def find_patients(user_type, user):
         return Patient.objects.all().filter(hospital=user.hospital)
 
 
-# TODO: add hospital parameter
 def get_admitted_patients(hospital=None):
     if hospital is None:
         patient_list = []

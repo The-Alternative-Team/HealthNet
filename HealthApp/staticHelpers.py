@@ -128,16 +128,27 @@ def find_patients(user_type, user):
 
 
 # TODO: add hospital parameter
-def get_admitted_patients():
-    patient_list = []
-    try:
-        log_list = AdmissionLog.objects.all().filter(admitStatus=True)
-        for log in log_list:
-            patient = Patient.objects.filter(username=log.userMail)
-            patient_list.extend(patient)
-    except AdmissionLog.DoesNotExist:
-        pass
-    return patient_list
+def get_admitted_patients(hospital=None):
+    if hospital is None:
+        patient_list = []
+        try:
+            log_list = AdmissionLog.objects.all().filter(admitStatus=True)
+            for log in log_list:
+                patient = Patient.objects.filter(username=log.userMail)
+                patient_list.extend(patient)
+        except AdmissionLog.DoesNotExist:
+            pass
+        return patient_list
+    else:
+        patient_list = []
+        try:
+            log_list = AdmissionLog.objects.all().filter(admitStatus=True, hospital=hospital)
+            for log in log_list:
+                patient = Patient.objects.filter(username=log.userMail)
+                patient_list.extend(patient)
+        except AdmissionLog.DoesNotExist:
+            pass
+        return patient_list
 
 
 def get_all_prescriptions(patient):

@@ -11,7 +11,7 @@ from HealthApp.forms.add_prescription import AddPrescription
 from HealthApp.forms.admit_patient import AdmitPatient
 from HealthApp.forms.discharge_patient import DischargePatient
 from HealthApp.forms.send_message import SendMessage
-from HealthApp.models import Patient, Message, AdmissionLog, Hospital
+from HealthApp.models import Patient, Message, AdmissionLog, Hospital, LogEntry
 from django.template.defaulttags import register
 
 from HealthApp.staticHelpers import get_all_prescriptions
@@ -80,12 +80,14 @@ def all_patients(request):
             message = Message(subject=request.POST['subject'], body=request.POST['body'], sender=user.username,
                               recipient=request.POST['recipient'], sent_at=time)
             message.save()
+            LogEntry.log_action(user.username, "sent a message")
         elif request.POST['form_id'] == 'AdmitPatient':
             admit_patient = AdmissionLog(userMail=request.POST['userMail'], reason=request.POST['reason'],
                                          timeAdmitted=timezone.now(), admittedBy=user.username,
                                          hospital=Hospital.objects.all().filter(id=request.POST['hospital'])[0],
                                          admitStatus=True)
             admit_patient.save()
+            LogEntry.log_action(user.username, "admitted a patient")
         elif request.POST['form_id'] == 'DischargePatient':
             user_mail = request.POST['userMail']
             log_entry = AdmissionLog.objects.all().filter(userMail=user_mail, admitStatus=True)[0]
@@ -93,6 +95,7 @@ def all_patients(request):
             log_entry.dischargedBy = user.username
             log_entry.timeDischarged = timezone.now()
             log_entry.save()
+            LogEntry.log_action(user.username, "discharged a patient")
         elif 'form_id' not in request.POST:
             return redirect('/all_patients')
 

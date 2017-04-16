@@ -1,6 +1,5 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
-# Renders the home page with the correct data for the current user
 from django.shortcuts import render
 from django.template.defaulttags import register
 from django.utils import timezone
@@ -13,7 +12,6 @@ from HealthApp.forms.discharge_patient import DischargePatient
 from HealthApp.forms.send_message import SendMessage
 from HealthApp.forms.update_med_info import UpdateMedInfo
 from HealthApp.models import Patient, AdmissionLog, Message, Hospital, Prescription, LogEntry
-from HealthApp.staticHelpers import get_all_prescriptions
 
 
 def render_view(request, user_type, user):
@@ -39,7 +37,7 @@ def render_view(request, user_type, user):
         prescriptions = dict()
         for patient in all_patients:
             add_prescriptions[patient.username] = AddPrescription(patient)
-            prescriptions[patient.username] = get_all_prescriptions(patient)
+            prescriptions[patient.username] = staticHelpers.get_all_prescriptions(patient)
 
         update_med_info_forms = dict()
         for patient in all_patients:
@@ -49,8 +47,8 @@ def render_view(request, user_type, user):
                       {'user_type': user_type, 'admitted_patients': admitted_patients,
                        'set_patient_hospital_forms': set_patient_hospital_forms,
                        'set_patient_admission': set_patient_admission, 'unread_messages': unread_messages,
-                       'sendMessage': sendMessage, 'add_prescriptions': add_prescriptions, 'update_med_info_forms': update_med_info_forms,
-                       'prescriptions': prescriptions})
+                       'sendMessage': sendMessage, 'add_prescriptions': add_prescriptions,
+                       'update_med_info_forms': update_med_info_forms, 'prescriptions': prescriptions})
     elif user_type == staticHelpers.UserTypes.nurse:
         set_patient_admission = dict()
         for patient in all_patients:
@@ -59,7 +57,7 @@ def render_view(request, user_type, user):
 
         prescriptions = dict()
         for patient in all_patients:
-            prescriptions[patient.username] = get_all_prescriptions(patient)
+            prescriptions[patient.username] = staticHelpers.get_all_prescriptions(patient)
 
         update_med_info_forms = dict()
         for patient in all_patients:
@@ -67,8 +65,9 @@ def render_view(request, user_type, user):
 
         return render(request, 'HealthApp/admitted_patients.html',
                       {'user_type': user_type, 'admitted_patients': admitted_patients, 'all_patients': all_patients,
-                       'set_patient_admission': set_patient_admission, 'prescriptions': prescriptions, 'update_med_info_forms': update_med_info_forms,
-                       'unread_messages': unread_messages, 'sendMessage': sendMessage})
+                       'set_patient_admission': set_patient_admission, 'prescriptions': prescriptions,
+                       'update_med_info_forms': update_med_info_forms, 'unread_messages': unread_messages,
+                       'sendMessage': sendMessage})
 
     @register.filter(name='get_item')
     def get_item(dictionary, key):
@@ -80,16 +79,12 @@ def render_view(request, user_type, user):
 def admitted_patients(request):
     user_type, user = staticHelpers.user_to_subclass(request.user)
 
-    # Redirect an admin over the admin page before trying to pull real user only data
     if user_type == staticHelpers.UserTypes.admin:
+        # Redirect an admin over the admin page before trying to pull real user only data
         return redirect('/admin/')
     elif request.method == 'POST':
         if request.POST['form_id'] == 'SendMessage':
-            time = timezone.now()
-            message = Message(subject=request.POST['subject'], body=request.POST['body'], sender=user.username,
-                              recipient=request.POST['recipient'], sent_at=time)
-            message.save()
-            LogEntry.log_action(user.username, "sent a message")
+            Message.handlePost(user.username, request.POST)
         elif request.POST['form_id'] == 'AdmitPatient':
             admit_patient = AdmissionLog(userMail=request.POST['userMail'], reason=request.POST['reason'],
                                          timeAdmitted=timezone.now(), admittedBy=user.username,

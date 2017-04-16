@@ -12,9 +12,6 @@ from HealthApp.forms.send_message import SendMessage
 from HealthApp.forms.update_med_info import UpdateMedInfo
 from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry, Message, AdmissionLog, Prescription
 
-# Handles submit of the update patient data form
-from HealthApp.staticHelpers import get_all_prescriptions
-
 
 def save_patient(request):
     user_type, patient = staticHelpers.user_to_subclass(request.user)
@@ -131,7 +128,7 @@ def render_view(request, user_type, user):
         prescriptions = dict()
         for patient in all_patients:
             add_prescriptions[patient.username] = AddPrescription(patient)
-            prescriptions[patient.username] = get_all_prescriptions(patient)
+            prescriptions[patient.username] = staticHelpers.get_all_prescriptions(patient)
 
         set_patient_admission = dict()
         for patient in all_patients:
@@ -171,7 +168,7 @@ def render_view(request, user_type, user):
 
         prescriptions = dict()
         for patient in all_patients:
-            prescriptions[patient.username] = get_all_prescriptions(patient)
+            prescriptions[patient.username] = staticHelpers.get_all_prescriptions(patient)
 
         form = UpdateAppointment(user_type, user)
         add_form = AddAppointment(user_type)
@@ -209,8 +206,8 @@ def get_item(dictionary, key):
 def home(request):
     user_type, user = staticHelpers.user_to_subclass(request.user)
 
-    # Redirect an admin over the admin page before trying to pull real user only data
     if user_type == staticHelpers.UserTypes.admin:
+        # Redirect an admin over the admin page before trying to pull real user only data
         return redirect('/admin/')
     elif request.method == 'POST':
         # A form was submitted so handle based on id
@@ -224,11 +221,7 @@ def home(request):
         elif request.POST['form_id'] == 'SetPatientHospital':
             set_patient_hospital(request)
         elif request.POST['form_id'] == 'SendMessage':
-            time = timezone.now()
-            message = Message(subject=request.POST['subject'], body=request.POST['body'], sender=user.username,
-                              recipient=request.POST['recipient'], sent_at=time)
-            message.save()
-            LogEntry.log_action(user.username, "sent a message")
+            Message.handlePost(user.username, request.POST)
         elif request.POST['form_id'] == 'AdmitPatient':
             admit_patient = AdmissionLog(userMail=request.POST['userMail'], reason=request.POST['reason'],
                                          timeAdmitted=timezone.now(), admittedBy=user.username,
@@ -256,7 +249,8 @@ def home(request):
             print("Joel Hello!!!")
         elif 'form_id' not in request.POST:
             return redirect('/')
-            # Form submit has been handled so redirect as a GET (this way refreshing the page works)
+
+        # Form submit has been handled so redirect as a GET (this way refreshing the page works)
         return redirect('/')
 
     else:

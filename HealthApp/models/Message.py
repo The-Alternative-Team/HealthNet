@@ -63,10 +63,15 @@ class Message(models.Model):
         self.save()
         LogEntry.log_action(self.recipient, self.recipient + " read message from " + self.sender)
 
-    def send(self):
-        self.sent_at = timezone.now()
-        self.save()
-        LogEntry.log_action(self.sender, self.sender + " sent message to " + self.recipient)
+    # Static method that sends a new message using the results of a send form
+    #   username: Sender's username
+    #   postData: The request.POST for the form
+    @classmethod
+    def handlePost(cls, username, postData):
+        message = Message(subject=postData['subject'], body=postData['body'], sender=username,
+                          recipient=postData['recipient'], sent_at=timezone.now())
+        message.save()
+        LogEntry.log_action(username, "Sent a message to " + postData['recipient'])
 
     def __str__(self):
         string = "Message sent on " + self.sent_at.strftime('%B %d, %Y') + " at " + self.sent_at.strftime(

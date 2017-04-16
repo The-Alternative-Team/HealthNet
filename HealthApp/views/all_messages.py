@@ -32,16 +32,13 @@ def get_item(dictionary, key):
 def all_messages(request):
     user_type, user = staticHelpers.user_to_subclass(request.user)
 
-    # Redirect an admin over the admin page before trying to pull real user only data
     if user_type == staticHelpers.UserTypes.admin:
+        # Redirect an admin over the admin page before trying to pull real user only data
         return redirect('/admin/')
     elif request.method == 'POST':
         if request.POST['form_id'] == 'SendMessage':
-            time = timezone.now()
-            message = Message(subject=request.POST['subject'], body=request.POST['body'], sender=user.username,
-                              recipient=request.POST['recipient'], sent_at=time)
-            message.save()
-            # Form submit has been handled so redirect as a GET (this way refreshing the page works)
-            return redirect('/all_messages')
+            Message.handlePost(user.username, request.POST)
+        # Form submit has been handled so redirect as a GET (this way refreshing the page works)
+        return redirect('/all_messages')
     else:
         return render_view(request, user_type, user)

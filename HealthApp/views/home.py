@@ -4,8 +4,9 @@ from django.template.defaulttags import register
 
 from HealthApp.forms import UpdateAppointment, AddAppointment, UpdatePatient, SetPatientHospital
 from HealthApp.forms.admit_patient import AdmitPatient
+from HealthApp.forms.discharge_patient import DischargePatient
 from HealthApp.forms.send_message import SendMessage
-from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry, Message
+from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry, Message, AdmissionLog
 from HealthApp import staticHelpers
 from django.utils import timezone
 
@@ -120,7 +121,10 @@ def render_view(request, user_type, user):
 
         set_patient_admission = dict()
         for patient in all_patients:
-            set_patient_admission[patient.username] = AdmitPatient(patient)
+            if staticHelpers.get_admitted_patients().__contains__(patient):
+                set_patient_admission[patient.username] = DischargePatient(patient)
+            else:
+                set_patient_admission[patient.username] = AdmitPatient(patient)
 
         form = UpdateAppointment(user_type, user)
         add_form = AddAppointment(user_type)
@@ -194,7 +198,19 @@ def home(request):
             message = Message(subject=request.POST['subject'], body=request.POST['body'], sender=user.username,
                               recipient=request.POST['recipient'], sent_at=time)
             message.save()
-
+        elif request.POST['form_id'] == 'AdmitPatient':
+            admit_patient = AdmissionLog(userMail=request.POST['userMail'], reason=request.POST['reason'],
+                                         timeAdmitted=timezone.now(), admittedBy=user.username,
+                                         hospital=Hospital.objects.all().filter(id=request.POST['hospital'])[0],
+                                         admitStatus=True)
+            admit_patient.save()
+        elif request.POST['form_id'] == 'DischargePatient':
+            user_mail = request.POST['userMail']
+            log_entry = AdmissionLog.objects.all().filter(userMail=user_mail, admitStatus=True)[0]
+            log_entry.admitStatus = False
+            log_entry.dischargedBy = user.username
+            log_entry.timeDischarged = timezone.now()
+            log_entry.save()
         # Form submit has been handled so redirect as a GET (this way refreshing the page works)
         return redirect('/')
     else:

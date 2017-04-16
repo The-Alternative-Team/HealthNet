@@ -125,6 +125,7 @@ def find_patients(user_type, user):
         # Nurses get all patients at their hospital
         return Patient.objects.all().filter(hospital=user.hospital)
 
+
 # TODO: add hospital parameter
 def get_admitted_patients():
     patient_list = []

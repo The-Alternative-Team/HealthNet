@@ -8,8 +8,9 @@ from django.utils import timezone
 from HealthApp import staticHelpers
 from HealthApp.forms import SetPatientHospital
 from HealthApp.forms.admit_patient import AdmitPatient
+from HealthApp.forms.discharge_patient import DischargePatient
 from HealthApp.forms.send_message import SendMessage
-from HealthApp.models import Patient, Message
+from HealthApp.models import Patient, Message, AdmissionLog, Hospital
 from django.template.defaulttags import register
 
 
@@ -27,7 +28,10 @@ def render_view(request, user_type, user):
             set_patient_hospital_forms[patient.username] = SetPatientHospital(patient)
         set_patient_admission = dict()
         for patient in all_patients:
-            set_patient_admission[patient.username] = AdmitPatient(patient)
+            if staticHelpers.get_admitted_patients().__contains__(patient):
+                set_patient_admission[patient.username] = DischargePatient(patient)
+            else:
+                set_patient_admission[patient.username] = AdmitPatient(patient)
 
         return render(request, 'HealthApp/all_patients.html',
                       {'user_type': user_type, 'patients': patients, 'unread_messages': unread_messages,
@@ -57,6 +61,13 @@ def all_patients(request):
             message = Message(subject=request.POST['subject'], body=request.POST['body'], sender=user.username,
                               recipient=request.POST['recipient'], sent_at=time)
             message.save()
+        elif request.POST['form_id'] == 'AdmitPatient':
+            admit_patient = AdmissionLog(userMail=request.POST['userMail'], reason=request.POST['reason'],
+                                         timeAdmitted=timezone.now(), admittedBy=user.username,
+                                         hospital=Hospital.objects.all().filter(id=request.POST['hospital'])[0],
+                                         admitStatus=True)
+            admit_patient.save()
+
             # Form submit has been handled so redirect as a GET (this way refreshing the page works)
             return redirect('/')
     else:

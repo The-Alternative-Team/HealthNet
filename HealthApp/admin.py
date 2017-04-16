@@ -77,6 +77,12 @@ class AdminLogEntryAdmin(admin.ModelAdmin):
         'change_message'
     )
 
+    list_display = ('user', 'get_action')
+
+    def get_action(self, obj):
+        return str(obj)
+    get_action.short_description = 'Action'
+
     def has_delete_permission(self, request, obj=None):
         return False
 

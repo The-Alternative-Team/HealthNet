@@ -145,7 +145,8 @@ def render_view(request, user_type, user):
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
                        'patients': patients, 'all_patients': all_patients, 'admitted_patients': admitted_patients,
-                       'set_patient_hospital_forms': set_patient_hospital_forms, 'update_med_info_forms': update_med_info_forms,
+                       'set_patient_hospital_forms': set_patient_hospital_forms,
+                       'update_med_info_forms': update_med_info_forms,
                        'set_patient_admission': set_patient_admission, 'add_prescriptions': add_prescriptions,
                        'prescriptions': prescriptions, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
@@ -246,7 +247,9 @@ def home(request):
                                         date=timezone.now(), refills=request.POST['refills'],
                                         notes=request.POST['notes'])
             prescription.save()
-
+        elif request.POST['form_id'] == 'UpdateMedInfo':
+            # TODO: Handle Medical Info Updates
+            print("Joel Hello!!!")
         elif 'form_id' not in request.POST:
             return redirect('/')
             # Form submit has been handled so redirect as a GET (this way refreshing the page works)

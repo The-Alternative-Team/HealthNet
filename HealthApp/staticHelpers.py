@@ -50,13 +50,13 @@ set_form_id -- Sets an id for a form so it can be easily detected on POST
 
 from django import forms
 
-from HealthApp.models.Doctor import Doctor
-from HealthApp.models.Patient import Patient
-from HealthApp.models.Nurse import Nurse
-from HealthApp.models.Appointment import Appointment
-from HealthApp.models.Message import Message
-from HealthApp.models.Prescription import Prescription
 from HealthApp.models.AdmissionLog import AdmissionLog
+from HealthApp.models.Appointment import Appointment
+from HealthApp.models.Doctor import Doctor
+from HealthApp.models.Message import Message
+from HealthApp.models.Nurse import Nurse
+from HealthApp.models.Patient import Patient
+from HealthApp.models.Prescription import Prescription
 
 
 # Static definitions of the user type strings used by user_to_subclass() below

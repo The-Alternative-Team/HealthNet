@@ -18,10 +18,11 @@ AdminLog ------ Displays logs for Admin actions. Read only
 AdmissionLog -- Used to provide statistics on patient admissions. Read only 
 """
 
-
 from django.contrib import admin
 from django.contrib.admin.models import LogEntry as AdminLogEntry
-from .models import Appointment, Doctor, Hospital, Nurse, Patient, LogEntry, TestFile, Message, AdmissionLog, Test, Prescription
+
+from .models import Appointment, Doctor, Hospital, Nurse, Patient, LogEntry, TestFile, Message, AdmissionLog, Test, \
+    Prescription
 
 admin.site.register(Doctor)
 admin.site.register(Hospital)

@@ -1,15 +1,15 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
 from django.template.defaulttags import register
+from django.utils import timezone
 
+from HealthApp import staticHelpers
 from HealthApp.forms import UpdateAppointment, AddAppointment, UpdatePatient, SetPatientHospital
 from HealthApp.forms.add_prescription import AddPrescription
 from HealthApp.forms.admit_patient import AdmitPatient
 from HealthApp.forms.discharge_patient import DischargePatient
 from HealthApp.forms.send_message import SendMessage
 from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry, Message, AdmissionLog, Prescription
-from HealthApp import staticHelpers
-from django.utils import timezone
 
 
 # Handles submit of the update patient data form

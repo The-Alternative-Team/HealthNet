@@ -1,5 +1,6 @@
 from django import forms
-from HealthApp.models import Hospital, AdmissionLog, Patient
+
+from HealthApp.models import Hospital, AdmissionLog
 from HealthApp.staticHelpers import set_form_id
 
 

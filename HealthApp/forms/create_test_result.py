@@ -10,6 +10,9 @@ class CreateTestForm(forms.ModelForm):
         set_form_id(self, "CreateTestForm")
 
         self.fields['test_id'] = forms.CharField(widget=forms.HiddenInput(), initial=testObj.id)
+        self.fields['date'].widget.attrs = {'class': 'form-control', 'placeholder': 'Date'}
+        self.fields['patient'].widget.attrs = {'class': 'form-control', 'placeholder': 'Patient'}
+        self.fields['notes'].widget.attrs = {'class': 'form-control', 'placeholder': 'Notes'}
 
     class Meta:
         model = Test

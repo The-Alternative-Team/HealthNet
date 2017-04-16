@@ -15,9 +15,8 @@ releaseStatus (boolean) A boolean value that is default False. This value determ
 === Methods ===
 
 __str__ ------------- Returns the string representation of the existing test.
-update_test --------- Updates the fields of the test.
 release_test -------- Sets the releaseStatus boolean value to True.
-
+get_attached_files -- Queries the list of files that are associated with this test.
 """
 
 from django.db import models
@@ -44,14 +43,6 @@ class Test(models.Model):
         else:
             return str(self.patient) + "'s test results for " + self.date.strftime('%B %d, %Y') + " at " + \
                    self.date.strftime('%I:%M %p') + "."
-
-    def update_test(self, date, doctor, patient, file, notes):
-        self.date = date
-        self.doctor = doctor
-        self.patient = patient
-        self.file = file
-        self.notes = notes
-        self.save()
 
     def release_test(self):
         self.releaseStatus = True

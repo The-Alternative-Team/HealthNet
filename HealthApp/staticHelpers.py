@@ -18,6 +18,33 @@ find_appointments -- Takes two the parameters that are returned by user_to_subcl
     :parameter (database object) user - The user to obtain relevant appointments for.
                (string) user_type - The user type determined by user_to_subclass
     :returns (list of database objects) - A list of appointments relevant to the user in question.
+    
+    
+find_message -- Takes a user parameter and returns an ordered list of all messages sent to them. 
+
+    :parameter (database object) user - The user to obtain messages for.
+    :returns (list of database objects) - A list of messages sent to the user in question ordered by date sent.
+    
+                
+find_unread_messages --  Takes a user parameter and returns an ordered list of all unread messages sent to them. 
+
+    :parameter (database object) user - The user to obtain messages for.
+    :returns (list of database objects) - A list of unread messages sent to the user in question ordered by date sent.
+    
+    
+find_patients -- Returns a list of patients that the given doctor or nurse are responsible for.
+
+    :parameter (database object) user - The user to obtain relevant patients for.
+               (string) user_type - The user type determined by user_to_subclass 
+    :returns (list of database objects) - A list of patients applicable to the given doctor/nurse. 
+    
+
+get_admitted_patients -- Returns a list of admitted patients (should be for specified hospital)
+    :parameter  
+    :returns
+    
+    
+set_form_id -- Sets an id for a form so it can be easily detected on POST
 
 """
 
@@ -95,10 +122,10 @@ def find_patients(user_type, user):
         # Doctors get their patients
         return Patient.objects.all().filter(primary_doctor_id=user_id)
     if user_type == UserTypes.nurse:
-        # Doctors get their patients
+        # Nurses get all patients at their hospital
         return Patient.objects.all().filter(hospital=user.hospital)
 
-
+# TODO: add hospital parameter
 def get_admitted_patients():
     patient_list = []
     try:

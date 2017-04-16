@@ -12,7 +12,7 @@ from HealthApp.forms.admit_patient import AdmitPatient
 from HealthApp.forms.discharge_patient import DischargePatient
 from HealthApp.forms.send_message import SendMessage
 from HealthApp.forms.update_med_info import UpdateMedInfo
-from HealthApp.models import Patient, Message, AdmissionLog, Hospital, Prescription
+from HealthApp.models import Patient, Message, AdmissionLog, Hospital, Prescription, LogEntry
 from django.template.defaulttags import register
 
 from HealthApp.staticHelpers import get_all_prescriptions

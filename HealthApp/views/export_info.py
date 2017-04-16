@@ -32,5 +32,5 @@ def export_medInfo(request):
 
 @login_required(login_url="login/")
 def export_test(request):
-    return "Test Exporting coming soon to a theater near you."
+    return "Test Exporting coming soon to a theater near you. "
     LogEntry.log_action(patient.username, "exported a test file")

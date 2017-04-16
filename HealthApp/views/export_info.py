@@ -27,3 +27,8 @@ def export_medInfo(request):
         export_string += "No Medical Info Found."
 
     return HttpResponse(export_string)
+
+
+@login_required(login_url="login/")
+def export_test(request):
+    return "Test Exporting coming soon to a theater near you."

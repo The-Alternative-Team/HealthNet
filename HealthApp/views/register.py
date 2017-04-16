@@ -54,8 +54,6 @@ def register(request):
                               e_cont_home_phone=validate.phone(e_cont_home_phone),
                               e_cont_cell_phone=validate.phone(e_cont_cell_phone))
             patient.set_password(password1)
-
-            # catches invalid data and refreshes page with no error message(right now)
             patient.save()
 
             # Log them in

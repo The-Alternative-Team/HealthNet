@@ -82,6 +82,7 @@ def render_view(request, user_type, user):
     events = []
     appointments = staticHelpers.find_appointments(user_type, user)
     patients = staticHelpers.find_patients(user_type, user)
+    all_patients = Patient.objects.all()
     admitted_patients = staticHelpers.get_admitted_patients()
     unread_messages = staticHelpers.find_unread_messages(user)
     sendMessage = SendMessage(user_type)
@@ -114,22 +115,18 @@ def render_view(request, user_type, user):
             })
 
         set_patient_hospital_forms = dict()
-        for patient in patients:
-            set_patient_hospital_forms[patient.username] = SetPatientHospital(patient)
-        for patient in admitted_patients:
+        for patient in all_patients:
             set_patient_hospital_forms[patient.username] = SetPatientHospital(patient)
 
         set_patient_admission = dict()
-        for patient in patients:
-            set_patient_admission[patient.username] = AdmitPatient(patient)
-        for patient in admitted_patients:
+        for patient in all_patients:
             set_patient_admission[patient.username] = AdmitPatient(patient)
 
         form = UpdateAppointment(user_type, user)
         add_form = AddAppointment(user_type)
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
-                       'patients': patients, 'admitted_patients': admitted_patients,
+                       'patients': patients, 'all_patients': all_patients, 'admitted_patients': admitted_patients,
                        'set_patient_hospital_forms': set_patient_hospital_forms,
                        'set_patient_admission': set_patient_admission,
                        'unread_messages': unread_messages, 'sendMessage': sendMessage})

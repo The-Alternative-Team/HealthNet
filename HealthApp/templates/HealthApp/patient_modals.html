@@ -1,6 +1,6 @@
-<div class="modal fade showPatient{{ patient.social }}" tabindex="-1" role="dialog"
-     aria-labelledby="showPatient{{ patient.social }}" aria-hidden="true"
-     id="showPatient{{ patient.social }}">
+<div class="modal fade showPatient{{ patient.userprofile_ptr_id }}" tabindex="-1" role="dialog"
+     aria-labelledby="showPatient{{ patient.userprofile_ptr_id }}" aria-hidden="true"
+     id="showPatient{{ patient.userprofile_ptr_id }}">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,26 +8,26 @@
                     id="showPatientLabel">{{ patient.first_name }} {{ patient.last_name }}</h5>
             </div>
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#medInfo" data-toggle="tab">Medical Information</a>
+                <li class="active"><a href="#medInfo{{ patient.userprofile_ptr_id }}" data-toggle="tab">Medical Information</a>
                 </li>
                 {% if user_type == "Doctor" %}
-                    <li><a href="#transfer" data-toggle="tab">Transfer Hospital</a>
+                    <li><a href="#transfer{{ patient.userprofile_ptr_id }}" data-toggle="tab">Transfer Hospital</a>
                     </li>
-                    <li><a href="#admit" data-toggle="tab">Admit/Discharge</a>
+                    <li><a href="#admit{{ patient.userprofile_ptr_id }}" data-toggle="tab">Admit/Discharge</a>
                     </li>
                 {% endif %}
-                <li><a href="#prescriptions" data-toggle="tab">Prescriptions</a>
+                <li><a href="#prescriptions{{ patient.userprofile_ptr_id }}" data-toggle="tab">Prescriptions</a>
                 </li>
             </ul>
 
             <div class="modal-body">
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div class="tab-pane fade" id="medInfo">
+                    <div class="tab-pane fade in active" id="medInfo{{ patient.userprofile_ptr_id }}">
                         <h4>Update Medical Information</h4>
                     </div>
                     {% if user_type == "Doctor" %}
-                        <div class="tab-pane fade in active" id="transfer">
+                        <div class="tab-pane fade" id="transfer{{ patient.userprofile_ptr_id }}">
                             <form role="form" method="post">
                                 <h4>Transfer Hospital</h4>
 
@@ -43,14 +43,12 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="tab-pane fade" id="admit">
-                            <h4>Admit/Discharge</h4>
+                        <div class="tab-pane fade" id="admit{{ patient.userprofile_ptr_id }}">
                             <form role="form" method="post">
-                                <h4>Admit/Discharge Patient</h4>
+                                <h4>Admit/Discharge</h4>
 
                                 {% csrf_token %}
                                 {{ set_patient_admission|get_item:patient.username }}
-
 
                                 <div class="modal-footer">
                                     <input type="submit" value="Admit/Discharge"
@@ -62,7 +60,7 @@
                             </form>
                         </div>
                     {% endif %}
-                    <div class="tab-pane fade" id="prescriptions">
+                    <div class="tab-pane fade" id="prescriptions{{ patient.userprofile_ptr_id }}">
                         <h4>Prescriptions</h4>
                     </div>
                 </div>

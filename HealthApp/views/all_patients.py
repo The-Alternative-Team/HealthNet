@@ -23,10 +23,10 @@ def render_view(request, user_type, user):
         return redirect('/')
     elif user_type == staticHelpers.UserTypes.doctor:
         set_patient_hospital_forms = dict()
-        for patient in patients:
+        for patient in all_patients:
             set_patient_hospital_forms[patient.username] = SetPatientHospital(patient)
         set_patient_admission = dict()
-        for patient in patients:
+        for patient in all_patients:
             set_patient_admission[patient.username] = AdmitPatient(patient)
 
         return render(request, 'HealthApp/all_patients.html',

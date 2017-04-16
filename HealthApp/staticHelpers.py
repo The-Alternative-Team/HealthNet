@@ -55,6 +55,7 @@ from HealthApp.models.Patient import Patient
 from HealthApp.models.Nurse import Nurse
 from HealthApp.models.Appointment import Appointment
 from HealthApp.models.Message import Message
+from HealthApp.models.Prescription import Prescription
 from HealthApp.models.AdmissionLog import AdmissionLog
 
 
@@ -137,6 +138,14 @@ def get_admitted_patients():
     except AdmissionLog.DoesNotExist:
         pass
     return patient_list
+
+
+def get_all_prescriptions(patient):
+    try:
+        prescription_list = Prescription.objects.all().filter(patient=patient)
+    except Prescription.DoesNotExist:
+        prescription_list = []
+    return prescription_list
 
 
 # Sets an id for a form so it can be easily detected on POST

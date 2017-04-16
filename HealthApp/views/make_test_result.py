@@ -50,7 +50,7 @@ def make_test_result(request):
         elif request.POST['form_id'] == 'TestFile':
             return redirect(request.path)
         elif request.POST['form_id'] == 'UploadForm':
-            #form = UploadForm(request.POST, request.FILES, Test.objects.all().get(id=request.POST['test_id']))
+            # form = UploadForm(request.POST, request.FILES, Test.objects.all().get(id=request.POST['test_id']))
             form = UploadForm(Test.objects.all().get(id=request.POST['test_id']))
             if form.is_valid():
                 form.save()

@@ -68,7 +68,14 @@ def admitted_patients(request):
                                          hospital=Hospital.objects.all().filter(id=request.POST['hospital'])[0],
                                          admitStatus=True)
             admit_patient.save()
+        elif request.POST['form_id'] == 'DischargePatient':
+            user_mail = request.POST['userMail']
+            log_entry = AdmissionLog.objects.all().filter(userMail=user_mail, admitStatus=True)[0]
+            log_entry.admitStatus = False
+            log_entry.dischargedBy = user.username
+            log_entry.timeDischarged = timezone.now()
+            log_entry.save()
             # Form submit has been handled so redirect as a GET (this way refreshing the page works)
-            return redirect('/')
+            return redirect('/admitted_patients')
     else:
         return render_view(request, user_type, user)

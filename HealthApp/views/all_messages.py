@@ -42,6 +42,6 @@ def all_messages(request):
                               recipient=request.POST['recipient'], sent_at=time)
             message.save()
             # Form submit has been handled so redirect as a GET (this way refreshing the page works)
-            return redirect('/')
+            return redirect('/all_messages')
     else:
         return render_view(request, user_type, user)

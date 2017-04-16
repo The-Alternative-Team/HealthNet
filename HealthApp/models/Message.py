@@ -61,7 +61,7 @@ class Message(models.Model):
         self.unread = False
         self.read_at = timezone.now()
         self.save()
-        LogEntry.log_action(self.recipient, self.recipient + " read message from " + self.sender)
+        LogEntry.log_action(self.recipient, "Read message from " + self.sender)
 
     # Static method that sends a new message using the results of a send form
     #   username: Sender's username

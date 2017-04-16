@@ -21,18 +21,21 @@ from django.db import models
 from django.dispatch import receiver
 import os
 
+from .Test import Test
 
-class UploadedFile(models.Model):
+
+class TestFile(models.Model):
     title = models.CharField(max_length=255, default="An uploaded file")
     file = models.FileField(upload_to='')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+    test = models.ForeignKey(Test, related_name='Test', verbose_name='Test result')
 
     def __str__(self):
         return self.title + " at " + self.file.url
 
 
 # Delete the file on disk when its model is deleted from the db
-@receiver(models.signals.post_delete, sender=UploadedFile)
+@receiver(models.signals.post_delete, sender=TestFile)
 def auto_delete_on_disk(sender, instance, **kwargs):
     if os.path.isfile(instance.file.path):
         os.remove(instance.file.path)

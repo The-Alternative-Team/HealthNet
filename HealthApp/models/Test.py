@@ -21,17 +21,17 @@ release_test -------- Sets the releaseStatus boolean value to True.
 """
 
 from django.db import models
+from datetime import datetime
+
 from .Doctor import Doctor
 from .Patient import Patient
-from .UploadedFile import UploadedFile
 
 
 class Test(models.Model):
-    date = models.DateTimeField(verbose_name='Test Date')
+    date = models.DateTimeField(default=datetime.now, verbose_name='Test Date')
     doctor = models.ForeignKey(Doctor, verbose_name='Doctor')
-    patient = models.ForeignKey(Patient, verbose_name='Patient')
-    file = models.ForeignKey(UploadedFile, verbose_name='Test File')
-    notes = models.CharField(default='', max_length=1000, verbose_name='Notes')
+    patient = models.ForeignKey(Patient, verbose_name='Patient', blank=True, null=True)
+    notes = models.TextField(blank=True, verbose_name='Notes')
     releaseStatus = models.BooleanField(default=False, verbose_name='Released to Patient Status')
 
     class Meta:
@@ -53,3 +53,7 @@ class Test(models.Model):
 
     def release_test(self):
         self.releaseStatus = True
+
+    def get_attached_files(self):
+        from .TestFile import TestFile
+        return TestFile.objects.all(test=self.id)

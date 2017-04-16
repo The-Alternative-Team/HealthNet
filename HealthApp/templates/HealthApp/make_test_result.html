@@ -3,19 +3,45 @@
 {% block content %}
     <div id="page-wrapper">
         <div style="padding-top: 10px;" class="row">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <i class="fa fa-info-circle fa-fw"></i> Make Test Result
-                </div>
-                <!-- /.panel-heading -->
-                <div class="panel-body">
+            <form role="form" method="post">
+                <h4>Create Test Result or X-Ray</h4>
 
+                {% csrf_token %}
+                {{ create_test_form.as_p }}
 
-                    <!-- Put shit here -->
-
-
-                </div>
-            </div>
+                <input type="submit" value="Save" class="btn btn-primary"/>
+            </form>
+            <div><button data-toggle="modal" data-target="#uploadFile">Attach a file</button></div>
         </div>
     </div>
+
+    <div class="modal fade uploadFile" tabindex="-1" role="dialog"
+     aria-labelledby="uploadFile" aria-hidden="true"
+     id="uploadFile">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"
+                    id="sendMessageLabel">Attach File</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form role="form" method="post">
+                <div class="modal-body">
+                    {% csrf_token %}
+                    {{ upload_form.as_p }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                            data-dismiss="modal">Close
+                    </button>
+                    <input type="submit" value="Upload"
+                           class="btn btn-primary"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock content %}

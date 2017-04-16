@@ -21,7 +21,7 @@ AdmissionLog -- Used to provide statistics on patient admissions. Read only
 
 from django.contrib import admin
 from django.contrib.admin.models import LogEntry as AdminLogEntry
-from .models import Appointment, Doctor, Hospital, Nurse, Patient, LogEntry, UploadedFile, Message, AdmissionLog
+from .models import Appointment, Doctor, Hospital, Nurse, Patient, LogEntry, TestFile, Message, AdmissionLog, Test
 
 admin.site.register(Doctor)
 admin.site.register(Hospital)
@@ -29,12 +29,13 @@ admin.site.register(Nurse)
 admin.site.register(Patient)
 admin.site.register(Message)
 admin.site.register(AdmissionLog)
+admin.site.register(Test)
 
 
-class UploadedFileAdmin(admin.ModelAdmin):
+class TestFileAdmin(admin.ModelAdmin):
     list_display = ('title', 'file', 'uploaded_at')
 
-admin.site.register(UploadedFile, UploadedFileAdmin)
+admin.site.register(TestFile, TestFileAdmin)
 
 
 class AppointmentAdmin(admin.ModelAdmin):

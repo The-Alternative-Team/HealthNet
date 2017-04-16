@@ -6,7 +6,7 @@ from HealthApp.models import MedInfo
 from django.utils import timezone
 
 
-class AddPrescription(forms.ModelForm):
+class UpdateMedInfo(forms.ModelForm):
     def __init__(self, patient):
         super.__init__()
 

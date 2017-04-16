@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from HealthApp import statesList
 from HealthApp.models import Doctor
 from HealthApp.models import Hospital
+from HealthApp import validate
 
 
 class Register(UserCreationForm):

@@ -5,6 +5,7 @@ from django.db import IntegrityError
 from django.contrib.auth import authenticate, login
 from HealthApp.forms import Register
 from HealthApp.models import Hospital, Doctor, Patient, LogEntry
+from HealthApp import validate
 
 
 def register(request):
@@ -38,8 +39,6 @@ def register(request):
             e_cont_lname = request.POST['e_cont_lname']
             e_cont_home_phone = request.POST['e_cont_home_phone']
             e_cont_cell_phone = request.POST['e_cont_cell_phone']
-            # TODO: Validate this data (and steal their identity)
-
             hospital_id = request.POST['hospital']
             hospital = Hospital.objects.all().filter(id=hospital_id)[0]
             doctor_id = request.POST['doctor']
@@ -47,18 +46,17 @@ def register(request):
 
             # Create patient
             patient = Patient(username=email, first_name=first_name, last_name=last_name,
-                              date_of_birth=date_of_birth, social=social, address_street=address_street,
+                              date_of_birth=date_of_birth, social=validate.ssn(social), address_street=address_street,
                               address_city=address_city, address_state=address_state, address_zip=address_zip,
-                              home_phone=home_phone, cell_phone=cell_phone, desired_hospital=hospital, hospital=hospital,
+                              home_phone=validate.phone(home_phone), cell_phone=validate.phone(cell_phone),
+                              desired_hospital=hospital, hospital=hospital,
                               primary_doctor=doctor, e_cont_fname=e_cont_fname, e_cont_lname=e_cont_lname,
-                              e_cont_home_phone=e_cont_home_phone, e_cont_cell_phone=e_cont_cell_phone)
+                              e_cont_home_phone=validate.phone(e_cont_home_phone),
+                              e_cont_cell_phone=validate.phone(e_cont_cell_phone))
             patient.set_password(password1)
 
             # catches invalid data and refreshes page with no error message(right now)
-            try:
-                patient.save()
-            except (IntegrityError, ValidationError):
-                return redirect("/register")
+            patient.save()
 
             # Log them in
             user = authenticate(username=email, password=password1)

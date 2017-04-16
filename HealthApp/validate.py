@@ -39,27 +39,39 @@ from django import forms
 
 def phone(phone_number):
     phone_number = phone_number.replace('-', '')
+    phone_number = phone_number.replace('(', '')
+    phone_number = phone_number.replace(')', '')
     digit_counter = 0
     for digit in phone_number:
         digit_counter += 1
-        if digit_counter > 10:
+        if digit_counter > 11:
             raise forms.ValidationError(
                 'Invalid phone number.',
-                code='phone number is too long'
+                code='Phone number is too long'
             )
         if digit.isalpha():
             raise forms.ValidationError(
                 'Invalid phone number.',
-                code='phone number contains a letter'
+                code='Phone number contains a letter'
             )
+    if digit_counter < 10:
+        raise  forms.ValidationError(
+            'Invalid phone number',
+            code='Phone number too short'
+        )
     if not phone_number.isdigit():
         raise forms.ValidationError(
             'Invalid phone number.',
-            code='phone number is not a number'
+            code='Phone number is not a number'
+        )
+    if digit_counter == 11 and phone_number[0] != '1':
+        raise forms.ValidationError(
+            'Invalid phone number.',
+            code='Phone number too long/ invalid roaming specifier'
         )
     return int(phone_number)
 
-
+# Django has EmailField look into this
 def email(email_address):
     at_sign_present = False
     at_sign_index = 0
@@ -76,13 +88,13 @@ def email(email_address):
             and not character == '@' and not character == '.'):
             raise forms.ValidationError(
                 'Invalid email address.',
-                code='illegal character in address'
+                code='Illegal character in address'
             )
         if character == '@':
             if at_sign_present:
                 raise forms.ValidationError(
                     'Invalid email address.',
-                    code='multiple @'
+                    code='Multiple @'
                 )
             at_sign_present = True
             at_sign_index = index
@@ -90,7 +102,7 @@ def email(email_address):
             if character == '.' and index == at_sign_index + 1:
                 raise forms.ValidationError(
                     'Invalid email address.',
-                    code='invalid email server'
+                    code='Invalid email server'
                 )
         if character == '.':
             period_present = True
@@ -98,7 +110,7 @@ def email(email_address):
     if not period_present:
         raise forms.ValidationError(
             'Invalid email address.',
-            code='invalid mail server'
+            code='Invalid mail server'
         )
     return email_address
 
@@ -111,16 +123,40 @@ def ssn(social):
         if index > 9:
             raise forms.ValidationError(
                 'Invalid SSN',
-                code='too many digits'
+                code='More than 9 digits'
             )
+
         if not digit.isdigit():
             raise forms.ValidationError(
                 'Invalid SSN',
-                code='contains non-number'
+                code='Contains non-number'
             )
     if index < 9:
         raise forms.ValidationError(
             'Invalid SSN',
-            code='less than 9 digits'
+            code='Less than 9 digits'
         )
     return int(social)
+
+
+def zip(zip):
+    index = 0
+    for digit in zip:
+        index += 1
+        if index > 5:
+            raise forms.ValidationError(
+                'Invalid zip code',
+                code='More than 5 digits'
+            )
+
+        if not digit.isdigit():
+            raise forms.ValidationError(
+                'Invalid zip code',
+                code='Contains non-number'
+            )
+    if index < 5:
+        raise forms.ValidationError(
+            'Invalid zip code',
+            code='Less than 9 digits'
+        )
+    return int(zip)

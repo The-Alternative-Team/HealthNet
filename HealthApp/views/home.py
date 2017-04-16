@@ -81,6 +81,7 @@ def render_view(request, user_type, user):
     events = []
     appointments = staticHelpers.find_appointments(user_type, user)
     patients = staticHelpers.find_patients(user_type, user)
+    admitted_patients = staticHelpers.get_admitted_patients()
     unread_messages = staticHelpers.find_unread_messages(user)
     sendMessage = SendMessage(user_type)
 
@@ -114,12 +115,14 @@ def render_view(request, user_type, user):
         setPatientHospitalForms = dict()
         for patient in patients:
             setPatientHospitalForms[patient.username] = SetPatientHospital(patient)
+        for patient in admitted_patients:
+            setPatientHospitalForms[patient.username] = SetPatientHospital(patient)
 
         form = UpdateAppointment(user_type, user)
         add_form = AddAppointment(user_type)
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
-                       'patients': patients, 'setPatientHospitalForms': setPatientHospitalForms,
+                       'patients': patients, 'admitted_patients': admitted_patients, 'setPatientHospitalForms': setPatientHospitalForms,
                        'unread_messages': unread_messages, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
         for app in appointments:
@@ -135,7 +138,7 @@ def render_view(request, user_type, user):
         add_form = AddAppointment(user_type)
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
-                       'patients': patients, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
+                       'patients': patients, 'admitted_patients': admitted_patients, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
 
 
 # Handles submit of the transfer patient data form

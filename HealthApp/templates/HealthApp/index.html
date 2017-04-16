@@ -102,7 +102,7 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="list-group">
-                                {% for patient in patients %}
+                                {% for patient in admitted_patients %}
                                     <a href="#" data-toggle="modal" data-target="#showPatient{{ patient.social }}"
                                        class="list-group-item">
                                         <i class="fa fa-user fa-fw"></i> {{ patient.first_name }} {{ patient.last_name }}

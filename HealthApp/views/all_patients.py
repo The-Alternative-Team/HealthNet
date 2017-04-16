@@ -7,11 +7,14 @@ from django.utils import timezone
 
 from HealthApp import staticHelpers
 from HealthApp.forms import SetPatientHospital
+from HealthApp.forms.add_prescription import AddPrescription
 from HealthApp.forms.admit_patient import AdmitPatient
 from HealthApp.forms.discharge_patient import DischargePatient
 from HealthApp.forms.send_message import SendMessage
 from HealthApp.models import Patient, Message, AdmissionLog, Hospital
 from django.template.defaulttags import register
+
+from HealthApp.staticHelpers import get_all_prescriptions
 
 
 def render_view(request, user_type, user):
@@ -33,19 +36,30 @@ def render_view(request, user_type, user):
             else:
                 set_patient_admission[patient.username] = AdmitPatient(patient)
 
+        add_prescriptions = dict()
+        prescriptions = dict()
+        for patient in all_patients:
+            add_prescriptions[patient.username] = AddPrescription(patient)
+            prescriptions[patient.username] = get_all_prescriptions(patient)
+
         return render(request, 'HealthApp/all_patients.html',
                       {'user_type': user_type, 'patients': patients, 'unread_messages': unread_messages,
                        'set_patient_admission': set_patient_admission, 'all_patients': all_patients,
+                       'add_prescriptions': add_prescriptions, 'prescriptions': prescriptions,
                        'set_patient_hospital_forms': set_patient_hospital_forms, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
         set_patient_admission = dict()
         for patient in all_patients:
             if not staticHelpers.get_admitted_patients().__contains__(patient):
                 set_patient_admission[patient.username] = AdmitPatient(patient)
+
+        prescriptions = dict()
+        for patient in all_patients:
+            prescriptions[patient.username] = get_all_prescriptions(patient)
         return render(request, 'HealthApp/all_patients.html',
                       {'user_type': user_type, 'patients': patients, 'unread_messages': unread_messages,
                        'set_patient_admission': set_patient_admission, 'all_patients': all_patients,
-                       'sendMessage': sendMessage})
+                       'prescriptions': prescriptions, 'sendMessage': sendMessage})
 
     @register.filter(name='get_item')
     def get_item(dictionary, key):

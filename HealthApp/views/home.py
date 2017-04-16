@@ -11,8 +11,10 @@ from HealthApp.forms.discharge_patient import DischargePatient
 from HealthApp.forms.send_message import SendMessage
 from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry, Message, AdmissionLog, Prescription
 
-
 # Handles submit of the update patient data form
+from HealthApp.staticHelpers import get_all_prescriptions
+
+
 def save_patient(request):
     user_type, patient = staticHelpers.user_to_subclass(request.user)
 
@@ -121,8 +123,10 @@ def render_view(request, user_type, user):
             set_patient_hospital_forms[patient.username] = SetPatientHospital(patient)
 
         add_prescriptions = dict()
+        prescriptions = dict()
         for patient in all_patients:
             add_prescriptions[patient.username] = AddPrescription(patient)
+            prescriptions[patient.username] = get_all_prescriptions(patient)
 
         set_patient_admission = dict()
         for patient in all_patients:
@@ -138,7 +142,7 @@ def render_view(request, user_type, user):
                        'patients': patients, 'all_patients': all_patients, 'admitted_patients': admitted_patients,
                        'set_patient_hospital_forms': set_patient_hospital_forms,
                        'set_patient_admission': set_patient_admission, 'add_prescriptions': add_prescriptions,
-                       'unread_messages': unread_messages, 'sendMessage': sendMessage})
+                       'prescriptions': prescriptions, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
         for app in appointments:
             # Don't change the title - it'll break the pre-filling of the update appointment form
@@ -155,14 +159,17 @@ def render_view(request, user_type, user):
             if not staticHelpers.get_admitted_patients().__contains__(patient):
                 set_patient_admission[patient.username] = AdmitPatient(patient)
 
+        prescriptions = dict()
+        for patient in all_patients:
+            prescriptions[patient.username] = get_all_prescriptions(patient)
+
         form = UpdateAppointment(user_type, user)
         add_form = AddAppointment(user_type)
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
                        'patients': patients, 'all_patients': all_patients, 'admitted_patients': admitted_patients,
                        'set_patient_admission': set_patient_admission,
-                       'unread_messages': unread_messages,
-                       'sendMessage': sendMessage})
+                       'prescriptions': prescriptions, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
 
 
 # Handles submit of the transfer patient data form

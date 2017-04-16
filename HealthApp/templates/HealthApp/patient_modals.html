@@ -89,10 +89,22 @@
                             </div>
                         {% endif %}
                     {% endif %}
-                    {% if user_type == "Doctor" %}
-                        <div class="tab-pane fade" id="prescriptions{{ patient.userprofile_ptr_id }}">
+
+                    <div class="tab-pane fade" id="prescriptions{{ patient.userprofile_ptr_id }}">
+                        <h4>Prescriptions</h4>
+                        <div class="list-group">
+                            {% for prescription in prescriptions|get_item:patient.username %}
+                                <a href="#" class="list-group-item">
+                                    <i class="fa fa-user fa-fw"></i> {{ prescription.drug }}
+                                    <span class="pull-right text-muted small">
+                                            <b>{{ prescription.doctor }}</b>
+                                        </span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                        {% if user_type == "Doctor" %}
+                            <h5>Add Prescription</h5>
                             <form role="form" method="post">
-                                <h4>Prescriptions</h4>
 
                                 {% csrf_token %}
                                 {{ add_prescriptions|get_item:patient.username }}
@@ -105,8 +117,8 @@
                                     </button>
                                 </div>
                             </form>
-                        </div>
-                    {% endif %}
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

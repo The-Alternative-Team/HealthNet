@@ -87,7 +87,7 @@ def all_patients(request):
                                          hospital=Hospital.objects.all().filter(id=request.POST['hospital'])[0],
                                          admitStatus=True)
             admit_patient.save()
-            LogEntry.log_action(user.username, "admitted a patient")
+            LogEntry.log_action(user.username, ("admitted " + request.POST['userMail']))
         elif request.POST['form_id'] == 'DischargePatient':
             user_mail = request.POST['userMail']
             log_entry = AdmissionLog.objects.all().filter(userMail=user_mail, admitStatus=True)[0]
@@ -95,7 +95,7 @@ def all_patients(request):
             log_entry.dischargedBy = user.username
             log_entry.timeDischarged = timezone.now()
             log_entry.save()
-            LogEntry.log_action(user.username, "discharged a patient")
+            LogEntry.log_action(user.username, ("discharged " + user_mail))
         elif 'form_id' not in request.POST:
             return redirect('/all_patients')
 

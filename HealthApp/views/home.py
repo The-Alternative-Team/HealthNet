@@ -3,10 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.template.defaulttags import register
 
 from HealthApp.forms import UpdateAppointment, AddAppointment, UpdatePatient, SetPatientHospital
+from HealthApp.forms.add_prescription import AddPrescription
 from HealthApp.forms.admit_patient import AdmitPatient
 from HealthApp.forms.discharge_patient import DischargePatient
 from HealthApp.forms.send_message import SendMessage
-from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry, Message, AdmissionLog
+from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry, Message, AdmissionLog, Prescription
 from HealthApp import staticHelpers
 from django.utils import timezone
 
@@ -119,6 +120,10 @@ def render_view(request, user_type, user):
         for patient in all_patients:
             set_patient_hospital_forms[patient.username] = SetPatientHospital(patient)
 
+        add_prescriptions = dict()
+        for patient in all_patients:
+            add_prescriptions[patient.username] = AddPrescription(patient)
+
         set_patient_admission = dict()
         for patient in all_patients:
             if staticHelpers.get_admitted_patients().__contains__(patient):
@@ -132,7 +137,7 @@ def render_view(request, user_type, user):
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
                        'patients': patients, 'all_patients': all_patients, 'admitted_patients': admitted_patients,
                        'set_patient_hospital_forms': set_patient_hospital_forms,
-                       'set_patient_admission': set_patient_admission,
+                       'set_patient_admission': set_patient_admission, 'add_prescriptions': add_prescriptions,
                        'unread_messages': unread_messages, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
         for app in appointments:
@@ -219,9 +224,17 @@ def home(request):
             log_entry.dischargedBy = user.username
             log_entry.timeDischarged = timezone.now()
             log_entry.save()
+        elif request.POST['form_id'] == 'AddPrescription':
+            prescription = Prescription(drug=request.POST['drug'], doctor=user,
+                                        patient=Patient.objects.all().filter(username=request.POST['patient'])[0],
+                                        date=timezone.now(), refills=request.POST['refills'],
+                                        notes=request.POST['notes'])
+            prescription.save()
+
         elif 'form_id' not in request.POST:
             return redirect('/')
-        # Form submit has been handled so redirect as a GET (this way refreshing the page works)
+            # Form submit has been handled so redirect as a GET (this way refreshing the page works)
         return redirect('/')
+
     else:
         return render_view(request, user_type, user)

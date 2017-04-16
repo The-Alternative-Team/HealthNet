@@ -1,6 +1,10 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <i class="fa fa-address-book fa-fw"></i> Patients
+        {% if user_type == "Doctor" %}
+            <i class="fa fa-address-book fa-fw"></i> My Patients
+        {% elif user_type == "Nurse" %}
+            <i class="fa fa-address-book fa-fw"></i> Patients
+        {% endif %}
     </div>
     <div class="panel-body">
         <div class="list-group">

@@ -11,6 +11,8 @@
                 <li class="active"><a href="#medInfo{{ patient.userprofile_ptr_id }}" data-toggle="tab">Medical
                     Information</a>
                 </li>
+                <li><a href="#testResults{{ patient.userprofile_ptr_id }}" data-toggle="tab">Test Results</a>
+                </li>
                 {% if user_type == "Doctor" %}
                     <li><a href="#transfer{{ patient.userprofile_ptr_id }}" data-toggle="tab">Transfer Hospital</a>
                     </li>
@@ -32,6 +34,36 @@
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="medInfo{{ patient.userprofile_ptr_id }}">
                         <h4>Update Medical Information</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Medical Info</th>
+                                    <th>Value</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                </tr>
+                                <tr>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                </tr>
+                                <tr>
+                                    <td>Larry</td>
+                                    <td>the Bird</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="testResults{{ patient.userprofile_ptr_id }}">
+                        <h4>Test Results</h4>
+                        <div class="table-responsive">
+                            TODO
+                        </div>
                     </div>
                     {% if user_type == "Doctor" %}
                         <div class="tab-pane fade" id="transfer{{ patient.userprofile_ptr_id }}">
@@ -92,15 +124,31 @@
 
                     <div class="tab-pane fade" id="prescriptions{{ patient.userprofile_ptr_id }}">
                         <h4>Prescriptions</h4>
-                        <div class="list-group">
-                            {% for prescription in prescriptions|get_item:patient.username %}
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-user fa-fw"></i> {{ prescription.drug }}
-                                    <span class="pull-right text-muted small">
-                                            <b>{{ prescription.doctor }}</b>
-                                        </span>
-                                </a>
-                            {% endfor %}
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Drug</th>
+                                    <th>Doctor</th>
+                                    <th>Refills</th>
+                                    {% if user_type == "Doctor" %}
+                                        <th>Delete</th>
+                                    {% endif %}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for prescription in prescriptions|get_item:patient.username %}
+                                    <tr>
+                                        <td>{{ prescription.drug }}</td>
+                                        <td>{{ prescription.doctor }}</td>
+                                        <td>{{ prescription.refills }}</td>
+                                        {% if user_type == "Doctor" %}
+                                            <td>TODO</td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
                         {% if user_type == "Doctor" %}
                             <h5>Add Prescription</h5>

@@ -39,9 +39,11 @@ class Test(models.Model):
         verbose_name_plural = "Tests"
 
     def __str__(self):
-        return self.patient.__str__() + "'s Test Results for " + self.date.strftime(
-            '%B %d, %Y') + " at " + self.date.strftime(
-            '%I:%M %p') + "."
+        if self.patient is None:
+            return "Empty test result created by " + str(self.doctor)
+        else:
+            return str(self.patient) + "'s test results for " + self.date.strftime('%B %d, %Y') + " at " + \
+                   self.date.strftime('%I:%M %p') + "."
 
     def update_test(self, date, doctor, patient, file, notes):
         self.date = date

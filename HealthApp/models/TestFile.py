@@ -28,7 +28,7 @@ class TestFile(models.Model):
     title = models.CharField(max_length=255, default="An uploaded file")
     file = models.FileField(upload_to='')
     uploaded_at = models.DateTimeField(auto_now_add=True)
-    test = models.ForeignKey(Test, related_name='Test', verbose_name='Test result')
+    test = models.ForeignKey(Test, related_name='Test', verbose_name='Test result', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title + " at " + self.file.url

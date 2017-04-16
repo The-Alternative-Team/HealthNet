@@ -10,24 +10,30 @@ from HealthApp import staticHelpers
 from HealthApp.forms.send_message import SendMessage
 from HealthApp.forms import UploadForm
 from HealthApp.forms.create_test_result import CreateTestForm
-from HealthApp.models import Message, Test
+from HealthApp.models import Message, Test, TestFile, Patient
 from HealthApp.models import LogEntry
 
 
-def render_view(request, user_type, user):
+def render_view(request, user_type, user, test=None):
     unread_messages = staticHelpers.find_unread_messages(user)
     sendMessage = SendMessage(user_type)
 
-    # TODO: delete abandoned tests
+    if test is None:
+        # Delete abandoned tests
+        for test in Test.objects.all().filter(patient=None):
+            test.delete()
 
-    test = Test(doctor=user)
-    test.save()
+        # Create a new empty test
+        test = Test(doctor=user)
+        test.save()
+
     create_test_form = CreateTestForm(test)
-    upload_form = UploadForm(test)
+    upload_form = UploadForm(test=test)
+    files = TestFile.objects.all().filter(test=test)
 
     return render(request, 'HealthApp/make_test_result.html',
                   {'user_type': user_type, 'unread_messages': unread_messages, 'sendMessage': sendMessage,
-                   'create_test_form': create_test_form, 'upload_form': upload_form})
+                   'create_test_form': create_test_form, 'upload_form': upload_form, 'files': files})
 
 
 @login_required(login_url="login/")
@@ -47,14 +53,20 @@ def make_test_result(request):
             message.save()
             # Form submit has been handled so redirect as a GET (this way refreshing the page works)
             return redirect(request.path)
-        elif request.POST['form_id'] == 'TestFile':
-            return redirect(request.path)
+        elif request.POST['form_id'] == 'CreateTestForm':
+            test = Test.objects.get(id=int(request.POST['test_id']))
+            test.patient = Patient.objects.get(id=int(request.POST['patient']))
+            test.date = request.POST['date']
+            test.notes = request.POST['notes']
+            test.save()
+            LogEntry.log_action(request.user.username, "Created and completed test " + str(test.id))
+            return redirect('/')
         elif request.POST['form_id'] == 'UploadForm':
-            # form = UploadForm(request.POST, request.FILES, Test.objects.all().get(id=request.POST['test_id']))
-            form = UploadForm(Test.objects.all().get(id=request.POST['test_id']))
+            form = UploadForm(postData=request.POST, files=request.FILES)
+            test = Test.objects.get(id=int(request.POST['test']))
             if form.is_valid():
                 form.save()
-                LogEntry.log_action(request.user.username, "Uploaded a file")
-                return redirect(request.path)
+                LogEntry.log_action(request.user.username, "Uploaded a file to test " + str(test.id))
+            return render_view(request, user_type, user, test=test)
     else:
         return render_view(request, user_type, user)

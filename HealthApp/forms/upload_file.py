@@ -5,12 +5,15 @@ from HealthApp.staticHelpers import set_form_id
 
 
 class UploadForm(forms.ModelForm):
-    def __init__(self, test):
-        super().__init__()
-        set_form_id(self, "UploadForm")
+    def __init__(self, postData=None, files=None, test=None):
+        super().__init__(data=postData, files=files)
 
-        self.fields['test_id'] = forms.CharField(widget=forms.HiddenInput(), initial=test.id)
+        if test is not None:
+            set_form_id(self, "UploadForm")
+
+            self.fields['test'].widget = forms.HiddenInput()
+            self.fields['test'].initial = test
 
     class Meta:
         model = TestFile
-        fields = ('title', 'file')
+        fields = ('title', 'file', 'test')

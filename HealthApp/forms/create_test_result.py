@@ -6,7 +6,7 @@ from HealthApp.staticHelpers import set_form_id
 
 class CreateTestForm(forms.ModelForm):
     def __init__(self, testObj):
-        super().__init__()
+        super().__init__(instance=testObj)
         set_form_id(self, "CreateTestForm")
 
         self.fields['test_id'] = forms.CharField(widget=forms.HiddenInput(), initial=testObj.id)

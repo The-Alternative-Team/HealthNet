@@ -10,7 +10,7 @@ from HealthApp.models import Message, Test, TestFile, Patient
 from HealthApp.models import LogEntry
 
 
-def render_view(request, user_type, user, test=None):
+def render_view(request, user_type, user, is_edit=False, test=None):
     unread_messages = staticHelpers.find_unread_messages(user)
     sendMessage = SendMessage(user_type)
 
@@ -29,7 +29,8 @@ def render_view(request, user_type, user, test=None):
 
     return render(request, 'HealthApp/make_test_result.html',
                   {'user_type': user_type, 'unread_messages': unread_messages, 'sendMessage': sendMessage,
-                   'create_test_form': create_test_form, 'upload_form': upload_form, 'files': files})
+                   'create_test_form': create_test_form, 'upload_form': upload_form, 'files': files,
+                   'is_edit': is_edit})
 
 
 @login_required(login_url="login/")
@@ -51,7 +52,7 @@ def make_test_result(request):
             test.date = request.POST['date']
             test.notes = request.POST['notes']
             test.save()
-            LogEntry.log_action(request.user.username, "Created and completed test " + str(test.id))
+            LogEntry.log_action(request.user.username, "Created or updated test " + str(test.id))
             return redirect('/')
         elif request.POST['form_id'] == 'UploadForm':
             form = UploadForm(postData=request.POST, files=request.FILES)
@@ -61,4 +62,8 @@ def make_test_result(request):
                 LogEntry.log_action(request.user.username, "Uploaded a file to test " + str(test.id))
             return render_view(request, user_type, user, test=test)
     else:
-        return render_view(request, user_type, user)
+        if 'id' in request.GET:
+            test = Test.objects.get(id=int(request.GET['id']))
+            return render_view(request, user_type, user, is_edit=True, test=test)
+        else:
+            return render_view(request, user_type, user)

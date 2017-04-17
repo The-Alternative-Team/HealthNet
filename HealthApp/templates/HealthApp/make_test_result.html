@@ -9,27 +9,28 @@
                 </div>
                 <div class="panel-body">
                     <form role="form" method="post">
-                        <h4>Create Test Result or X-Ray</h4>
+                        {% if is_edit %}
+                            <h4>Edit Test Result or X-Ray</h4>
+                        {% else %}
+                            <h4>Create Test Result or X-Ray</h4>
+                        {% endif %}
 
                         {% csrf_token %}
                         {{ create_test_form.as_p }}
 
-                        <input type="submit" value="Create Test Result" class="btn btn-primary"/>
+                        <input type="submit" value="Save" class="btn btn-primary"/>
                         <button class="btn btn-default" data-toggle="modal" data-target="#uploadFile">Attach a file
                         </button>
 
-
-                    <h4>Attached files:</h4>
-                    <div class="panel-heading">
-
-                    </div>
-                    <div class="panel-footer">
-                        {% for file in files %}
-                            <a class="btn btn-xs btn-info" href="{{ file.file.url }}"
-                               target="_blank">{{ file.title }}</a>
-                        {% endfor %}
-                    </div>
-
+                    {% if files|length != 0 %}
+                        <h4>Attached files:</h4>
+                        <div class="panel-footer">
+                            {% for file in files %}
+                                <a class="btn btn-xs btn-info" href="{{ file.file.url }}"
+                                   target="_blank">{{ file.title }}</a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                     </form>
                 </div>
             </div>

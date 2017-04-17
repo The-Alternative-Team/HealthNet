@@ -1,6 +1,11 @@
 HealthNet - Alternative Team
 ============================
 
+Team Liaison
+------------
+
+Devin Matte - [devinmatte@mail.rit.edu](mailto:devinmatte@mail.rit.edu)
+
 Log in Information
 ------------------
 All users (including admins) can log in through http://127.0.0.1:8000

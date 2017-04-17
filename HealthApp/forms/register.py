@@ -3,9 +3,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 from HealthApp import statesList
+from HealthApp import validate
 from HealthApp.models import Doctor
 from HealthApp.models import Hospital
-from HealthApp import validate
 
 
 class Register(UserCreationForm):

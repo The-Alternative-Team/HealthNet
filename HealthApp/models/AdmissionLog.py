@@ -23,6 +23,7 @@ discharge_patient --- Static method that discharges a patient in an existing adm
 
 from django.db import models
 from django.utils import timezone
+
 from .Hospital import Hospital
 
 

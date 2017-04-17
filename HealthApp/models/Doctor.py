@@ -14,8 +14,9 @@ __str__ -- Returns the string representation of the existing Doctor object.
 """
 
 from django.db import models
-from .UserProfile import UserProfile
+
 from .Hospital import Hospital
+from .UserProfile import UserProfile
 
 
 class Doctor(UserProfile):

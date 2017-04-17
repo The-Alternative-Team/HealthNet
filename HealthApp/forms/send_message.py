@@ -11,6 +11,7 @@ class SendMessage(forms.ModelForm):
         super().__init__()
         set_form_id(self, "SendMessage")
 
+        # TODO: Use Foreign Keys instead of CharField tuples
         user_tuple = tuple(User.objects.all().values_list("username", "username").order_by("username"))
 
         self.fields['recipient'] = forms.ChoiceField(

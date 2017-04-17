@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+
+from HealthApp import validate
 from HealthApp.forms import Register
 from HealthApp.models import Hospital, Doctor, Patient, LogEntry
-from HealthApp import validate
 
 
 def register(request):

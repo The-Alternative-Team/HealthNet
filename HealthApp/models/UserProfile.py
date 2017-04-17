@@ -22,6 +22,7 @@ __str__ -- Returns the string representation of the existing UserProfile object.
 
 from django.contrib.auth.models import User
 from django.db import models
+
 from HealthApp.statesList import STATE_CHOICES
 
 

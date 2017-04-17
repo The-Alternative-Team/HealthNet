@@ -18,9 +18,10 @@ auto_delete_on_disk - Deletes the file on the user's disk when the model is dele
 
 """
 
+import os
+
 from django.db import models
 from django.dispatch import receiver
-import os
 
 from .Test import Test
 

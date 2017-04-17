@@ -19,8 +19,9 @@ release_test -------- Sets the releaseStatus boolean value to True.
 get_attached_files -- Queries the list of files that are associated with this test.
 """
 
-from django.db import models
 from datetime import datetime
+
+from django.db import models
 
 from .Doctor import Doctor
 from .Patient import Patient

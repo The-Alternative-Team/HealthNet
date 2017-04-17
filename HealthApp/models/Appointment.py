@@ -20,8 +20,9 @@ update_appointment -- Static method that updates fields for an appointment
 """
 
 from django.db import models
-from .Hospital import Hospital
+
 from .Doctor import Doctor
+from .Hospital import Hospital
 from .Patient import Patient
 
 

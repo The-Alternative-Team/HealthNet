@@ -1,7 +1,7 @@
 from django import forms
 
-from HealthApp.models import Hospital, Patient, LogEntry
 from HealthApp import staticHelpers
+from HealthApp.models import Hospital, Patient, LogEntry
 
 
 class SetPatientHospital(forms.ModelForm):

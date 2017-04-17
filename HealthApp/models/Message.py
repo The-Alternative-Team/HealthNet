@@ -26,6 +26,7 @@ get_recipient -- Returns the email address of the registered user of whom the me
 """
 from django.db import models
 from django.utils import timezone
+
 from HealthApp.models import LogEntry
 
 
@@ -35,6 +36,7 @@ class Message(models.Model):
     subject = models.CharField(default='', max_length=SUBJECT_MAX_LENGTH, verbose_name='subject')
     body = models.TextField(blank=True, verbose_name='body')
 
+    # TODO: Use foreign keys instead of CharFields of email
     sender = models.CharField(default='', max_length=100, verbose_name='sender email')
     recipient = models.CharField(default='', max_length=100, verbose_name='recipient email')
 

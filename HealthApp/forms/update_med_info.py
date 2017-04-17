@@ -1,8 +1,9 @@
-from django import forms
 from datetime import datetime
 
-from HealthApp.models import MedInfo, LogEntry
+from django import forms
+
 from HealthApp import staticHelpers
+from HealthApp.models import MedInfo, LogEntry
 
 
 class UpdateMedInfo(forms.ModelForm):

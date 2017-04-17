@@ -1,7 +1,6 @@
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 from django.shortcuts import render
-from django.utils import timezone
 
 from HealthApp import staticHelpers
 from HealthApp.forms import SetPatientHospital
@@ -10,7 +9,7 @@ from HealthApp.forms.admit_patient import AdmitPatient
 from HealthApp.forms.discharge_patient import DischargePatient
 from HealthApp.forms.send_message import SendMessage
 from HealthApp.forms.update_med_info import UpdateMedInfo
-from HealthApp.models import Patient, Message, AdmissionLog, Hospital, Prescription, LogEntry, MedInfo
+from HealthApp.models import Patient
 
 
 def render_view(request, user_type, user):
@@ -31,7 +30,8 @@ def render_view(request, user_type, user):
         return render(request, 'HealthApp/all_patients.html',
                       {'user_type': user_type, 'patients': patients, 'unread_messages': unread_messages,
                        'set_patient_admission': set_patient_admission, 'all_patients': all_patients,
-                       'add_prescriptions': add_prescriptions, 'prescriptions': prescriptions, 'update_med_info_forms': update_med_info_forms,
+                       'add_prescriptions': add_prescriptions, 'prescriptions': prescriptions,
+                       'update_med_info_forms': update_med_info_forms,
                        'set_patient_hospital_forms': set_patient_hospital_forms, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
         set_patient_admission = staticHelpers.build_set_patient_admission_forms(user_type, all_patients)
@@ -41,7 +41,8 @@ def render_view(request, user_type, user):
         return render(request, 'HealthApp/all_patients.html',
                       {'user_type': user_type, 'patients': patients, 'unread_messages': unread_messages,
                        'set_patient_admission': set_patient_admission, 'all_patients': all_patients,
-                       'prescriptions': prescriptions, 'sendMessage': sendMessage, 'update_med_info_forms': update_med_info_forms})
+                       'prescriptions': prescriptions, 'sendMessage': sendMessage,
+                       'update_med_info_forms': update_med_info_forms})
 
 
 # Called when the home view is loaded or a form is submitted

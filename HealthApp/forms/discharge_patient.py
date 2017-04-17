@@ -1,8 +1,8 @@
 from django import forms
 from django.utils import timezone
 
-from HealthApp.models import AdmissionLog, LogEntry
 from HealthApp import staticHelpers
+from HealthApp.models import AdmissionLog, LogEntry
 
 
 class DischargePatient(forms.ModelForm):

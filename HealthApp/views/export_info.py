@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from HealthApp.models import MedInfo, LogEntry
+
 from HealthApp import staticHelpers
+from HealthApp.models import MedInfo, LogEntry
 
 
 @login_required(login_url="login/")

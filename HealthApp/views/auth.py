@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
+
 from HealthApp.forms import Login
 from HealthApp.models import LogEntry
 

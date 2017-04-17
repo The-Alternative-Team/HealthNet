@@ -1,13 +1,13 @@
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 from django.shortcuts import render
 
 from HealthApp import staticHelpers
-from HealthApp.forms.send_message import SendMessage
 from HealthApp.forms import UploadForm
 from HealthApp.forms.create_test_result import CreateTestForm
-from HealthApp.models import Message, Test, TestFile, Patient
+from HealthApp.forms.send_message import SendMessage
 from HealthApp.models import LogEntry
+from HealthApp.models import Test, TestFile, Patient
 
 
 def render_view(request, user_type, user, is_edit=False, test=None):

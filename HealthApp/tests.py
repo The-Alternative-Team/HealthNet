@@ -10,6 +10,7 @@ from HealthApp import validate
 class ValidateFormInput(TestCase):
 
     # phone number validations
+
     def test_phoneTooLong(self):
         try:
             validate.phone("123456789012")
@@ -40,6 +41,7 @@ class ValidateFormInput(TestCase):
             assert (error.code == 'Phone number contains a letter'), 'wrong error code'
 
     # social security number validations
+
     def test_ssnTooLong(self):
         try:
             validate.ssn("1234567890")
@@ -59,6 +61,7 @@ class ValidateFormInput(TestCase):
             assert (error.code == 'Less than 9 digits'), 'wrong error code'
 
     # zip code validations
+
     def test_zipTooLong(self):
         try:
             validate.zip("123456")

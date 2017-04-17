@@ -47,9 +47,19 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="testResults{{ patient.userprofile_ptr_id }}">
-                        <h4>Test Results</h4>
                         <div class="table-responsive">
-                            TODO
+                            <form role="form" method="post">
+                               <h4>Test Results</h4>
+
+
+
+                                <div class="modal-footer">
+                                    <a href="{% url 'make_test_result' %}" class="btn btn-primary">Make New Test</a>
+                                    <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     {% if user_type == "Doctor" %}

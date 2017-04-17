@@ -19,7 +19,7 @@
                         {{ create_test_form.as_p }}
 
                         <input type="submit" value="Save" class="btn btn-primary"/>
-                        <button class="btn btn-default" data-toggle="modal" data-target="#uploadFile">Attach a file
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#uploadFile">Attach a file
                         </button>
 
                     {% if files|length != 0 %}
@@ -59,8 +59,7 @@
                         <button type="button" class="btn btn-secondary"
                                 data-dismiss="modal">Close
                         </button>
-                        <input type="submit" value="Upload"
-                               class="btn btn-primary"/>
+                        <input type="submit" value="Upload" class="btn btn-primary"/>
                     </div>
                 </form>
             </div>

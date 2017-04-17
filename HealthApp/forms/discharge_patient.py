@@ -9,6 +9,7 @@ class DischargePatient(forms.ModelForm):
     def __init__(self, patient):
         super().__init__()
         staticHelpers.set_form_id(self, "DischargePatient")
+        self.label = "Discharge"    # Used to display the correct verb on the UI
 
         self.fields['userMail'] = forms.CharField(widget=forms.HiddenInput(), initial=patient.username)
 

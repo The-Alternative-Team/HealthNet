@@ -1,4 +1,5 @@
 {% load DictSupport %}
+{% with set_patient_admission_form=set_patient_admission|get_item:patient.username %}
 
 <div class="modal fade showPatient{{ patient.userprofile_ptr_id }}" tabindex="-1" role="dialog"
      aria-labelledby="showPatient{{ patient.userprofile_ptr_id }}" aria-hidden="true"
@@ -18,7 +19,7 @@
                 {% if user_type == "Doctor" %}
                     <li><a href="#transfer{{ patient.userprofile_ptr_id }}" data-toggle="tab">Transfer Hospital</a>
                     </li>
-                    <li><a href="#admit{{ patient.userprofile_ptr_id }}" data-toggle="tab">Admit/Discharge</a>
+                    <li><a href="#admit{{ patient.userprofile_ptr_id }}" data-toggle="tab">{{ set_patient_admission_form.label }}</a>
                     </li>
                 {% endif %}
                 {% if user_type == "Nurse" %}
@@ -85,13 +86,13 @@
                     {% if user_type == "Doctor" %}
                         <div class="tab-pane fade" id="admit{{ patient.userprofile_ptr_id }}">
                             <form role="form" method="post">
-                                <h4>Admit/Discharge</h4>
+                                <h4>{{ set_patient_admission_form.label }}</h4>
 
                                 {% csrf_token %}
-                                {{ set_patient_admission|get_item:patient.username }}
+                                {{ set_patient_admission_form }}
 
                                 <div class="modal-footer">
-                                    <input type="submit" value="Admit/Discharge"
+                                    <input type="submit" value="{{ set_patient_admission_form.label }}"
                                            class="btn btn-primary"/>
                                     <button type="button" class="btn btn-secondary"
                                             data-dismiss="modal">Close
@@ -172,3 +173,4 @@
         </div>
     </div>
 </div>
+{% endwith %}

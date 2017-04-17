@@ -1,54 +1,46 @@
-# not sure if this works
-
 from django import forms
+from datetime import datetime
 
-from HealthApp.models import MedInfo
-from django.utils import timezone
-
+from HealthApp.models import MedInfo, LogEntry
 from HealthApp.staticHelpers import set_form_id
 
 
 class UpdateMedInfo(forms.ModelForm):
-    def __init__(self, patient):
-        super().__init__()
-        set_form_id(self, "UpdateMedInfo")
+    def __init__(self, postData=None, instance=None):
+        super().__init__(data=postData, instance=instance)
+        self.fields['notes'].required = False
 
-        # patient is uneditable
-        # time is automatically now (this needs to update tho...)
+        if instance is not None:
+            set_form_id(self, "UpdateMedInfo")
 
-        self.fields['heart_rate'] = forms.IntegerField(widget=forms.NumberInput(
-                                                           attrs={'class': 'form-control',
-                                                                  'placeholder': 'Heart Rate'}),
-                                                       label='Heart Rate')
-        self.fields['systolic_pressure'] = forms.IntegerField(widget=forms.NumberInput(
-                                                                  attrs={'class': 'form-control',
-                                                                         'placeholder': 'Systolic Pressure'}),
-                                                              label='Systolic Pressure')
-        self.fields['diastolic_pressure'] = forms.IntegerField(
-                                                               widget=forms.NumberInput(
-                                                                   attrs={'class': 'form-control',
-                                                                          'placeholder': 'Diastolic Pressure'}),
-                                                               label='Diastolic Pressure')
-        self.fields['body_temp'] = forms.IntegerField(
-                                                      widget=forms.NumberInput(
-                                                        attrs={'class': 'form-control',
-                                                               'placeholder': 'Body Temperature'}),
-                                                      label='Body Temperature')
-        self.fields['respiratory_rate'] = forms.IntegerField(
-                                                             widget=forms.NumberInput(
-                                                                 attrs={'class': 'form-control',
-                                                                        'placeholder': 'Respiratory Rate'}),
-                                                             label='Respiratory Rate')
-        self.fields['notes'] = forms.CharField(
-                                               widget=forms.TextInput(
-                                                   attrs={'class': 'form-control',
-                                                          'placeholder': 'Notes'}),
-                                               label='Notes')
+            self.fields['patient'].widget = forms.HiddenInput()
+            self.fields['patient'].initial = instance.patient
 
     class Meta:
         model = MedInfo
-        # should patient and time not be here?
-        fields = ['heart_rate', 'systolic_pressure', 'diastolic_pressure', 'body_temp',
-                  'respiratory_rate', 'notes']
+        fields = ['patient', 'heart_rate', 'systolic_pressure', 'diastolic_pressure', 'body_temp', 'respiratory_rate',
+                  'notes']
 
+    @classmethod
+    def buildFormDict(cls, all_patients):
+        update_med_info_forms = dict()
 
+        for patient in all_patients:
+            try:
+                medInfoObj = MedInfo.objects.get(patient_id=patient.id)
+            except MedInfo.DoesNotExist:
+                medInfoObj = MedInfo(patient=patient)
+                medInfoObj.save()
+
+            update_med_info_forms[patient.username] = UpdateMedInfo(instance=medInfoObj)
+
+        return update_med_info_forms
+
+    @classmethod
+    def handlePost(cls, username, postData):
+        form = UpdateMedInfo(postData=postData, instance=MedInfo.objects.get(patient_id=postData['patient']))
+        form.instance.time = datetime.now()
+        print(form.errors)
+        if form.is_valid():
+            medInfo = form.save()
+            LogEntry.log_action(username, "Updated the medical info for " + str(medInfo.patient))

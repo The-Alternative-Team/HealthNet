@@ -11,7 +11,7 @@ from HealthApp.forms.admit_patient import AdmitPatient
 from HealthApp.forms.discharge_patient import DischargePatient
 from HealthApp.forms.send_message import SendMessage
 from HealthApp.forms.update_med_info import UpdateMedInfo
-from HealthApp.models import Patient, Message, AdmissionLog, Hospital, Prescription, LogEntry
+from HealthApp.models import Patient, Message, AdmissionLog, Hospital, Prescription, LogEntry, MedInfo
 
 
 def render_view(request, user_type, user):
@@ -39,9 +39,7 @@ def render_view(request, user_type, user):
             add_prescriptions[patient.username] = AddPrescription(patient)
             prescriptions[patient.username] = staticHelpers.get_all_prescriptions(patient)
 
-        update_med_info_forms = dict()
-        for patient in all_patients:
-            update_med_info_forms[patient.username] = UpdateMedInfo(patient)
+        update_med_info_forms = UpdateMedInfo.buildFormDict(all_patients)
 
         return render(request, 'HealthApp/all_patients.html',
                       {'user_type': user_type, 'patients': patients, 'unread_messages': unread_messages,
@@ -58,9 +56,7 @@ def render_view(request, user_type, user):
         for patient in all_patients:
             prescriptions[patient.username] = staticHelpers.get_all_prescriptions(patient)
 
-        update_med_info_forms = dict()
-        for patient in all_patients:
-            update_med_info_forms[patient.username] = UpdateMedInfo(patient)
+        update_med_info_forms = UpdateMedInfo.buildFormDict(all_patients)
 
         return render(request, 'HealthApp/all_patients.html',
                       {'user_type': user_type, 'patients': patients, 'unread_messages': unread_messages,
@@ -104,6 +100,8 @@ def all_patients(request):
                                         date=timezone.now(), refills=request.POST['refills'],
                                         notes=request.POST['notes'])
             prescription.save()
+        elif request.POST['form_id'] == 'UpdateMedInfo':
+            UpdateMedInfo.handlePost(user.username, request.POST)
         elif 'form_id' not in request.POST:
             return redirect('/all_patients')
 

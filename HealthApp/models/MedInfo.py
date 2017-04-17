@@ -30,24 +30,12 @@ from .Patient import Patient
 class MedInfo(models.Model):
     patient = models.OneToOneField(Patient, on_delete=models.CASCADE, primary_key=True, verbose_name='Patient')
     time = models.DateTimeField(auto_now=True, verbose_name='Time recorded')
-    heart_rate = models.IntegerField(help_text='beats per minute', verbose_name='Heart Rate')
-    systolic_pressure = models.IntegerField(help_text='mmHg', verbose_name='Systolic Blood Pressure')
-    diastolic_pressure = models.IntegerField(help_text='mmHg', verbose_name='Diastolic Blood Pressure')
-    body_temp = models.IntegerField(help_text='Fahrenheit', verbose_name='Body Temperature')
-    respiratory_rate = models.IntegerField(help_text='breaths per minute', verbose_name='Respiratory Rate')
+    heart_rate = models.IntegerField(help_text='beats per minute', verbose_name='Heart Rate', default=0)
+    systolic_pressure = models.IntegerField(help_text='mmHg', verbose_name='Systolic Blood Pressure', default=0)
+    diastolic_pressure = models.IntegerField(help_text='mmHg', verbose_name='Diastolic Blood Pressure', default=0)
+    body_temp = models.IntegerField(help_text='Fahrenheit', verbose_name='Body Temperature', default=0)
+    respiratory_rate = models.IntegerField(help_text='breaths per minute', verbose_name='Respiratory Rate', default=0)
     notes = models.CharField(default='', max_length=1000, verbose_name='Notes')
 
     def __str__(self):
         return self.patient.__str__() + "'s Medical Info"
-
-    def update_medInfo(self, patient, time, heart_rate, systolic_pressure, diastolic_pressure, body_temp,
-                       respiratory_rate, notes):
-        self.patient = patient
-        self.time = time
-        self.heart_rate = heart_rate
-        self.systolic_pressure = systolic_pressure
-        self.diastolic_pressure = diastolic_pressure
-        self.body_temp = body_temp
-        self.respiratory_rate = respiratory_rate
-        self.notes = notes
-        self.save()

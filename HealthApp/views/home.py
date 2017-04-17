@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.template.defaulttags import register
 from django.utils import timezone
+from datetime import datetime
 
 from HealthApp import staticHelpers
 from HealthApp.forms import UpdateAppointment, AddAppointment, UpdatePatient, SetPatientHospital
@@ -10,7 +11,8 @@ from HealthApp.forms.admit_patient import AdmitPatient
 from HealthApp.forms.discharge_patient import DischargePatient
 from HealthApp.forms.send_message import SendMessage
 from HealthApp.forms.update_med_info import UpdateMedInfo
-from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry, Message, AdmissionLog, Prescription
+from HealthApp.models import Hospital, Patient, Doctor, Appointment, LogEntry, Message, AdmissionLog, Prescription, \
+    MedInfo
 
 
 def save_patient(request):
@@ -120,9 +122,7 @@ def render_view(request, user_type, user):
         for patient in all_patients:
             set_patient_hospital_forms[patient.username] = SetPatientHospital(patient)
 
-        update_med_info_forms = dict()
-        for patient in all_patients:
-            update_med_info_forms[patient.username] = UpdateMedInfo(patient)
+        update_med_info_forms = UpdateMedInfo.buildFormDict(all_patients)
 
         add_prescriptions = dict()
         prescriptions = dict()
@@ -162,9 +162,7 @@ def render_view(request, user_type, user):
             if not staticHelpers.get_admitted_patients().__contains__(patient):
                 set_patient_admission[patient.username] = AdmitPatient(patient)
 
-        update_med_info_forms = dict()
-        for patient in all_patients:
-            update_med_info_forms[patient.username] = UpdateMedInfo(patient)
+        update_med_info_forms = UpdateMedInfo.buildFormDict(all_patients)
 
         prescriptions = dict()
         for patient in all_patients:
@@ -198,7 +196,6 @@ def set_patient_hospital(request):
 
 @register.filter(name='get_item')
 def get_item(dictionary, key):
-    print(dictionary)
     return dictionary.get(key)  # Called when the home view is loaded or a form is submitted
 
 
@@ -243,10 +240,9 @@ def home(request):
                                         date=timezone.now(), refills=request.POST['refills'],
                                         notes=request.POST['notes'])
             prescription.save()
-            LogEntry.log_action(user.username, ("added prescription for " + request.POST['patient']))
+            LogEntry.log_action(user.username, "Added prescription for " + request.POST['patient'])
         elif request.POST['form_id'] == 'UpdateMedInfo':
-            # TODO: Handle Medical Info Updates
-            print("Joel Hello!!!")
+            UpdateMedInfo.handlePost(user.username, request.POST)
         elif 'form_id' not in request.POST:
             return redirect('/')
 

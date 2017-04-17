@@ -22,7 +22,7 @@ from django.contrib import admin
 from django.contrib.admin.models import LogEntry as AdminLogEntry
 
 from .models import Appointment, Doctor, Hospital, Nurse, Patient, LogEntry, TestFile, Message, AdmissionLog, Test, \
-    Prescription
+    Prescription, MedInfo
 
 admin.site.register(Doctor)
 admin.site.register(Hospital)
@@ -32,6 +32,7 @@ admin.site.register(Message)
 admin.site.register(AdmissionLog)
 admin.site.register(Prescription)
 admin.site.register(Test)
+admin.site.register(MedInfo)
 
 
 class TestFileAdmin(admin.ModelAdmin):

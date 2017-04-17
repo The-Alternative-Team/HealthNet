@@ -130,8 +130,8 @@
                                         <td>{{ prescription.doctor }}</td>
                                         <td>{{ prescription.refills }}</td>
                                         {% if user_type == "Doctor" %}
-                                            <td><a onclick="deletePrescription({{ prescription.id }});">
-                                                Delete drug</a></td>
+                                            <td><a class="btn btn-outline btn-danger" onclick="deletePrescription({{ prescription.id }});">
+                                                <i class="fa fa-trash"></i></a></td>
                                         {% endif %}
                                     </tr>
                                 {% endfor %}

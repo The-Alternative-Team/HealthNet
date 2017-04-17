@@ -51,4 +51,5 @@ def register(request):
             return redirect("/")
     else:
         form = Register()
+
     return render(request, 'HealthApp/register.html', {'form': form})

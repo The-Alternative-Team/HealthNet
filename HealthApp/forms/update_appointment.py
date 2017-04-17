@@ -1,14 +1,13 @@
 from django import forms
 
 from HealthApp import staticHelpers
-from HealthApp.models import Appointment
-from HealthApp.staticHelpers import set_form_id
+from HealthApp.models import Appointment, LogEntry, Patient, Doctor
 
 
 class UpdateAppointment(forms.ModelForm):
-    def __init__(self, user_type, user):
+    def __init__(self, user_type):
         super().__init__()
-        set_form_id(self, "UpdateAppointment")
+        staticHelpers.set_form_id(self, "UpdateAppointment")
 
         # Only allow nurses to set custom doctors
         if user_type == staticHelpers.UserTypes.nurse:
@@ -30,3 +29,43 @@ class UpdateAppointment(forms.ModelForm):
     class Meta:
         model = Appointment
         fields = ['doctor', 'patient', 'start_time', 'end_time', 'notes']
+
+    # Handles the submit of both this form and and add appointment form
+    @classmethod
+    def handle_post(cls, user_type, user, post_data):
+        if 'Cancel Appointment' in post_data:
+            # Deletion
+            Appointment.objects.all().get(id=post_data['event-id-update']).delete()
+            LogEntry.log_action(user.username, "Canceled an appointment")
+        else:
+            # Update or create
+
+            # Get appointment_doctor
+            if user_type == staticHelpers.UserTypes.nurse:
+                doctor_id = int(post_data['doctor'])
+                appointment_doctor = Doctor.objects.all().filter(id=doctor_id)[0]
+            elif user_type == staticHelpers.UserTypes.doctor:
+                appointment_doctor = user
+            else:
+                # It's a patient
+                appointment_doctor = user.primary_doctor
+
+            # Get appointment_patient
+            if user_type == staticHelpers.UserTypes.patient:
+                appointment_patient = user
+            else:
+                patient_id = int(post_data['patient'])
+                appointment_patient = Patient.objects.all().filter(id=patient_id)[0]
+
+            if 'event-id-update' in post_data:
+                Appointment.objects.get(id=post_data['event-id-update']).update_appointment(
+                    hospital=appointment_patient.hospital, doctor=appointment_doctor,
+                    patient=appointment_patient, start_time=post_data['start_time'],
+                    end_time=post_data['end_time'], notes=post_data['notes'])
+                LogEntry.log_action(user.username, "Updated an appointment")
+            else:
+                appointment = Appointment(hospital=appointment_patient.hospital, doctor=appointment_doctor,
+                                          patient=appointment_patient, start_time=post_data['start_time'],
+                                          end_time=post_data['end_time'], notes=post_data['notes'])
+                appointment.save()
+                LogEntry.log_action(user.username, "Created an appointment")

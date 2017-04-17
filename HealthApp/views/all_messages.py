@@ -2,11 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 # Renders the home page with the correct data for the current user
 from django.shortcuts import render
-from django.template.defaulttags import register
 
 from HealthApp import staticHelpers
 from HealthApp.forms.send_message import SendMessage
-from HealthApp.models import Message
 
 
 def render_view(request, user_type, user):
@@ -15,14 +13,8 @@ def render_view(request, user_type, user):
     sendMessage = SendMessage(user_type)
 
     return render(request, 'HealthApp/all_messages.html',
-                  {'user_type': user_type, 'messages': messages, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
-
-
-@register.filter(name='get_item')
-def get_item(dictionary, key):
-    return dictionary.get(key)
-    # Called when the home view is loaded or a form is submitted  # Called when the home view is loaded or a form is
-    # submitted
+                  {'user_type': user_type, 'messages': messages, 'unread_messages': unread_messages,
+                   'sendMessage': sendMessage})
 
 
 @login_required(login_url="login/")
@@ -34,7 +26,8 @@ def all_messages(request):
         return redirect('/admin/')
     elif request.method == 'POST':
         if request.POST['form_id'] == 'SendMessage':
-            Message.handlePost(user.username, request.POST)
+            SendMessage.handle_post(user, request.POST)
+
         # Form submit has been handled so redirect as a GET (this way refreshing the page works)
         return redirect('/all_messages')
     else:

@@ -26,11 +26,11 @@ def export_medInfo(request):
     except MedInfo.DoesNotExist:
         export_string += "No Medical Info Found."
 
-    return HttpResponse(export_string)
     LogEntry.log_action(patient.username, "exported medical information")
+    return HttpResponse(export_string)
 
 
 @login_required(login_url="login/")
 def export_test(request):
+    LogEntry.log_action(request.user.username, "exported a test file")
     return "Test Exporting coming soon to a theater near you. "
-    LogEntry.log_action(patient.username, "exported a test file")

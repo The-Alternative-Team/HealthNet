@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.utils import timezone
 
-from HealthApp.models import Message
+from HealthApp.models import Message, LogEntry
 from HealthApp.staticHelpers import set_form_id
 
 
@@ -25,3 +26,10 @@ class SendMessage(forms.ModelForm):
     class Meta:
         model = Message
         fields = ['subject', 'body', 'recipient']
+
+    @classmethod
+    def handle_post(cls, user, post_data):
+        message = Message(subject=post_data['subject'], body=post_data['body'], sender=user.username,
+                          recipient=post_data['recipient'], sent_at=timezone.now())
+        message.save()
+        LogEntry.log_action(user.username, "Sent a message to " + post_data['recipient'])

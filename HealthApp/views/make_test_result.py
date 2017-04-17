@@ -40,30 +40,30 @@ def make_test_result(request):
     if user_type == staticHelpers.UserTypes.admin:
         # Redirect an admin over the admin page before trying to pull real user only data
         return redirect('/admin/')
-    elif user_type == staticHelpers.UserTypes.patient:
-        return redirect('/')
-    elif request.method == 'POST':
-        if request.POST['form_id'] == 'SendMessage':
-            Message.handlePost(user.username, request.POST)
-            return redirect(request.path)
-        elif request.POST['form_id'] == 'CreateTestForm':
-            test = Test.objects.get(id=int(request.POST['test_id']))
-            test.patient = Patient.objects.get(id=int(request.POST['patient']))
-            test.date = request.POST['date']
-            test.notes = request.POST['notes']
-            test.save()
-            LogEntry.log_action(request.user.username, "Created or updated test " + str(test.id))
-            return redirect('/')
-        elif request.POST['form_id'] == 'UploadForm':
-            form = UploadForm(postData=request.POST, files=request.FILES)
-            test = Test.objects.get(id=int(request.POST['test']))
-            if form.is_valid():
-                form.save()
-                LogEntry.log_action(request.user.username, "Uploaded a file to test " + str(test.id))
-            return render_view(request, user_type, user, test=test)
-    else:
-        if 'id' in request.GET:
-            test = Test.objects.get(id=int(request.GET['id']))
-            return render_view(request, user_type, user, is_edit=True, test=test)
+    elif user_type == staticHelpers.UserTypes.doctor:
+        if request.method == 'POST':
+            if request.POST['form_id'] == 'SendMessage':
+                SendMessage.handle_post(user, request.POST)
+            elif request.POST['form_id'] == 'CreateTestForm':
+                test = Test.objects.get(id=int(request.POST['test_id']))
+                test.patient = Patient.objects.get(id=int(request.POST['patient']))
+                test.date = request.POST['date']
+                test.notes = request.POST['notes']
+                test.save()
+                LogEntry.log_action(request.user.username, "Created or updated test " + str(test.id))
+                return redirect('/')
+            elif request.POST['form_id'] == 'UploadForm':
+                form = UploadForm(postData=request.POST, files=request.FILES)
+                test = Test.objects.get(id=int(request.POST['test']))
+                if form.is_valid():
+                    form.save()
+                    LogEntry.log_action(request.user.username, "Uploaded a file to test " + str(test.id))
+                return render_view(request, user_type, user, test=test)
         else:
-            return render_view(request, user_type, user)
+            if 'id' in request.GET:
+                test = Test.objects.get(id=int(request.GET['id']))
+                return render_view(request, user_type, user, is_edit=True, test=test)
+            else:
+                return render_view(request, user_type, user)
+
+    return redirect('/')

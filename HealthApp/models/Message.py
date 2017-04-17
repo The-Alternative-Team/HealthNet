@@ -22,8 +22,6 @@ mark_read ------ Static method that sets the read_at datetime field to the curre
                  Sets unread boolean field to False. Event is logged.
 get_sender ----- Returns the email address of the registered user who sent the message.
 get_recipient -- Returns the email address of the registered user of whom the message was sent to.
-send ----------- Static method that sets the sent_at datetime field to the current time. 
-                 Then creates an appointment object and saves it in the SQLite database.
 
 """
 from django.db import models
@@ -62,16 +60,6 @@ class Message(models.Model):
         self.read_at = timezone.now()
         self.save()
         LogEntry.log_action(self.recipient, "Read message from " + self.sender)
-
-    # Static method that sends a new message using the results of a send form
-    #   username: Sender's username
-    #   postData: The request.POST for the form
-    @classmethod
-    def handlePost(cls, username, postData):
-        message = Message(subject=postData['subject'], body=postData['body'], sender=username,
-                          recipient=postData['recipient'], sent_at=timezone.now())
-        message.save()
-        LogEntry.log_action(username, "Sent a message to " + postData['recipient'])
 
     def __str__(self):
         string = "Message sent on " + self.sent_at.strftime('%B %d, %Y') + " at " + self.sent_at.strftime(

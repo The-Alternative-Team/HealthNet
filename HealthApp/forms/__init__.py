@@ -6,3 +6,5 @@ from .update_patient import UpdatePatient
 from .upload_file import UploadForm
 from .set_patient_hospital import SetPatientHospital
 from .create_test_result import CreateTestForm
+from .discharge_patient import DischargePatient
+from .admit_patient import AdmitPatient

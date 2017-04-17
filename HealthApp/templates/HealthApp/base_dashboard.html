@@ -224,7 +224,7 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     {% if user_type == "Patient" %}
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                    {% elif user_type == "Doctor" or user_type == "Nurse" %}
+                    {% elif user_type != "Patient" %}
                         <i class="fa fa-user-md fa-fw"></i> <i class="fa fa-caret-down"></i>
                     {% endif %}
                 </a>
@@ -252,7 +252,7 @@
                     <li>
                         <a href="{% url 'home' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
-                    {% if user_type == "Doctor" or user_type == "Nurse" %}
+                    {% if user_type != "Patient" %}
                         <li>
                             <a href="#"><i class="fa fa-users fa-fw"></i> Patients<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -273,9 +273,11 @@
                     <li>
                         <a href="#"><i class="fa fa-edit fa-fw"></i> Forms<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
+                            {% if user_type != "Patient" %}
                             <li>
                                 <a href="{% url 'make_test_result' %}">Make Test Result</a>
                             </li>
+                            {% endif %}
                             <li>
                                 <a href="#" data-toggle="modal" data-target="#addAppointment">Add
                                     Appointment (TODO: Currently Only if on Index)</a>

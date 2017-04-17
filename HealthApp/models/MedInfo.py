@@ -30,11 +30,11 @@ from .Patient import Patient
 class MedInfo(models.Model):
     patient = models.OneToOneField(Patient, on_delete=models.CASCADE, primary_key=True, verbose_name='Patient')
     time = models.DateTimeField(auto_now=True, verbose_name='Time recorded')
-    heart_rate = models.IntegerField(help_text='beats per minute', verbose_name='Heart Rate', default=0)
-    systolic_pressure = models.IntegerField(help_text='mmHg', verbose_name='Systolic Blood Pressure', default=0)
-    diastolic_pressure = models.IntegerField(help_text='mmHg', verbose_name='Diastolic Blood Pressure', default=0)
-    body_temp = models.IntegerField(help_text='Fahrenheit', verbose_name='Body Temperature', default=0)
-    respiratory_rate = models.IntegerField(help_text='breaths per minute', verbose_name='Respiratory Rate', default=0)
+    heart_rate = models.IntegerField(verbose_name='Heart Rate', default=0)
+    systolic_pressure = models.IntegerField(verbose_name='Systolic Blood Pressure', default=0)
+    diastolic_pressure = models.IntegerField(verbose_name='Diastolic Blood Pressure', default=0)
+    body_temp = models.IntegerField(verbose_name='Body Temperature', default=0)
+    respiratory_rate = models.IntegerField(verbose_name='Respiratory Rate', default=0)
     notes = models.CharField(default='', max_length=1000, verbose_name='Notes')
 
     def __str__(self):

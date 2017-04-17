@@ -15,6 +15,12 @@ class UpdateMedInfo(forms.ModelForm):
 
             self.fields['patient'].widget = forms.HiddenInput()
             self.fields['patient'].initial = instance.patient
+            self.fields['heart_rate'].widget.attrs = {'class': 'form-control', 'placeholder': 'Heart Rate'}
+            self.fields['systolic_pressure'].widget.attrs = {'class': 'form-control', 'placeholder': 'Systolic Pressure'}
+            self.fields['diastolic_pressure'].widget.attrs = {'class': 'form-control', 'placeholder': 'Diastolic Pressure'}
+            self.fields['body_temp'].widget.attrs = {'class': 'form-control', 'placeholder': 'Body Temperature'}
+            self.fields['respiratory_rate'].widget.attrs = {'class': 'form-control', 'placeholder': 'Respiratory Rate'}
+            self.fields['notes'].widget.attrs = {'class': 'form-control', 'placeholder': 'Notes'}
 
     class Meta:
         model = MedInfo

@@ -30,7 +30,3 @@ class UpdateAppointment(forms.ModelForm):
     class Meta:
         model = Appointment
         fields = ['doctor', 'patient', 'start_time', 'end_time', 'notes']
-
-
-class CancelAppointment(forms.ModelForm):
-    temp = "idk man"

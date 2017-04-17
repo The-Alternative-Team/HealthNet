@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
-from django.db import IntegrityError
 from django.contrib.auth import authenticate, login
 from HealthApp.forms import Register
 from HealthApp.models import Hospital, Doctor, Patient, LogEntry
@@ -9,22 +8,11 @@ from HealthApp import validate
 
 
 def register(request):
-    errors = []
     if request.method == 'POST':
         form = Register(request.POST)
         if form.is_valid():
             password1 = request.POST['password1']
-            password2 = request.POST['password2']
-            if password1 != password2:
-                # TODO: Cry about mismatched passwords
-                return redirect("/register")
-            try:
-                password_validation.validate_password(password1)
-            except ValidationError:
-                # TODO: Cry about bad passwords
-                return redirect("/register")
-
-            email = request.POST['username']  # TODO: Figure out what happens with duped usernames
+            email = request.POST['username']
             first_name = request.POST['first_name']
             last_name = request.POST['last_name']
             date_of_birth = request.POST['date_of_birth']

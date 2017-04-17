@@ -82,6 +82,7 @@ class Register(UserCreationForm):
 
         # if it doesn't pass standard validation it will break custom validation. So return here
         if not valid:
+            print("Was not valid")
             return valid
 
         try:

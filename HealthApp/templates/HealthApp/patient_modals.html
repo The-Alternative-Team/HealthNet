@@ -125,12 +125,13 @@
                                 </thead>
                                 <tbody>
                                 {% for prescription in prescriptions|get_item:patient.username %}
-                                    <tr>
+                                    <tr id="prescription-{{ prescription.id }}">
                                         <td>{{ prescription.drug }}</td>
                                         <td>{{ prescription.doctor }}</td>
                                         <td>{{ prescription.refills }}</td>
                                         {% if user_type == "Doctor" %}
-                                            <td>TODO</td>
+                                            <td><a onclick="deletePrescription({{ prescription.id }});">
+                                                Delete drug</a></td>
                                         {% endif %}
                                     </tr>
                                 {% endfor %}

@@ -122,6 +122,12 @@
             }
         }
     }
+
+    // Deletes a prescription
+    function deletePrescription(id) {
+        $.get("/ajax/delete_prescription?id=" + id);
+        $("#prescription-" + id).remove();
+    }
 </script>
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

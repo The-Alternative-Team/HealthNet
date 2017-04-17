@@ -14,15 +14,6 @@ phoneNumber -- If the inputted phone number is determined invalid, raises forms.
     :parameter (string) phone_number - The string inputted into a phone number field by a user.
     :returns (integer) Phone number that is confirmed valid and is formatted for the SQLite database.
 
-
-email -------- If the inputted email address is determined invalid, raises forms.ValidationError
-               with error code detailing why the email address was determined invalid. If the email
-               address passes all validation criteria it will be returned as a string.
-
-    :parameter (string) email_address - The string inputted into an email field by a user.
-    :returns (string) Email address that is confirmed valid.
-
-
 SSN ---------- If the inputted social security number is determined invalid, raises forms.ValidationError
                with error code detailing why the social security number was determined invalid. A valid
                social security number will be returned as an integer. If a valid social security number
@@ -31,6 +22,13 @@ SSN ---------- If the inputted social security number is determined invalid, rai
 
     :parameter (string) social - The string inputted into a social security number field by a user.
     :returns (integer) Social security number that is confirmed valid and is formatted for the SQLite database.
+    
+zip ---------- If the inputted zip code is determined invalid, raises forms.ValidationError
+               with error code detailing why the zip code was determined invalid. A valid
+               zip code will be returned as an integer.
+
+    :parameter (string) zip - The string inputted into the zip code field by a user.
+    :returns (integer) Zip code that is confirmed valid.
 
 """
 

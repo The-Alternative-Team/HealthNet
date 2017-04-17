@@ -114,6 +114,6 @@ def zip(zip):
     if index < 5:
         raise forms.ValidationError(
             'Invalid zip code',
-            code='Less than 9 digits'
+            code='Less than 5 digits'
         )
     return int(zip)

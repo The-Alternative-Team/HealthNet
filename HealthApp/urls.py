@@ -1,5 +1,5 @@
-from django.conf.urls import url
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 
 from HealthApp.views import home, auth, register, all_patients, admitted_patients, all_messages, ajax, make_test_result

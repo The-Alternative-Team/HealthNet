@@ -38,13 +38,16 @@ admin.site.register(MedInfo)
 class TestFileAdmin(admin.ModelAdmin):
     list_display = ('title', 'file', 'uploaded_at')
 
+
 admin.site.register(TestFile, TestFileAdmin)
 
 
 class AppointmentAdmin(admin.ModelAdmin):
     list_display = ('start_time', 'doctor', 'patient')
 
+
 admin.site.register(Appointment, AppointmentAdmin)
+
 
 # User Logs are read only. Styling included to allow filtering of all Log Entries
 class LogAdmin(admin.ModelAdmin):
@@ -68,23 +71,26 @@ class LogAdmin(admin.ModelAdmin):
         del actions['delete_selected']
         return actions
 
+
 admin.site.register(LogEntry, LogAdmin)
+
 
 # Admin Logs are read only and cannot be added or deleted on command.
 class AdminLogEntryAdmin(admin.ModelAdmin):
     readonly_fields = ('content_type',
-        'user',
-        'action_time',
-        'object_id',
-        'object_repr',
-        'action_flag',
-        'change_message'
-    )
+                       'user',
+                       'action_time',
+                       'object_id',
+                       'object_repr',
+                       'action_flag',
+                       'change_message'
+                       )
 
     list_display = ('user', 'get_action')
 
     def get_action(self, obj):
         return str(obj)
+
     get_action.short_description = 'Action'
 
     def has_delete_permission(self, request, obj=None):
@@ -101,5 +107,6 @@ class AdminLogEntryAdmin(admin.ModelAdmin):
         actions = super(AdminLogEntryAdmin, self).get_actions(request)
         del actions['delete_selected']
         return actions
+
 
 admin.site.register(AdminLogEntry, AdminLogEntryAdmin)

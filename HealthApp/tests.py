@@ -1,6 +1,5 @@
-from django.test import TestCase
-
 from django import forms
+from django.test import TestCase
 
 from HealthApp import validate
 
@@ -8,7 +7,6 @@ from HealthApp import validate
 # Create your tests here.
 
 class ValidateFormInput(TestCase):
-
     # phone number validations
 
     def test_phoneTooLong(self):
@@ -22,6 +20,7 @@ class ValidateFormInput(TestCase):
             validate.phone("123456789")
         except forms.ValidationError as error:
             assert (error.code == 'Phone number too short'), 'wrong error code'
+
     def test_phoneRoamingSpecifier(self):
         try:
             validate.phone("92345678901")

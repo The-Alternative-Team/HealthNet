@@ -146,7 +146,7 @@ def get_admitted_patients(hospital=None):
 
 def build_set_patient_admission_forms(user_type, patients):
     from HealthApp.forms import DischargePatient, AdmitPatient
-    
+
     forms_dict = dict()
     admitted = get_admitted_patients()
 
@@ -158,6 +158,7 @@ def build_set_patient_admission_forms(user_type, patients):
             forms_dict[patient.username] = DischargePatient(patient)
 
     return forms_dict
+
 
 def get_patient_prescriptions(patient):
     try:

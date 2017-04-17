@@ -55,7 +55,7 @@ def phone(phone_number):
                 code='Phone number contains a letter'
             )
     if digit_counter < 10:
-        raise  forms.ValidationError(
+        raise forms.ValidationError(
             'Invalid phone number',
             code='Phone number too short'
         )

@@ -28,7 +28,7 @@ avg_length_of_stay -------- Queries the database for all the patients and admiss
                             average length of admission per patient.
                 
                 :parameter
-                :return (float) Average length of admission per patient.
+                :return (float) Average length of admission per patient in days.
 
 avg_prescriptions --------- Queries the database for all the patients and prescriptions, and returns the
                             average amount of prescriptions per patient.
@@ -87,7 +87,6 @@ def avg_visits():
     return round(avg, 2)
 
 
-# in days
 @register.simple_tag
 def avg_length_of_stay():
     total_length_of_stay = datetime.timedelta(0)

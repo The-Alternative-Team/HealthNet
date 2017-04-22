@@ -51,6 +51,12 @@ def make_test_result(request):
                 test.notes = request.POST['notes']
                 test.save()
                 LogEntry.log_action(request.user.username, "Created or updated test " + str(test.id))
+
+                if request.POST['releaseStatus'] == "on" and not test.releaseStatus:
+                    test.releaseStatus = True
+                    test.save()
+                    LogEntry.log_action(request.user.username, "Released test " + str(test.id) + " to the patient")
+
                 return redirect('/')
             elif request.POST['form_id'] == 'UploadForm':
                 form = UploadForm(postData=request.POST, files=request.FILES)
@@ -62,7 +68,8 @@ def make_test_result(request):
         else:
             if 'id' in request.GET:
                 test = Test.objects.get(id=int(request.GET['id']))
-                return render_view(request, user_type, user, is_edit=True, test=test)
+                if test.doctor.username == user.username:
+                    return render_view(request, user_type, user, is_edit=True, test=test)
             else:
                 return render_view(request, user_type, user)
 

@@ -13,7 +13,8 @@ class CreateTestForm(forms.ModelForm):
         self.fields['date'].widget.attrs = {'class': 'form-control', 'placeholder': 'Date'}
         self.fields['patient'].widget.attrs = {'class': 'form-control', 'placeholder': 'Patient'}
         self.fields['notes'].widget.attrs = {'class': 'form-control', 'placeholder': 'Notes'}
+        self.fields['releaseStatus'].label = 'Release to patient?'
 
     class Meta:
         model = Test
-        fields = ['date', 'patient', 'notes']
+        fields = ['date', 'patient', 'notes', 'releaseStatus']

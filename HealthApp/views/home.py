@@ -45,8 +45,6 @@ def render_view(request, user_type, user):
         update_form = UpdatePatient(user)
         prescriptions = staticHelpers.get_patient_prescriptions(user)
         tests = staticHelpers.get_patient_tests(user_type, user, user)
-        print(prescriptions)
-        print(tests)
 
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,

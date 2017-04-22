@@ -1,8 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
-from HealthApp import staticHelpers
-from HealthApp.models import Message, Prescription, LogEntry
+from HealthApp.models import Message, Prescription, LogEntry, TestFile
 
 
 # This file includes the views that are used to handle ajax calls
@@ -11,16 +10,26 @@ from HealthApp.models import Message, Prescription, LogEntry
 # Marks a message as read
 @login_required(login_url="login/")
 def mark_read(request):
-    Message.objects.get(id=request.GET["id"]).mark_read()
+    message = Message.objects.get(id=request.GET["id"])
+    if message.recipient == request.user.username:
+        message.mark_read()
     return HttpResponse("Request Completed")
 
 
 # Deletes a prescription
 @login_required(login_url="login/")
 def delete_prescription(request):
-    user_type, user = staticHelpers.user_to_subclass(request.user)
+    prescription = Prescription.objects.get(id=request.GET["id"])
+    if prescription.doctor.username == request.user.username:
+        prescription.delete()
+        LogEntry.log_action(request.user.username, "Deleted prescription " + request.GET["id"])
+        return HttpResponse("Request Completed")
 
-    if user_type == staticHelpers.UserTypes.doctor:
-        Prescription.objects.get(id=request.GET["id"]).delete()
-        LogEntry.log_action(user.username, "Deleted prescription " + request.GET["id"])
+# Deletes a test file
+@login_required(login_url="login/")
+def delete_test_file(request):
+    file = TestFile.objects.get(id=request.GET["id"])
+    if file.test.doctor.username == request.user.username:
+        file.delete()
+        LogEntry.log_action(request.user.username, "Deleted test file " + request.GET["id"])
         return HttpResponse("Request Completed")

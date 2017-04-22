@@ -56,11 +56,11 @@ def avg_length_of_stay():
     num_admissions = len(log_list)
 
     try:
-        avg = total_length_of_stay / num_admissions
+        avg = total_length_of_stay.total_seconds() / num_admissions
     except ZeroDivisionError:
         avg = 0
 
-    return round(avg.total_seconds() * (1.1574 * 10 ** -5), 3)
+    return round(avg * (1.1574 * 10 ** -5), 3)
 
 
 @register.simple_tag

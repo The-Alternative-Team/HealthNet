@@ -5,16 +5,16 @@ Django model for a test file.
 
 === Fields ===
 
-title ------- (char) The title of the file being uploaded.
-file -------- (file) The file being uploaded.
-uploaded_at - (dateTime) The time that the file was uploaded.
-test -------- (Test) The test associated with the file.
+title --------(char) The title of the file being uploaded.
+file --------- (file) The file being uploaded.
+uploaded_at -- (dateTime) The time that the file was uploaded.
+test --------- (Test) The test associated with the file.
 
 
 === Methods ===
 
-__str__ ------------- Returns the string representation of the existing file model.
-auto_delete_on_disk - Deletes the file on the user's disk when the model is deleted from the SQLite database. 
+__str__ -------------- Returns the string representation of the existing file model.
+auto_delete_on_disk -- Deletes the file on the user's disk when the model is deleted from the SQLite database. 
 
 """
 

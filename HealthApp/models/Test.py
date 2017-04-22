@@ -8,7 +8,6 @@ Django model for a test.
 date -------- (dateTime) The time that the test was administered.
 doctor ------ (model) The doctor administering the test.
 patient ----- (model) The patient being tested.
-file -------- (model) The file containing the test results/information.
 notes ------- (char) Additional notes for the test.
 releaseStatus (boolean) A boolean value that is default False. This value determines if a patient has permission to
                         view the test.

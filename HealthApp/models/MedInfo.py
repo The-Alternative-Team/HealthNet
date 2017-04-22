@@ -20,7 +20,6 @@ notes ---------------- (char) Additional notes for Medical Info.
 === Methods ===
 
 __str__ ------------- Returns the string representation of the existing MedInfo
-update_medInfo ------ Updates a patient's existing MedInfo with the given new values
 
 """
 from django.db import models

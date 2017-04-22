@@ -55,6 +55,30 @@
                     </div>
                 </div>
             </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-envelope-o fa-fw"></i> Sent Messages
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="list-group">
+                        {% for message in sent_messages %}
+                            <a name="all-message-{{ message.id }}" href="#" data-toggle="modal"
+                               data-target="#showmessage{{ message.id }}"
+                               class="list-group-item">
+                                <i class="fa fa-envelope-o fa-fw"></i> {{ message.recipient }}
+                                <span class="small">
+                                                <em>{{ message.subject }}</em>
+                                        </span>
+                                <span class="pull-right text-muted small">
+                                                <em>{{ message.sent_at }}</em>
+                                        </span>
+                            </a>
+                            {% include "HealthApp/view_message_modal.html" %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock content %}

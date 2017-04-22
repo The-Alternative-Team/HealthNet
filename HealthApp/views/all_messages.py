@@ -5,16 +5,18 @@ from django.shortcuts import render
 
 from HealthApp import staticHelpers
 from HealthApp.forms.send_message import SendMessage
+from HealthApp.models import Message
 
 
 def render_view(request, user_type, user):
     messages = staticHelpers.find_messages(user)
     unread_messages = staticHelpers.find_unread_messages(user)
+    sent_messages = Message.objects.all().filter(sender=user.username).order_by("-sent_at")
     sendMessage = SendMessage(user_type)
 
     return render(request, 'HealthApp/all_messages.html',
                   {'user_type': user_type, 'messages': messages, 'unread_messages': unread_messages,
-                   'sendMessage': sendMessage})
+                   'sent_messages': sent_messages, 'sendMessage': sendMessage})
 
 
 @login_required(login_url="login/")

@@ -1,3 +1,49 @@
+"""
+Statistics 
+
+Provides functions that return system statistics that can be viewed by the system administrator.
+
+=== Methods ===
+
+round --------------------- Given a float and a number of digits to round by, the function rounds the float 
+                            to the given number of digits.
+                            
+                :parameter (float) num ----- number to be rounded
+                           (int) precision - number of digits to round by
+                :return (float) the float 'num' after it has been rounded
+
+number_admitted_patients -- Queries the database for all admitted patients in the system and returns them in
+                            a list.
+                            
+                :parameter
+                :return (List[database objects]) list of patients objects currently admitted into a hospital
+
+avg_visits ---------------- Queries the database for all the patients and admission logs, and returns the 
+                            average amount of admissions per patient.
+                            
+                :parameter
+                :return (float) Average admissions per patient.
+
+avg_length_of_stay -------- Queries the database for all the patients and admission logs, and returns the 
+                            average length of admission per patient.
+                
+                :parameter
+                :return (float) Average length of admission per patient.
+
+avg_prescriptions --------- Queries the database for all the patients and prescriptions, and returns the
+                            average amount of prescriptions per patient.
+                                            
+                :parameter
+                :return (float) Average amount of prescriptions per patient.
+
+num_logs ------------------ Queries the database for all the log entries, and returns the amount of logged
+                            actions in the system.
+              
+                :parameter
+                :return (int) Number of logged actions in the system.
+
+"""
+
 from django import template
 import datetime
 import math
@@ -84,6 +130,7 @@ def avg_prescriptions():
         avg = 0
 
     return round(avg, 2)
+
 
 @register.simple_tag
 def num_logs():

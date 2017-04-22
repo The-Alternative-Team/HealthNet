@@ -43,15 +43,21 @@ def render_view(request, user_type, user):
         form = UpdateAppointment(user_type)
         add_form = AddAppointment(user_type)
         update_form = UpdatePatient(user)
+        prescriptions = staticHelpers.get_patient_prescriptions(user)
+        tests = staticHelpers.get_patient_tests(user_type, user, user)
+        print(prescriptions)
+        print(tests)
 
         return render(request, 'HealthApp/index.html',
                       {"events": events, 'user_type': user_type, 'form': form, 'addForm': add_form,
-                       'profileForm': update_form, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
+                       'profileForm': update_form, 'unread_messages': unread_messages, 'sendMessage': sendMessage,
+                       'prescriptions': prescriptions, 'tests': tests})
     elif user_type == staticHelpers.UserTypes.doctor:
         set_patient_hospital_forms = SetPatientHospital.build_form_dict(all_patients)
         update_med_info_forms = UpdateMedInfo.build_form_dict(all_patients)
         add_prescriptions = AddPrescription.build_form_dict(all_patients)
         prescriptions = staticHelpers.get_prescriptions_dict(all_patients)
+        tests = staticHelpers.get_tests_dict(user_type, user, all_patients)
         set_patient_admission = staticHelpers.build_set_patient_admission_forms(user_type, all_patients)
         form = UpdateAppointment(user_type)
         add_form = AddAppointment(user_type)
@@ -62,7 +68,8 @@ def render_view(request, user_type, user):
                        'set_patient_hospital_forms': set_patient_hospital_forms,
                        'update_med_info_forms': update_med_info_forms,
                        'set_patient_admission': set_patient_admission, 'add_prescriptions': add_prescriptions,
-                       'prescriptions': prescriptions, 'unread_messages': unread_messages, 'sendMessage': sendMessage})
+                       'prescriptions': prescriptions, 'tests': tests, 'unread_messages': unread_messages,
+                       'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:
         set_patient_admission = staticHelpers.build_set_patient_admission_forms(user_type, all_patients)
         update_med_info_forms = UpdateMedInfo.build_form_dict(all_patients)

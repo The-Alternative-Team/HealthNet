@@ -26,8 +26,11 @@
                         <h4>Attached files:</h4>
                         <div class="panel-footer">
                             {% for file in files %}
-                                <a class="btn btn-xs btn-info" href="{{ file.file.url }}"
-                                   target="_blank">{{ file.title }}</a>
+                                <span id="test-file-{{ file.id }}" class="btn btn-xs btn-info">
+                                    <a href="{{ file.file.url }}" target="_blank">{{ file.title }}</a>
+                                    <a class="btn btn-outline btn-danger" onclick="deleteTestFile({{ file.id }});">
+                                        <i class="fa fa-trash"></i></a>
+                                </span>
                             {% endfor %}
                         </div>
                     {% endif %}

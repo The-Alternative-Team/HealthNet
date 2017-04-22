@@ -128,6 +128,12 @@
         $.get("/ajax/delete_prescription?id=" + id);
         $("#prescription-" + id).remove();
     }
+
+    // Deletes a test file
+    function deleteTestFile(id) {
+        $.get("/ajax/delete_test_file?id=" + id);
+        $("#test-file-" + id).remove();
+    }
 </script>
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

@@ -25,12 +25,13 @@ def render_view(request, user_type, user):
         set_patient_admission = staticHelpers.build_set_patient_admission_forms(user_type, all_patients)
         add_prescriptions = AddPrescription.build_form_dict(all_patients)
         prescriptions = staticHelpers.get_prescriptions_dict(all_patients)
+        tests = staticHelpers.get_tests_dict(user_type, user, all_patients)
         update_med_info_forms = UpdateMedInfo.build_form_dict(all_patients)
 
         return render(request, 'HealthApp/all_patients.html',
                       {'user_type': user_type, 'patients': patients, 'unread_messages': unread_messages,
                        'set_patient_admission': set_patient_admission, 'all_patients': all_patients,
-                       'add_prescriptions': add_prescriptions, 'prescriptions': prescriptions,
+                       'add_prescriptions': add_prescriptions, 'prescriptions': prescriptions, 'tests': tests,
                        'update_med_info_forms': update_med_info_forms,
                        'set_patient_hospital_forms': set_patient_hospital_forms, 'sendMessage': sendMessage})
     elif user_type == staticHelpers.UserTypes.nurse:

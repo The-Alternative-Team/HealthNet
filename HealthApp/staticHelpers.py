@@ -50,7 +50,7 @@ set_form_id -- Sets an id for a form so it can be easily detected on POST
 
 from django import forms
 
-from HealthApp.models import AdmissionLog, Appointment, Doctor, Message, Nurse, Patient, Prescription
+from HealthApp.models import AdmissionLog, Appointment, Doctor, Message, Nurse, Patient, Prescription, Test, TestFile
 
 
 # Static definitions of the user type strings used by user_to_subclass() below
@@ -176,6 +176,36 @@ def get_prescriptions_dict(patients):
         prescriptions[patient.username] = get_patient_prescriptions(patient)
 
     return prescriptions
+
+
+def get_patient_tests(user_type, user, patient):
+    test_list = []
+    try:
+        if user_type == UserTypes.doctor:
+            test_list = Test.objects.all().filter(patient=patient)
+        elif user_type == UserTypes.patient:
+            test_list = Test.objects.all().filter(patient=patient, releaseStatus=True)
+    except Test.DoesNotExist:
+        pass
+
+    for test in test_list:
+        test.canEdit = test.doctor.username == user.username
+
+        try:
+            test.files = TestFile.objects.all().filter(test=test)
+        except TestFile.DoesNotExist:
+            pass
+
+    return test_list
+
+
+def get_tests_dict(user_type, user, patients):
+    tests = dict()
+
+    for patient in patients:
+        tests[patient.username] = get_patient_tests(user_type, user, patient)
+
+    return tests
 
 
 # Sets an id for a form so it can be easily detected on POST

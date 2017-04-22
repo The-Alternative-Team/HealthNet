@@ -14,9 +14,9 @@
                 <li class="active"><a href="#medInfo{{ patient.userprofile_ptr_id }}" data-toggle="tab">Medical
                     Information</a>
                 </li>
-                <li><a href="#testResults{{ patient.userprofile_ptr_id }}" data-toggle="tab">Test Results</a>
-                </li>
                 {% if user_type == "Doctor" %}
+                    <li><a href="#testResults{{ patient.userprofile_ptr_id }}" data-toggle="tab">Test Results</a>
+                    </li>
                     <li><a href="#transfer{{ patient.userprofile_ptr_id }}" data-toggle="tab">Transfer Hospital</a>
                     </li>
                     <li><a href="#admit{{ patient.userprofile_ptr_id }}" data-toggle="tab">{{ set_patient_admission_form.label }}</a>
@@ -49,23 +49,52 @@
                             </div>
                         </form>
                     </div>
-                    <div class="tab-pane fade" id="testResults{{ patient.userprofile_ptr_id }}">
-                        <div class="table-responsive">
-                            <form role="form" method="post">
-                               <h4>Test Results</h4>
-
-                                Coming soon
-
-                                <div class="modal-footer">
-                                    <a href="{% url 'make_test_result' %}" class="btn btn-primary">Make New Test</a>
-                                    <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
                     {% if user_type == "Doctor" %}
+                        <div class="tab-pane fade" id="testResults{{ patient.userprofile_ptr_id }}">
+                            <div class="table-responsive">
+                                <form role="form" method="post">
+                                   <h4>Test Results</h4>
+                                    <table class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Doctor</th>
+                                            <th>Notes</th>
+                                            <th>Attachments</th>
+                                            <th>Edit</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for test in tests|get_item:patient.username %}
+                                            <tr id="test-{{ test.id }}">
+                                                <td>{{ test.date }}</td>
+                                                <td>{{ test.doctor }}</td>
+                                                <td>{{ test.notes }}</td>
+                                                <td>
+                                                    {% for file in test.files %}
+                                                        <a class="btn btn-xs btn-info" href="{{ file.file.url }}"
+                                                           target="_blank">{{ file.title }}</a>
+                                                    {% endfor %}
+                                                </td>
+                                                <td>
+                                                    {% if test.canEdit %}
+                                                        <a class="btn btn-outline" href="/make_test_result?id={{ test.id }}">
+                                                        <i class="fa fa-edit"></i></a>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <div class="modal-footer">
+                                        <a href="{% url 'make_test_result' %}" class="btn btn-primary">Make New Test</a>
+                                        <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                         <div class="tab-pane fade" id="transfer{{ patient.userprofile_ptr_id }}">
                             <form role="form" method="post">
                                 <h4>Transfer Hospital</h4>

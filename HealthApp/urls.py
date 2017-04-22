@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^make_test_result', make_test_result, name="make_test_result"),
     url(r'^ajax/mark_read', ajax.mark_read, name="mark_read"),
     url(r'^ajax/delete_prescription', ajax.delete_prescription, name="delete_prescription"),
+    url(r'^ajax/delete_test_file', ajax.delete_test_file, name="delete_test_file"),
 ]
 
 # Add the uploaded files to the URLs

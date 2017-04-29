@@ -1,6 +1,8 @@
 from django import forms
 from django.test import TestCase
+from django.contrib.auth.models import User
 
+from HealthApp.models import Message
 from HealthApp import validate
 
 
@@ -78,3 +80,15 @@ class ValidateFormInput(TestCase):
             validate.zip("1234")
         except forms.ValidationError as error:
             assert (error.code == 'Less than 5 digits'), 'wrong error code'
+
+class Messaging(TestCase):
+
+    def setUp(self):
+        self.u1 = User.objects.create(username='1@yo.co')
+        self.u2 = User.objects.create(username='2@yo.co')
+
+    def send_message(self):
+        msg_subject = 'subject_test'
+        msg_body = 'message_body'
+        msg_sender = self.u1.username
+        msg_recipient = self.u2.username

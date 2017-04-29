@@ -1,3 +1,24 @@
+"""
+Add Appointment form
+
+Django form for adding appointments.
+
+=== Fields ===
+
+doctor ------ (CharField) email ID of the doctor associated with the appointment that can only be filled in if
+              the user is a nurse.
+patient ----- (CharField) email ID of the patient associated with the appointment that can only be filled in if
+              the user is not a patient.
+start_time -- (DateTimeField) time that the appointment is scheduled to start.
+end_time ---- (DateTimeField) time that the appointment is scheduled to end. 
+notes ------- (CharField) any notes for the appointment.
+
+=== Methods ===
+
+__init__ ---- Initializes the form.
+
+"""
+
 from django import forms
 
 from HealthApp import staticHelpers

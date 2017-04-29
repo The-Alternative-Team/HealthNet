@@ -1,4 +1,23 @@
-# not sure if this works
+"""
+Add Medical Info form
+
+Django form for adding medical information.
+
+=== Fields ===
+
+patient ------------- (CharField) email ID of the patient that is associated with the medical information.
+heart_rate  --------- (IntegerField) integer that represents heart rate.
+systolic_pressure --- (IntegerField) integer that represents systolic pressure..
+diastolic_pressure -- (IntegerField) integer that represents diastolic pressure.
+body_temp ----------- (IntegerField) integer that represents body temperature.
+respiratory_rate ---- (IntegerField) integer that represents respiratory rate.
+notes --------------- (CharField) any notes for the medical information.
+
+=== Methods ===
+
+__init__ ------------ Initializes the form.
+
+"""
 
 from django import forms
 

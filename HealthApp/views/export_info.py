@@ -34,4 +34,4 @@ def export_medInfo(request):
 @login_required(login_url="login/")
 def export_test(request):
     LogEntry.log_action(request.user.username, "exported a test file")
-    return "Test Exporting coming soon to a theater near you. "
+

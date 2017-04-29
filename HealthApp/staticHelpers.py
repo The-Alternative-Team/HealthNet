@@ -8,7 +8,7 @@ Provides easy access to functions that perform cross-model db calls and other su
 user_to_subclass --- Takes a base Django user object as input and returns a tuple that contains the user
                      type as a string and the most complete database object of the UserProfile.
 
-    :parameter (database object) user - The user to obtain data about.
+    :parameter (object) user - The user to obtain data about.
     :returns (tuple) The user type as a string and the most complete database object of the UserProfile
 
 

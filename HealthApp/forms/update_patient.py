@@ -1,6 +1,6 @@
 from django import forms
 
-from HealthApp import statesList, staticHelpers
+from HealthApp import statesList, staticHelpers, validate
 from HealthApp.models import Doctor, LogEntry, Patient
 
 
@@ -73,25 +73,56 @@ class UpdatePatient(forms.ModelForm):
 
     @classmethod
     def handle_post(cls, user_type, patient, post_data):
+
         if user_type == staticHelpers.UserTypes.patient:
+
+            valid = True
+
+            try:
+                patient.home_phone = validate.phone(post_data['home_phone'])
+            except forms.ValidationError as e:
+                # TODO ACCESS FIELDS UP THERE ^^^^^^ TO DISPLAY ValidationError CODE
+                cls.fields['home_phone'].add_error('home_phone', e.code)
+                valid = False
+
+            try:
+                patient.address_zip = validate.zip(post_data['address_zip'])
+            except forms.ValidationError as e:
+                cls.fields['address_zip'].add_error('address_zip', e.code)
+                valid = False
+
+            try:
+                patient.cell_phone = validate.phone(post_data['cell_phone'])
+            except forms.ValidationError as e:
+                cls.fields['cell_phone'].add_error('cell_phone', e.code)
+                valid = False
+
+            try:
+                patient.e_cont_home_phone = validate.phone(post_data['e_cont_home_phone'])
+            except forms.ValidationError as e:
+                cls.fields['e_cont_home_phone'].add_error('e_cont_home_phone', e.code)
+                valid = False
+
+            try:
+                patient.e_cont_cell_phone = validate.phone(post_data['e_cont_cell_phone'])
+            except forms.ValidationError as e:
+                cls.fields['e_cont_home_phone'].add_error('e_cont_home_phone', e.code)
+                valid = False
+
             patient.first_name = post_data['first_name']
             patient.last_name = post_data['last_name']
             patient.address_street = post_data['address_street']
             patient.address_city = post_data['address_city']
             patient.address_state = post_data['address_state']
-            patient.address_zip = post_data['address_zip']
-            patient.home_phone = post_data['home_phone']
-            patient.cell_phone = post_data['cell_phone']
             patient.e_cont_fname = post_data['e_cont_fname']
             patient.e_cont_lname = post_data['e_cont_lname']
-            patient.e_cont_home_phone = post_data['e_cont_home_phone']
-            patient.e_cont_cell_phone = post_data['e_cont_cell_phone']
-
-            # TODO: Validate this data (and steal their identity) before saving it
 
             doctor_id = post_data['doctor']
             patient.primary_doctor = Doctor.objects.get(id=doctor_id)
 
-            patient.save()
+            if not valid:
+                # TODO MANIPULATE HTML/JS TO REFRESH OR WHATEVER
+                print("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH!!!!!!!!! INVALID FORM!!!!!!!")
 
+            patient.save()
             LogEntry.log_action(patient.username, "Updated their patient data")

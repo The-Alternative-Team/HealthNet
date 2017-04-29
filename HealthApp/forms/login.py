@@ -1,3 +1,17 @@
+"""
+Login form
+
+Django form for logging in.
+
+=== Fields ===
+
+username -- (CharField) email ID of the user logging in
+password -- (CharField) password of the user logging in
+=== Methods ===
+
+__init__ -- Initializes the form.
+"""
+
 from django.contrib.auth.forms import AuthenticationForm
 
 

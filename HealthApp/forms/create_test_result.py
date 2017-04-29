@@ -1,3 +1,22 @@
+"""
+Create Test Result form
+
+Django form for creating test results.
+
+=== Fields ===
+
+test_id -------- (CharField) ID of the test associated with the test result.
+date ----------- (DateTimeField) date that the test was entered.
+patient -------- (CharField) email ID of the patient associated with the test.
+notes ---------- (CharField) notes that the doctor enters.
+releaseStatus -- (BooleanField) boolean that shows whether the patient can view the test.
+
+=== Methods ===
+
+__init__ -- Initializes the form.
+
+"""
+
 from django import forms
 
 from HealthApp.models.Test import Test

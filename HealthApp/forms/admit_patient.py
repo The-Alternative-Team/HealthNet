@@ -1,3 +1,20 @@
+"""
+Admit Patient form
+
+Django form for admitting patient.
+
+=== Fields ===
+
+userMail -- (CharField) email ID of the patient that is being admitted.
+reason ---- (CharField) reason for admission.
+hospital -- (ChoiceField) hospital in which the patient is being admitted.
+
+=== Methods ===
+
+__init__ --------- Initializes the form.
+handle_post ------ Creates the admission log given a completed form.
+"""
+
 from django import forms
 from django.utils import timezone
 

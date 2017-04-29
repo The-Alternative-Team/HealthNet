@@ -1,3 +1,18 @@
+"""
+Discharge form
+
+Django form for discharging patients.
+
+=== Fields ===
+
+userMail -- (CharField) email ID of the patient that is being discharged
+
+=== Methods ===
+
+__init__ -- Initializes the form.
+handle_post ------ Edits the existing admission log given a completed form.
+"""
+
 from django import forms
 from django.utils import timezone
 

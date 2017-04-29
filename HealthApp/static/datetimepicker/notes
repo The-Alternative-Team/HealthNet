@@ -1,6 +1,17 @@
+DATETIME QUESTIONS:
+
 In the Team 3 project, Dates and Times are taken separately and stored in the model separately.
 They have a date and time picker referenced in base.html
 We have the js and css files that they use for date and time picking, all we have to do is reference it in the html
 accordingly.
 We can do what they do in the forms and take it separately, but then concatenate the two fields into one datetime string
 and store it as a datetime in the model like we do already so we don't have to break anything.
+
+
+PROGRESS:
+
+form validation in modals: two problems in the code, otherwise working and ready to go
+datetime picker: files in place, questions for implementation
+export information: forms completed
+documenting: views documented
+test cases: test cases started 

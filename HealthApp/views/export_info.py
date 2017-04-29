@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 from HealthApp import staticHelpers
-from HealthApp.models import MedInfo, LogEntry
+from HealthApp.models import MedInfo, LogEntry, Test, TestFile
 
 
 @login_required(login_url="login/")
@@ -33,5 +33,16 @@ def export_medInfo(request):
 
 @login_required(login_url="login/")
 def export_test(request):
-    LogEntry.log_action(request.user.username, "exported a test file")
+    user_type, patient = staticHelpers.user_to_subclass(request.user)
+    try:
+        test_list = Test.objects.all().filter(patient=patient, releaseStatus=True)
+    except Test.DoesNotExist:
+        test_list = []
+    for test in test_list:
+        try:
+            file = ((TestFile.objects.all().filter(test=test))[0]).file
+        except TestFile.DoesNotExist:
+            file = ""
 
+    LogEntry.log_action(request.user.username, "exported a test file")
+    return HttpResponse(file)

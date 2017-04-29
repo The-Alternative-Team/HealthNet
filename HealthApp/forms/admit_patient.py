@@ -13,6 +13,7 @@ hospital -- (ChoiceField) hospital in which the patient is being admitted.
 
 __init__ --------- Initializes the form.
 handle_post ------ Creates the admission log given a completed form.
+
 """
 
 from django import forms

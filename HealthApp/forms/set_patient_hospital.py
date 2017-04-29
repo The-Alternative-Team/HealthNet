@@ -1,5 +1,22 @@
-from django import forms
+"""
+Set Patient Hospital form
 
+Django form for transferring patients.
+
+=== Fields ===
+
+patient_id -- (CharField) email ID of the patient being transferred
+hospital ---- (ChoiceField) hospital that the patient is being transferred to
+
+=== Methods ===
+
+__init__ --------- Initializes the form.
+build_form_dict -- Creates a dictionary of all the set patient hospital forms for each patient.
+handle_post ------ Transfers patient given a completed form.
+
+"""
+
+from django import forms
 from HealthApp import staticHelpers
 from HealthApp.models import Hospital, Patient, LogEntry
 

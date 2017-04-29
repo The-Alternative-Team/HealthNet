@@ -1,7 +1,7 @@
 """
 Add Prescription form
 
-Django form for adding prescriptions.
+Django form for adding medical information.
 
 === Fields ===
 

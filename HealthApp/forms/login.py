@@ -10,6 +10,7 @@ password -- (CharField) password of the user logging in
 === Methods ===
 
 __init__ -- Initializes the form.
+
 """
 
 from django.contrib.auth.forms import AuthenticationForm

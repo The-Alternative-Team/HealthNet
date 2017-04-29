@@ -1,3 +1,19 @@
+"""
+Upload File form
+
+Django form for uploads.
+
+=== Fields ===
+
+title -- (CharField) title of the file.
+file --- (CharField) path of the file.
+test --- (ModelField) test associated with the file.
+=== Methods ===
+
+__init__ --------- Initializes the form.
+
+"""
+
 from django import forms
 
 from HealthApp.models import TestFile

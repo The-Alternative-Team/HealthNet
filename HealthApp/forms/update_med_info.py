@@ -1,7 +1,28 @@
+"""
+Update Medical Info form
+
+Django form for updating medical information.
+
+=== Fields ===
+
+patient ------------- (CharField) email ID of the patient that is associated with the medical information.
+heart_rate  --------- (IntegerField) integer that represents heart rate.
+systolic_pressure --- (IntegerField) integer that represents systolic pressure..
+diastolic_pressure -- (IntegerField) integer that represents diastolic pressure.
+body_temp ----------- (IntegerField) integer that represents body temperature.
+respiratory_rate ---- (IntegerField) integer that represents respiratory rate.
+notes --------------- (CharField) any notes for the medical information.
+
+=== Methods ===
+
+__init__ ------------ Initializes the form.
+build_form_dict -- Creates a dictionary of all the update medical info forms for each patient.
+handle_post ------ Updates medical info given a completed form.
+
+"""
+
 from datetime import datetime
-
 from django import forms
-
 from HealthApp import staticHelpers
 from HealthApp.models import MedInfo, LogEntry
 

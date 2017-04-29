@@ -9,8 +9,9 @@ userMail -- (CharField) email ID of the patient that is being discharged
 
 === Methods ===
 
-__init__ -- Initializes the form.
-handle_post ------ Edits the existing admission log given a completed form.
+__init__ --------- Initializes the form.
+handle_post ------ Edits the admission log given a completed form.
+
 """
 
 from django import forms

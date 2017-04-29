@@ -1,3 +1,21 @@
+"""
+Send Message form
+
+Django form for sending a message.
+
+=== Fields ===
+
+recipient -- (ChoiceField) user that the message will be sent to
+subject ---- (CharField) the subject of the message
+body ------- (CharField) the body of the message
+
+=== Methods ===
+
+__init__ --------- Initializes the form.
+handle_post ------ Creates a message given a completed form.
+
+"""
+
 from django import forms
 from django.contrib.auth.models import User
 from django.utils import timezone

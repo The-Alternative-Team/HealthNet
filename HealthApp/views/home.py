@@ -42,7 +42,7 @@ def render_view(request, user_type, user):
     if user_type == staticHelpers.UserTypes.patient:
         form = UpdateAppointment(user_type)
         add_form = AddAppointment(user_type)
-        update_form = UpdatePatient(user)
+        update_form = UpdatePatient(patient=user)
         prescriptions = staticHelpers.get_patient_prescriptions(user)
         tests = staticHelpers.get_patient_tests(user_type, user, user)
 

@@ -51,7 +51,7 @@ class UpdatePatient(forms.ModelForm):
         self.fields['home_phone'].widget.attrs = {'class': 'form-control', 'placeholder': '1234567890'}
         self.fields['cell_phone'].widget.attrs = {'class': 'form-control', 'placeholder': '1234567890'}
         self.fields['e_cont_fname'].widget.attrs = {'class': 'form-control', 'placeholder': 'First Name'}
-        self.fields['e_cont_lname'].label = 'Emergency Contact: First Name'
+        self.fields['e_cont_lname'].label = 'Emergency Contact - First Name'
         self.fields['e_cont_lname'].widget.attrs = {'class': 'form-control', 'placeholder': 'Last Name'}
         self.fields['e_cont_lname'].label = 'Emergency Contact: Last Name'
         self.fields['e_cont_home_phone'].widget.attrs = {'class': 'form-control', 'placeholder': '1234567890'}
@@ -77,7 +77,7 @@ class UpdatePatient(forms.ModelForm):
             try:
                 patient.home_phone = validate.phone(post_data['home_phone'])
             except forms.ValidationError as e:
-                self.fields['home_phone'].add_error('home_phone', e.code)
+                self.add_error('home_phone', e.code)
                 valid = False
 
             try:
@@ -89,19 +89,19 @@ class UpdatePatient(forms.ModelForm):
             try:
                 patient.cell_phone = validate.phone(post_data['cell_phone'])
             except forms.ValidationError as e:
-                self.fields['cell_phone'].add_error('cell_phone', e.code)
+                self.add_error('cell_phone', e.code)
                 valid = False
 
             try:
                 patient.e_cont_home_phone = validate.phone(post_data['e_cont_home_phone'])
             except forms.ValidationError as e:
-                self.fields['e_cont_home_phone'].add_error('e_cont_home_phone', e.code)
+                self.add_error('e_cont_home_phone', e.code)
                 valid = False
 
             try:
                 patient.e_cont_cell_phone = validate.phone(post_data['e_cont_cell_phone'])
             except forms.ValidationError as e:
-                self.fields['e_cont_home_phone'].add_error('e_cont_home_phone', e.code)
+                self.add_error('e_cont_cell_phone', e.code)
                 valid = False
 
             if not valid:

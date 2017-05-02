@@ -1,7 +1,40 @@
+"""
+Register form
+
+Django form for patient registration
+
+=== Fields ===
+
+first_name --------- (CharField) first name of the patient.
+last_name ---------- (CharField) last name of the patient.
+username ----------- (EmailField) email of the patient.
+password1 ---------- (PasswordField) password of the patient
+password2 ---------- (PasswordField) confirmation of 'password1'
+date_of_birth ------ (DateField) date of birth of the patient.
+social ------------- (CharField) social security number of the patient.
+address_street ----- (CharField) address street of the patient.
+address_City ------- (CharField) address city of the patient
+address_state ------ (ChoiceField) address state of the patient
+address_zip -------- (IntegerField) zip code of the patient
+home_phone --------- (IntegerField) home phone number of the patient
+cell_phone --------- (IntegerField) cell phone number of the patient
+e_cont_fname ------- (CharField) first name of patient's emergency contact
+e_cont_lname ------- (CharField) last name of patient's emergency contact
+e_cont_home_phone -- (IntegerField) home phone of patient's emergency contact
+e_cont_cell_phone -- (IntegerField) cell phone of patient's emergency contact
+doctor ------------- (ChoiceField) list of doctors available for choice by the patient.
+hospital ----------- (ChoiceField) list of hospitals available for choice by the patient
+
+=== Methods ===
+
+__init__ ----- Initializes the form.
+is_valid -- validates the completed form and throws system errors if invalid.
+
+"""
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
 from HealthApp import statesList
 from HealthApp import validate
 from HealthApp.models import Doctor

@@ -1,3 +1,31 @@
+"""
+Update Patient Information form
+
+Django form for updating patient information.
+
+=== Fields ===
+
+first_name --------- (CharField) first name of the patient.
+last_name ---------- (CharField) last name of the patient.
+address_street ----- (CharField) address street of the patient.
+address_City ------- (CharField) address city of the patient
+address_state ------ (ChoiceField) address state of the patient
+address_zip -------- (IntegerField) zip code of the patient
+home_phone --------- (IntegerField) home phone number of the patient
+cell_phone --------- (IntegerField) cell phone number of the patient
+e_cont_fname ------- (CharField) first name of patient's emergency contact
+e_cont_lname ------- (CharField) last name of patient's emergency contact
+e_cont_home_phone -- (IntegerField) home phone of patient's emergency contact
+e_cont_cell_phone -- (IntegerField) cell phone of patient's emergency contact
+doctor ------------- (ChoiceField) list of doctors avaliable for choice for the patient.
+
+=== Methods ===
+
+__init__ ----- Initializes the form.
+handle_post -- Updates patient info given a completed form.
+
+"""
+
 from django import forms
 
 from HealthApp import statesList, staticHelpers, validate

@@ -32,10 +32,8 @@ class Patient(UserProfile):
     desired_hospital = models.ForeignKey(Hospital, related_name="desired_hospital", verbose_name='Desired Hospital')
     e_cont_fname = models.CharField(max_length=50, verbose_name="Emergency Contact: First Name")
     e_cont_lname = models.CharField(max_length=50, verbose_name="Emergency Contact: Last Name")
-    e_cont_home_phone = models.BigIntegerField(help_text="No spaces or dashes",
-                                               verbose_name="Emergency Contact: Home Phone")
-    e_cont_cell_phone = models.BigIntegerField(help_text="No spaces or dashes",
-                                               verbose_name="Emergency Contact: Cell Phone")
+    e_cont_home_phone = models.BigIntegerField(verbose_name="Emergency Contact: Home Phone")
+    e_cont_cell_phone = models.BigIntegerField(verbose_name="Emergency Contact: Cell Phone")
 
     # The appointments list is a many to one relationship so it's defined on the 'many' side only
     # See: https://docs.djangoproject.com/en/1.9/topics/db/examples/many_to_one/

@@ -36,8 +36,8 @@ class UserProfile(User):
     address_city = models.CharField(max_length=50, verbose_name="City")
     address_state = models.CharField(max_length=50, choices=STATE_CHOICES, verbose_name="State")
     address_zip = models.IntegerField(verbose_name="Zip Code")
-    home_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Home Phone")
-    cell_phone = models.BigIntegerField(help_text="No spaces or dashes", verbose_name="Cell Phone")
+    home_phone = models.BigIntegerField(verbose_name="Home Phone")
+    cell_phone = models.BigIntegerField(verbose_name="Cell Phone")
 
     User._meta.get_field('username').verbose_name = 'Username (aka email)'
     User._meta.get_field('email').verbose_name = 'Email (don\'t need this)'

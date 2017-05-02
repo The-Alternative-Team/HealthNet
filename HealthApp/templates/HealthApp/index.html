@@ -47,7 +47,7 @@
                                 <form role="form" method="post">
                                     <div class="modal-body">
                                         {% csrf_token %}
-                                        {{ form }}
+                                        {{ update_app_form }}
                                         <input hidden aria-hidden="true" class="form-control" type="text"
                                                style="display: none" id="event-id-update" name="event-id-update"
                                                title="event-id-update">

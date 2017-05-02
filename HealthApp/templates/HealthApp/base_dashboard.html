@@ -99,6 +99,11 @@
                 element.find('.fc-title').append("<br/>" + event.description);
             }
         });
+
+        // Auto-open a modal if requested
+        {% if autoOpen != None %}
+            $('#{{ autoOpen }}').modal('show');
+        {% endif %}
     });
 </script>
 <script>

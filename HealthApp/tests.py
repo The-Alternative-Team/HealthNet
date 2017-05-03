@@ -1,7 +1,11 @@
+"""
+Tests
+
+"""
+
 from django import forms
 from django.test import TestCase
 from django.contrib.auth.models import User
-
 from HealthApp.models import Message
 from HealthApp import validate
 
@@ -81,8 +85,8 @@ class ValidateFormInput(TestCase):
         except forms.ValidationError as error:
             assert (error.code == 'Less than 5 digits'), 'wrong error code'
 
-class Messaging(TestCase):
 
+class Messaging(TestCase):
     def setUp(self):
         self.u1 = User.objects.create(username='1@yo.co')
         self.u2 = User.objects.create(username='2@yo.co')

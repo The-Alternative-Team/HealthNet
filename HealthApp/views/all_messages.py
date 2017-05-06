@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 
 from HealthApp import staticHelpers
-from HealthApp.forms.send_message import SendMessage
+from HealthApp.forms import SendMessage, UpdatePatient
 from HealthApp.models import Message
 
 
@@ -14,9 +14,13 @@ def render_view(request, user_type, user):
     sent_messages = Message.objects.all().filter(sender=user.username).order_by("-sent_at")
     sendMessage = SendMessage(user_type)
 
-    return render(request, 'HealthApp/all_messages.html',
-                  {'user_type': user_type, 'messages': messages, 'unread_messages': unread_messages,
-                   'sent_messages': sent_messages, 'sendMessage': sendMessage})
+    dataDict = {'user_type': user_type, 'messages': messages, 'unread_messages': unread_messages,
+                   'sent_messages': sent_messages, 'sendMessage': sendMessage}
+
+    if user_type == staticHelpers.UserTypes.patient:
+        dataDict["profileForm"] = UpdatePatient(patient=user)
+
+    return render(request, 'HealthApp/all_messages.html', dataDict)
 
 
 @login_required(login_url="login/")

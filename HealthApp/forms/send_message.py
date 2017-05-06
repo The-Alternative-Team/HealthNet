@@ -32,7 +32,7 @@ class SendMessage(forms.ModelForm):
         user_tuple = []
         for user in User.objects.all().order_by("first_name"):
             theirUserType, user = user_to_subclass(user)
-            
+
             if not (user_type == UserTypes.patient and theirUserType == UserTypes.patient):
                 user_tuple.append((user.username, str(user)))
 

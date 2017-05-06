@@ -8,4 +8,4 @@ from .set_patient_hospital import SetPatientHospital
 from .update_appointment import UpdateAppointment
 from .update_patient import UpdatePatient
 from .upload_file import UploadForm
-
+from .send_message import SendMessage

@@ -18,7 +18,6 @@ def render_view(request, user_type, user, dictOverrides=dict()):
     appointments = staticHelpers.find_appointments(user_type, user)
     patients = staticHelpers.find_patients(user_type, user)
     all_patients = Patient.objects.all()
-    admitted_patients = staticHelpers.get_admitted_patients()
 
     for app in appointments:
         # Don"t change the title - it"ll break the pre-filling of the update appointment form
@@ -58,6 +57,7 @@ def render_view(request, user_type, user, dictOverrides=dict()):
         prescriptions = staticHelpers.get_prescriptions_dict(all_patients)
         tests = staticHelpers.get_tests_dict(user_type, user, all_patients)
         set_patient_admission = staticHelpers.build_set_patient_admission_forms(user_type, all_patients)
+        admitted_patients = staticHelpers.get_admitted_patients(user.hospital)
 
         dataDict.update({"patients": patients, "all_patients": all_patients, "admitted_patients": admitted_patients,
                          "set_patient_hospital_forms": set_patient_hospital_forms,
@@ -67,6 +67,7 @@ def render_view(request, user_type, user, dictOverrides=dict()):
         set_patient_admission = staticHelpers.build_set_patient_admission_forms(user_type, all_patients)
         update_med_info_forms = UpdateMedInfo.build_form_dict(all_patients)
         prescriptions = staticHelpers.get_prescriptions_dict(all_patients)
+        admitted_patients = staticHelpers.get_admitted_patients(user.hospital)
 
         dataDict.update({"patients": patients, "all_patients": all_patients, "admitted_patients": admitted_patients,
                          "set_patient_admission": set_patient_admission, "update_med_info_forms": update_med_info_forms,

@@ -38,8 +38,8 @@ def render_view(request, user_type, user, dictOverrides=dict()):
             "end": str(app.end_time)
         })
 
-    add_app_form = AddAppointment(user_type)
-    update_app_form = UpdateAppointment(user_type)
+    add_app_form = AddAppointment(user_type, user)
+    update_app_form = UpdateAppointment(user_type, user)
     unread_messages = staticHelpers.find_unread_messages(user)
     sendMessage = SendMessage(user_type)
     dataDict = {"events": events, "user_type": user_type, "add_app_form": add_app_form, 

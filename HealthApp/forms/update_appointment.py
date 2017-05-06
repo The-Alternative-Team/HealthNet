@@ -27,13 +27,22 @@ from HealthApp.models import Appointment, LogEntry, Patient, Doctor, Message
 
 
 class UpdateAppointment(forms.ModelForm):
-    def __init__(self, user_type):
+    def __init__(self, user_type, user):
         super().__init__()
         staticHelpers.set_form_id(self, "UpdateAppointment")
 
         # Only allow nurses to set custom doctors
         if user_type == staticHelpers.UserTypes.nurse:
             self.fields['doctor'].widget.attrs = {'class': 'form-control', 'placeholder': 'Doctor'}
+
+            # Restrict nurses to choosing patients from only their hospital
+            patients = []
+            for patient in Patient.objects.all().order_by("first_name"):
+                theirUserType, patient = staticHelpers.user_to_subclass(patient)
+                if patient.hospital != user.hospital:
+                    patients.append((patient.id, str(patient)))
+
+            self.fields["patient"].choices = patients
         else:
             del self.fields['doctor']
 

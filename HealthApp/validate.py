@@ -32,6 +32,7 @@ zip ---------- If the inputted zip code is determined invalid, raises forms.Vali
 
 """
 
+from django.utils import timezone
 from django import forms
 
 
@@ -103,7 +104,6 @@ def zip(zip):
                 'Invalid zip code',
                 code='More than 5 digits'
             )
-
         if not digit.isdigit():
             raise forms.ValidationError(
                 'Invalid zip code',
@@ -115,3 +115,41 @@ def zip(zip):
             code='Less than 5 digits'
         )
     return int(zip)
+
+
+def birthday(birth_day):
+    current_time = timezone.now()
+    age = current_time - birth_day
+    if age <= 0:
+        raise forms.ValidationError(
+            'Invalid birthday',
+            code='Born in future'
+        )
+    return
+
+
+def appointment(start_time, end_time):
+    current_time = timezone.now()
+    appointment_duration = end_time - start_time
+
+    if appointment_duration < 0:
+        raise forms.ValidationError(
+            'Invalid end time',
+            code='Appointment starts after it ends'
+        )
+
+    if appointment_duration == 0 or \
+            appointment_duration.total_hours() > 5 or \
+            appointment_duration.total_minutes() < 30:
+        raise forms.ValidationError(
+            'Invalid duration',
+            code='Appointment duration must be between ' +
+                 '30 minutes and 5 hours inclusive'
+        )
+
+    if start_time <= current_time :
+        raise forms.ValidationError(
+            'Invalid start time',
+            code='Appointment starts in the past'
+        )
+    return

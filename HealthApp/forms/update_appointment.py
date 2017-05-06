@@ -52,9 +52,10 @@ class UpdateAppointment(forms.ModelForm):
         else:
             del self.fields['patient']
 
-        self.fields['start_time'].widget.attrs = {'class': 'form-control',
-                                                  'placeholder': 'Start Time: (YYYY-MM-DD HH:MM)'}
-        self.fields['end_time'].widget.attrs = {'class': 'form-control', 'placeholder': 'End Time: (YYYY-MM-DD HH:MM)'}
+        self.fields['start_time'] = forms.DateField(widget=forms.DateInput(
+            attrs={'class': 'form-control', 'type': 'datetime-local', 'placeholder': 'Start Time: (YYYY-MM-DD HH:MM)'}))
+        self.fields['end_time'] = forms.DateField(widget=forms.DateInput(
+            attrs={'class': 'form-control', 'type': 'datetime-local', 'placeholder': 'End Time: (YYYY-MM-DD HH:MM)'}))
         self.fields['notes'].widget.attrs = {'class': 'form-control', 'placeholder': 'Notes'}
 
     class Meta:
@@ -113,8 +114,8 @@ class UpdateAppointment(forms.ModelForm):
                 LogEntry.log_action(user.username, "Updated an appointment")
             else:
                 app = Appointment(hospital=appointment_patient.hospital, doctor=appointment_doctor,
-                                          patient=appointment_patient, start_time=post_data['start_time'],
-                                          end_time=post_data['end_time'], notes=post_data['notes'])
+                                  patient=appointment_patient, start_time=post_data['start_time'],
+                                  end_time=post_data['end_time'], notes=post_data['notes'])
                 app.save()
 
                 if user_type != staticHelpers.UserTypes.patient:

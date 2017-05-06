@@ -35,8 +35,7 @@ class Appointment(models.Model):
     notes = models.CharField(default='', max_length=1000, verbose_name='Notes')
 
     def __str__(self):
-        return "Appointment on " + self.start_time.strftime('%B %d, %Y') + " at " + self.start_time.strftime(
-            '%I:%M %p') + "."
+        return "appointment at " + str(self.start_time) + "."
 
     def update_appointment(self, hospital, doctor, patient, start_time, end_time, notes):
         self.hospital = hospital

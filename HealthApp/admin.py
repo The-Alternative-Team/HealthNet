@@ -52,7 +52,7 @@ admin.site.register(Appointment, AppointmentAdmin)
 # User Logs are read only. Styling included to allow filtering of all Log Entries
 class LogAdmin(admin.ModelAdmin):
     readonly_fields = ('userMail', 'time', 'action')
-    list_display = ('userMail', 'time', 'action')
+    list_display = ('time', 'userMail', 'action')
     list_filter = ['time']
     search_fields = ['userMail', 'action']
 

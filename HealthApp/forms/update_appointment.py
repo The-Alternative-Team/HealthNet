@@ -23,7 +23,7 @@ handle_post ------ Updates appointment given a completed form.
 from django import forms
 
 from HealthApp import staticHelpers
-from HealthApp.models import Appointment, LogEntry, Patient, Doctor
+from HealthApp.models import Appointment, LogEntry, Patient, Doctor, Message
 
 
 class UpdateAppointment(forms.ModelForm):
@@ -57,7 +57,16 @@ class UpdateAppointment(forms.ModelForm):
     def handle_post(cls, user_type, user, post_data):
         if 'Cancel Appointment' in post_data:
             # Deletion
-            Appointment.objects.all().get(id=post_data['event-id-update']).delete()
+            app = Appointment.objects.all().get(id=post_data['event-id-update'])
+
+            if user_type != staticHelpers.UserTypes.patient:
+                Message.sendNotifMessage(app.patient.username, "Your appointment has been canceled", user.username +
+                                         " has canceled your " + str(app))
+            elif user_type != staticHelpers.UserTypes.doctor:
+                Message.sendNotifMessage(app.doctor.username, "Your appointment has been canceled", user.username +
+                                         " has canceled your " + str(app))
+
+            app.delete()
             LogEntry.log_action(user.username, "Canceled an appointment")
         else:
             # Update or create
@@ -80,14 +89,29 @@ class UpdateAppointment(forms.ModelForm):
                 appointment_patient = Patient.objects.all().filter(id=patient_id)[0]
 
             if 'event-id-update' in post_data:
-                Appointment.objects.get(id=post_data['event-id-update']).update_appointment(
+                app = Appointment.objects.get(id=post_data['event-id-update'])
+                app.update_appointment(
                     hospital=appointment_patient.hospital, doctor=appointment_doctor,
                     patient=appointment_patient, start_time=post_data['start_time'],
                     end_time=post_data['end_time'], notes=post_data['notes'])
+
+                if user_type != staticHelpers.UserTypes.patient:
+                    Message.sendNotifMessage(app.patient.username, "Your appointment has been updated",
+                                             user.username + " has updated your " + str(app))
+                elif user_type != staticHelpers.UserTypes.doctor:
+                    Message.sendNotifMessage(app.doctor.username, "Your appointment has been updated", user.username +
+                                             " has updated your " + str(app))
                 LogEntry.log_action(user.username, "Updated an appointment")
             else:
-                appointment = Appointment(hospital=appointment_patient.hospital, doctor=appointment_doctor,
+                app = Appointment(hospital=appointment_patient.hospital, doctor=appointment_doctor,
                                           patient=appointment_patient, start_time=post_data['start_time'],
                                           end_time=post_data['end_time'], notes=post_data['notes'])
-                appointment.save()
+                app.save()
+
+                if user_type != staticHelpers.UserTypes.patient:
+                    Message.sendNotifMessage(app.patient.username, "New appointment", user.username +
+                                             " has created an " + str(app) + " for you")
+                elif user_type != staticHelpers.UserTypes.doctor:
+                    Message.sendNotifMessage(app.doctor.username, "New appointment", user.username +
+                                             " has created an " + str(app) + " for you")
                 LogEntry.log_action(user.username, "Created an appointment")

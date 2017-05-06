@@ -36,7 +36,6 @@ class Message(models.Model):
     subject = models.CharField(default='', max_length=SUBJECT_MAX_LENGTH, verbose_name='subject')
     body = models.TextField(blank=True, verbose_name='body')
 
-    # TODO: Use foreign keys instead of CharFields of email
     sender = models.CharField(default='', max_length=100, verbose_name='sender email')
     recipient = models.CharField(default='', max_length=100, verbose_name='recipient email')
 
@@ -70,3 +69,9 @@ class Message(models.Model):
             string += " The message was read on " + self.read_at.strftime('%B %d, %Y') + " at " + self.read_at.strftime(
                 '%I:%M:%p') + " ."
         return string
+
+    @classmethod
+    def sendNotifMessage(cls, recipient, subject, body):
+        message = Message(subject=subject, body=body, sender="HealthNet System",
+                          recipient=recipient, sent_at=timezone.now())
+        message.save()

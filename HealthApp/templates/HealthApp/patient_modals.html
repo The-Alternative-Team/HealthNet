@@ -1,146 +1,112 @@
 {% load DictSupport %}
 {% with set_patient_admission_form=set_patient_admission|get_item:patient.username %}
 
-<div class="modal fade showPatient{{ patient.userprofile_ptr_id }}" tabindex="-1" role="dialog"
-     aria-labelledby="showPatient{{ patient.userprofile_ptr_id }}" aria-hidden="true"
-     id="showPatient{{ patient.userprofile_ptr_id }}">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"
-                    id="showPatientLabel">{{ patient.first_name }} {{ patient.last_name }}</h5>
-            </div>
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#medInfo{{ patient.userprofile_ptr_id }}" data-toggle="tab">Medical
-                    Information</a>
-                </li>
-                {% if user_type == "Doctor" %}
-                    <li><a href="#testResults{{ patient.userprofile_ptr_id }}" data-toggle="tab">Test Results</a>
+    <div class="modal fade showPatient{{ patient.userprofile_ptr_id }}" tabindex="-1" role="dialog"
+         aria-labelledby="showPatient{{ patient.userprofile_ptr_id }}" aria-hidden="true"
+         id="showPatient{{ patient.userprofile_ptr_id }}">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"
+                        id="showPatientLabel">{{ patient.first_name }} {{ patient.last_name }}</h5>
+                </div>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#medInfo{{ patient.userprofile_ptr_id }}" data-toggle="tab">Medical
+                        Information</a>
                     </li>
-                    <li><a href="#transfer{{ patient.userprofile_ptr_id }}" data-toggle="tab">Transfer Hospital</a>
-                    </li>
-                    <li><a href="#admit{{ patient.userprofile_ptr_id }}" data-toggle="tab">{{ set_patient_admission_form.label }}</a>
-                    </li>
-                {% endif %}
-                {% if user_type == "Nurse" %}
-                    {% if set_patient_admission|get_item:patient.username != None %}
-                        <li><a href="#admit{{ patient.userprofile_ptr_id }}" data-toggle="tab">Admit</a>
+                    {% if user_type == "Doctor" %}
+                        <li><a href="#testResults{{ patient.userprofile_ptr_id }}" data-toggle="tab">Test Results</a>
                         </li>
-                    {% endif %}
-                {% endif %}
-                <li><a href="#prescriptions{{ patient.userprofile_ptr_id }}" data-toggle="tab">Prescriptions</a>
-                </li>
-            </ul>
-
-            <div class="modal-body">
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <div class="tab-pane fade in active" id="medInfo{{ patient.userprofile_ptr_id }}">
-                        <h4>Update Medical Information</h4>
-                        <form role="form" method="post">
-                            {% csrf_token %}
-                            {{ update_med_info_forms|get_item:patient.username }}
-                            <div class="modal-footer">
-                                <input type="submit" value="Update Medical Info"
-                                       class="btn btn-primary"/>
-                                <button type="button" class="btn btn-secondary"
-                                        data-dismiss="modal">Close
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    {% if user_type == "Doctor" %}
-                        <div class="tab-pane fade" id="testResults{{ patient.userprofile_ptr_id }}">
-                            <div class="table-responsive">
-                                <form role="form" method="post">
-                                   <h4>Test Results</h4>
-                                    <table class="table table-striped table-bordered table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Doctor</th>
-                                            <th>Notes</th>
-                                            <th>Attachments</th>
-                                            <th>Edit</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for test in tests|get_item:patient.username %}
-                                            <tr id="test-{{ test.id }}">
-                                                <td>{{ test.date }}</td>
-                                                <td>{{ test.doctor }}</td>
-                                                <td>{{ test.notes }}</td>
-                                                <td>
-                                                    {% for file in test.files %}
-                                                        <a class="btn btn-xs btn-info" href="{{ file.file.url }}"
-                                                           target="_blank">{{ file.title }}</a>
-                                                    {% endfor %}
-                                                </td>
-                                                <td>
-                                                    {% if test.canEdit %}
-                                                        <a class="btn btn-outline" href="/make_test_result?id={{ test.id }}">
-                                                        <i class="fa fa-edit"></i></a>
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
-                                    <div class="modal-footer">
-                                        <a href="{% url 'make_test_result' %}" class="btn btn-primary">Make New Test</a>
-                                        <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="transfer{{ patient.userprofile_ptr_id }}">
-                            <form role="form" method="post">
-                                <h4>Transfer Hospital</h4>
-
-                                {% csrf_token %}
-                                {{ set_patient_hospital_forms|get_item:patient.username }}
-
-                                <div class="modal-footer">
-                                    <input type="submit" value="Make Transfer"
-                                           class="btn btn-primary"/>
-                                    <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    {% endif %}
-                    {% if user_type == "Doctor" %}
-                        <div class="tab-pane fade" id="admit{{ patient.userprofile_ptr_id }}">
-                            <form role="form" method="post">
-                                <h4>{{ set_patient_admission_form.label }}</h4>
-
-                                {% csrf_token %}
-                                {{ set_patient_admission_form }}
-
-                                <div class="modal-footer">
-                                    <input type="submit" value="{{ set_patient_admission_form.label }}"
-                                           class="btn btn-primary"/>
-                                    <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                        <li><a href="#transfer{{ patient.userprofile_ptr_id }}" data-toggle="tab">Transfer Hospital</a>
+                        </li>
+                        <li><a href="#admit{{ patient.userprofile_ptr_id }}"
+                               data-toggle="tab">{{ set_patient_admission_form.label }}</a>
+                        </li>
                     {% endif %}
                     {% if user_type == "Nurse" %}
                         {% if set_patient_admission|get_item:patient.username != None %}
-                            <div class="tab-pane fade" id="admit{{ patient.userprofile_ptr_id }}">
+                            <li><a href="#admit{{ patient.userprofile_ptr_id }}" data-toggle="tab">Admit</a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                    <li><a href="#prescriptions{{ patient.userprofile_ptr_id }}" data-toggle="tab">Prescriptions</a>
+                    </li>
+                </ul>
+
+                <div class="modal-body">
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="medInfo{{ patient.userprofile_ptr_id }}">
+                            <h4>Update Medical Information</h4>
+                            <form role="form" method="post">
+                                {% csrf_token %}
+                                {{ update_med_info_forms|get_item:patient.username }}
+                                <div class="modal-footer">
+                                    <input type="submit" value="Update Medical Info"
+                                           class="btn btn-primary"/>
+                                    <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        {% if user_type == "Doctor" %}
+                            <div class="tab-pane fade" id="testResults{{ patient.userprofile_ptr_id }}">
+                                <div class="table-responsive">
+                                    <form role="form" method="post">
+                                        <h4>Test Results</h4>
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Doctor</th>
+                                                <th>Notes</th>
+                                                <th>Attachments</th>
+                                                <th>Edit</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for test in tests|get_item:patient.username %}
+                                                <tr id="test-{{ test.id }}">
+                                                    <td>{{ test.date }}</td>
+                                                    <td>{{ test.doctor }}</td>
+                                                    <td>{{ test.notes }}</td>
+                                                    <td>
+                                                        {% for file in test.files %}
+                                                            <a class="btn btn-xs btn-info" href="{{ file.file.url }}"
+                                                               target="_blank">{{ file.title }}</a>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td>
+                                                        {% if test.canEdit %}
+                                                            <a class="btn btn-outline"
+                                                               href="/make_test_result?id={{ test.id }}">
+                                                                <i class="fa fa-edit"></i></a>
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                        <div class="modal-footer">
+                                            <a href="{% url 'make_test_result' %}" class="btn btn-primary">Make New
+                                                Test</a>
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="transfer{{ patient.userprofile_ptr_id }}">
                                 <form role="form" method="post">
-                                    <h4>Admit</h4>
+                                    <h4>Transfer Hospital</h4>
 
                                     {% csrf_token %}
-                                    {{ set_patient_admission|get_item:patient.username }}
+                                    {{ set_patient_hospital_forms|get_item:patient.username }}
 
                                     <div class="modal-footer">
-                                        <input type="submit" value="Admit"
+                                        <input type="submit" value="Make Transfer"
                                                class="btn btn-primary"/>
                                         <button type="button" class="btn btn-secondary"
                                                 data-dismiss="modal">Close
@@ -149,57 +115,97 @@
                                 </form>
                             </div>
                         {% endif %}
-                    {% endif %}
+                        {% if user_type == "Doctor" %}
+                            <div class="tab-pane fade" id="admit{{ patient.userprofile_ptr_id }}">
+                                <form role="form" method="post">
+                                    <h4>{{ set_patient_admission_form.label }}</h4>
 
-                    <div class="tab-pane fade" id="prescriptions{{ patient.userprofile_ptr_id }}">
-                        <h4>Prescriptions</h4>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Drug</th>
-                                    <th>Doctor</th>
-                                    <th>Refills</th>
-                                    {% if user_type == "Doctor" %}
-                                        <th>Delete</th>
-                                    {% endif %}
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for prescription in prescriptions|get_item:patient.username %}
-                                    <tr id="prescription-{{ prescription.id }}">
-                                        <td>{{ prescription.drug }}</td>
-                                        <td>{{ prescription.doctor }}</td>
-                                        <td>{{ prescription.refills }}</td>
+                                    {% csrf_token %}
+                                    {{ set_patient_admission_form }}
+
+                                    <div class="modal-footer">
+                                        <input type="submit" value="{{ set_patient_admission_form.label }}"
+                                               class="btn btn-primary"/>
+                                        <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        {% endif %}
+                        {% if user_type == "Nurse" %}
+                            {% if set_patient_admission|get_item:patient.username != None %}
+                                <div class="tab-pane fade" id="admit{{ patient.userprofile_ptr_id }}">
+                                    <form role="form" method="post">
+                                        <h4>Admit</h4>
+
+                                        {% csrf_token %}
+                                        {{ set_patient_admission|get_item:patient.username }}
+
+                                        <div class="modal-footer">
+                                            <input type="submit" value="Admit"
+                                                   class="btn btn-primary"/>
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+
+                        <div class="tab-pane fade" id="prescriptions{{ patient.userprofile_ptr_id }}">
+                            <h4>Prescriptions</h4>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>Drug</th>
+                                        <th>Doctor</th>
+                                        <th>Refills</th>
+                                        <th>Notes</th>
                                         {% if user_type == "Doctor" %}
-                                            <td><a class="btn btn-outline btn-danger" onclick="deletePrescription({{ prescription.id }});">
-                                                <i class="fa fa-trash"></i></a></td>
+                                            <th>Delete</th>
                                         {% endif %}
                                     </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    {% for prescription in prescriptions|get_item:patient.username %}
+                                        <tr id="prescription-{{ prescription.id }}">
+                                            <td>{{ prescription.drug }}</td>
+                                            <td>{{ prescription.doctor }}</td>
+                                            <td>{{ prescription.refills }}</td>
+                                            <td>{{ prescription.notes }}</td>
+                                            {% if user_type == "Doctor" %}
+                                                <td><a class="btn btn-outline btn-danger"
+                                                       onclick="deletePrescription({{ prescription.id }});">
+                                                    <i class="fa fa-trash"></i></a></td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% if user_type == "Doctor" %}
+                                <h5>Add Prescription</h5>
+                                <form role="form" method="post">
+
+                                    {% csrf_token %}
+                                    {{ add_prescriptions|get_item:patient.username }}
+
+                                    <div class="modal-footer">
+                                        <input type="submit" value="Add Prescription"
+                                               class="btn btn-primary"/>
+                                        <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close
+                                        </button>
+                                    </div>
+                                </form>
+                            {% endif %}
                         </div>
-                        {% if user_type == "Doctor" %}
-                            <h5>Add Prescription</h5>
-                            <form role="form" method="post">
-
-                                {% csrf_token %}
-                                {{ add_prescriptions|get_item:patient.username }}
-
-                                <div class="modal-footer">
-                                    <input type="submit" value="Add Prescription"
-                                           class="btn btn-primary"/>
-                                    <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">Close
-                                    </button>
-                                </div>
-                            </form>
-                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endwith %}

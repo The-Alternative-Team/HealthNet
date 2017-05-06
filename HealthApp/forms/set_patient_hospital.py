@@ -18,7 +18,7 @@ handle_post ------ Transfers patient given a completed form.
 
 from django import forms
 from HealthApp import staticHelpers
-from HealthApp.models import Hospital, Patient, LogEntry
+from HealthApp.models import Hospital, Patient, LogEntry, Message
 
 
 class SetPatientHospital(forms.ModelForm):
@@ -63,3 +63,5 @@ class SetPatientHospital(forms.ModelForm):
 
             LogEntry.log_action(doctor.username, "Transferred patient " + patient.username + " to " +
                                 patient.hospital.name)
+            Message.sendNotifMessage(patient.username, "You have been transferred to a new hospital",
+                                     "Your new hospital is " + patient.hospital.full_string())

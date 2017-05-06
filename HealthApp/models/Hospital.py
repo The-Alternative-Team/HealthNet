@@ -35,3 +35,6 @@ class Hospital(models.Model):
 
     def __str__(self):
         return self.name
+
+    def full_string(self):
+        return self.name + " at " + self.street + " " + self.city + ", " + self.state + " " + str(self.zipCode)

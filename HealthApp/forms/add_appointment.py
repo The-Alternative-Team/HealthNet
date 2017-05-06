@@ -43,9 +43,10 @@ class AddAppointment(forms.ModelForm):
         else:
             del self.fields['patient']
 
-        self.fields['start_time'].widget.attrs = {'class': 'form-control',
-                                                  'placeholder': 'Start Time: (YYYY-MM-DD HH:MM)'}
-        self.fields['end_time'].widget.attrs = {'class': 'form-control', 'placeholder': 'End Time: (YYYY-MM-DD HH:MM)'}
+        self.fields['start_time'] = forms.DateField(widget=forms.DateInput(
+            attrs={'class': 'form-control', 'type': 'datetime-local', 'placeholder': 'Start Time: (YYYY-MM-DD HH:MM)'}))
+        self.fields['end_time'] = forms.DateField(widget=forms.DateInput(
+            attrs={'class': 'form-control', 'type': 'datetime-local', 'placeholder': 'End Time: (YYYY-MM-DD HH:MM)'}))
         self.fields['notes'].widget.attrs = {'class': 'form-control', 'placeholder': 'Notes'}
 
     class Meta:

@@ -10,20 +10,24 @@
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="list-group">
-                        {% for message in unread_messages %}
-                            <a name="all-message-{{ message.id }}" href="#" data-toggle="modal"
-                               data-target="#showmessage{{ message.id }}" onclick="markMsgRead({{ message.id }});"
-                               class="list-group-item">
-                                <i class="fa fa-envelope fa-fw"></i> {{ message.sender }}
-                                <span class="small">
-                                                <em>{{ message.subject }}</em>
-                                        </span>
-                                <span class="pull-right text-muted small">
-                                                <em>{{ message.sent_at }}</em>
-                                        </span>
-                            </a>
-                            {% include "HealthApp/view_message_modal.html" %}
-                        {% endfor %}
+                        {% if unread_messages %}
+                            {% for message in unread_messages %}
+                                <a name="all-message-{{ message.id }}" href="#" data-toggle="modal"
+                                   data-target="#showmessage{{ message.id }}" onclick="markMsgRead({{ message.id }});"
+                                   class="list-group-item">
+                                    <i class="fa fa-envelope fa-fw"></i> {{ message.sender }}
+                                    <span class="small">
+                                                    <em>{{ message.subject }}</em>
+                                            </span>
+                                    <span class="pull-right text-muted small">
+                                                    <em>{{ message.sent_at }}</em>
+                                            </span>
+                                </a>
+                                {% include "HealthApp/view_message_modal.html" %}
+                            {% endfor %}
+                        {% else %}
+                            <span class="list-group-item" style="text-align: center;">No unread messages :D</span>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -34,24 +38,28 @@
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="list-group">
-                        {% for message in messages %}
-                            <a name="all-message-{{ message.id }}" href="#" data-toggle="modal"
-                               data-target="#showmessage{{ message.id }}" onclick="markMsgRead({{ message.id }});"
-                               class="list-group-item">
-                                {% if message.unread == False %}
-                                    <i class="fa fa-envelope-o fa-fw"></i> {{ message.sender }}
-                                {% elif message.unread == True %}
-                                    <i class="fa fa-envelope fa-fw"></i> {{ message.sender }}
-                                {% endif %}
-                                <span class="small">
-                                                <em>{{ message.subject }}</em>
-                                        </span>
-                                <span class="pull-right text-muted small">
-                                                <em>{{ message.sent_at }}</em>
-                                        </span>
-                            </a>
-                            {% include "HealthApp/view_message_modal.html" %}
-                        {% endfor %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <a name="all-message-{{ message.id }}" href="#" data-toggle="modal"
+                                   data-target="#showmessage{{ message.id }}" onclick="markMsgRead({{ message.id }});"
+                                   class="list-group-item">
+                                    {% if message.unread == False %}
+                                        <i class="fa fa-envelope-o fa-fw"></i> {{ message.sender }}
+                                    {% elif message.unread == True %}
+                                        <i class="fa fa-envelope fa-fw"></i> {{ message.sender }}
+                                    {% endif %}
+                                    <span class="small">
+                                                    <em>{{ message.subject }}</em>
+                                            </span>
+                                    <span class="pull-right text-muted small">
+                                                    <em>{{ message.sent_at }}</em>
+                                            </span>
+                                </a>
+                                {% include "HealthApp/view_message_modal.html" %}
+                            {% endfor %}
+                        {% else %}
+                            <span class="list-group-item" style="text-align: center;">No messages</span>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -62,20 +70,24 @@
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="list-group">
-                        {% for message in sent_messages %}
-                            <a name="all-message-{{ message.id }}" href="#" data-toggle="modal"
-                               data-target="#showmessage{{ message.id }}"
-                               class="list-group-item">
-                                <i class="fa fa-envelope-o fa-fw"></i> {{ message.recipient }}
-                                <span class="small">
-                                                <em>{{ message.subject }}</em>
-                                        </span>
-                                <span class="pull-right text-muted small">
-                                                <em>{{ message.sent_at }}</em>
-                                        </span>
-                            </a>
-                            {% include "HealthApp/view_message_modal.html" %}
-                        {% endfor %}
+                        {% if sent_messages %}
+                            {% for message in sent_messages %}
+                                <a name="all-message-{{ message.id }}" href="#" data-toggle="modal"
+                                   data-target="#showmessage{{ message.id }}"
+                                   class="list-group-item">
+                                    <i class="fa fa-envelope-o fa-fw"></i> {{ message.recipient }}
+                                    <span class="small">
+                                                    <em>{{ message.subject }}</em>
+                                            </span>
+                                    <span class="pull-right text-muted small">
+                                                    <em>{{ message.sent_at }}</em>
+                                            </span>
+                                </a>
+                                {% include "HealthApp/view_message_modal.html" %}
+                            {% endfor %}
+                        {% else %}
+                            <span class="list-group-item" style="text-align: center;">No sent messages</span>
+                        {% endif %}
                     </div>
                 </div>
             </div>

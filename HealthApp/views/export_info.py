@@ -10,6 +10,7 @@ def export_medInfo(request):
     export_string = ""
     user_type, patient = staticHelpers.user_to_subclass(request.user)
 
+    # EXPORT MEDICAL INFORMATION
     try:
         med_info = MedInfo.objects.all().filter(patient=patient)[0]
         if user_type == staticHelpers.UserTypes.patient:
@@ -27,22 +28,15 @@ def export_medInfo(request):
     except MedInfo.DoesNotExist:
         export_string += "No Medical Info Found."
 
-    LogEntry.log_action(patient.username, "exported medical information")
-    return HttpResponse(export_string)
-
-
-@login_required(login_url="login/")
-def export_test(request):
-    user_type, patient = staticHelpers.user_to_subclass(request.user)
+    # EXPORT TEST URLS
     try:
         test_list = Test.objects.all().filter(patient=patient, releaseStatus=True)
     except Test.DoesNotExist:
         test_list = []
-    for test in test_list:
-        try:
-            file = ((TestFile.objects.all().filter(test=test))[0]).file
-        except TestFile.DoesNotExist:
-            file = ""
 
-    LogEntry.log_action(request.user.username, "exported a test file")
-    return HttpResponse(file)
+    for test in test_list:
+        for file in test.get_attached_files():
+            export_string += (file.title + ": ," + file.file.url + "\n")
+
+    LogEntry.log_action(patient.username, "exported all medical information")
+    return HttpResponse(export_string)

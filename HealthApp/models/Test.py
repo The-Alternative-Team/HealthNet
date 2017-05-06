@@ -49,4 +49,7 @@ class Test(models.Model):
 
     def get_attached_files(self):
         from .TestFile import TestFile
-        return TestFile.objects.all(test=self.id)
+        try:
+            return TestFile.objects.all(test=self.id)
+        except TestFile.DoesNotExist:
+            return []

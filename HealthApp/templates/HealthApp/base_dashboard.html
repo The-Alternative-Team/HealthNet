@@ -281,14 +281,20 @@
                     </li>
                     {% if user_type != "Patient" %}
                         <li>
-                        <a href="#"><i class="fa fa-edit fa-fw"></i> Forms<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="{% url 'make_test_result' %}">Make Test Result</a>
-                            </li>
-                        </ul>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i> Forms<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{% url 'make_test_result' %}">Make Test Result</a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% elif user_type == "Patient" %}
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#exportInfo"><i class="fa fa-medkit fa-fw"></i>
+                                Export Medical
+                                Information</a>
+                        </li>
                     {% endif %}
-                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
@@ -317,6 +323,37 @@
                             <input type="submit" value="Save Changes" class="btn btn-primary"/>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade exportInfo" tabindex="-1" role="dialog"
+             aria-labelledby="exportInfo" aria-hidden="true"
+             id="exportInfo">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"
+                            id="sendMessageLabel">Export Medical Info</h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Exporting your medical information will place a file on your computer. HealthNet is not
+                        responsible for any issues regaurding data once it has left our servers. If malisious software
+                        or people read your medical information we are powerless to stop them after export. If you are
+                        worried about your ability to secure your data, or worry that there are virus's on your
+                        computer, it's reccomended you don't export.
+                    </div>
+                    <div class="modal-footer">
+                        <form target="_blank" action="{% url 'export_medInfo' %}">
+                            <input type="submit" value="Export Data" class="btn btn-primary"/>
+                            <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">Close
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

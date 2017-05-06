@@ -9,7 +9,7 @@ phoneNumber -- If the inputted phone number is determined invalid, raises forms.
                with error code detailing why the phone number was determined invalid. A valid phone
                number will be returned as an integer. If a valid phone number is inputted with
                hyphens, they will be removed automatically so the phone number can be returned as
-               an integer that adheres to the SQLite database infrastructure.
+               an integer that adheres to the SQLite database infrastructure. 
 
     :parameter (string) phone_number - The string inputted into a phone number field by a user.
     :returns (integer) Phone number that is confirmed valid and is formatted for the SQLite database.

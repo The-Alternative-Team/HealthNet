@@ -279,22 +279,15 @@
                     <li>
                         <a href="{% url 'all_messages' %}"><i class="fa fa-envelope-open fa-fw"></i> All Messages</a>
                     </li>
-                    <li>
+                    {% if user_type != "Patient" %}
+                        <li>
                         <a href="#"><i class="fa fa-edit fa-fw"></i> Forms<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            {% if user_type != "Patient" %}
                             <li>
                                 <a href="{% url 'make_test_result' %}">Make Test Result</a>
                             </li>
-                            {% endif %}
-                        <!-- TODO: Make work on all Pages
-                            <li>
-                                <a href="#" data-toggle="modal" data-target="#addAppointment">Add
-                                    Appointment (TODO: Currently Only if on Index)</a>
-                            </li>
-                            -->
                         </ul>
-                        <!-- /.nav-second-level -->
+                    {% endif %}
                     </li>
                 </ul>
             </div>

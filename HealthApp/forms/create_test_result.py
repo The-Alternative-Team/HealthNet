@@ -19,6 +19,7 @@ __init__ -- Initializes the form.
 
 from django import forms
 
+from django.utils import timezone
 from HealthApp.models.Test import Test
 from HealthApp.staticHelpers import set_form_id
 
@@ -29,7 +30,8 @@ class CreateTestForm(forms.ModelForm):
         set_form_id(self, "CreateTestForm")
 
         self.fields['test_id'] = forms.CharField(widget=forms.HiddenInput(), initial=testObj.id)
-        self.fields['date'].widget.attrs = {'class': 'form-control', 'placeholder': 'Date'}
+        self.fields['date'] = forms.DateField(widget=forms.DateInput(
+            attrs={'class': 'form-control', 'type': 'datetime-local', 'placeholder': 'Test Time: (YYYY-MM-DD HH:MM)'}))
         self.fields['patient'].widget.attrs = {'class': 'form-control', 'placeholder': 'Patient'}
         self.fields['notes'].widget.attrs = {'class': 'form-control', 'placeholder': 'Notes'}
         self.fields['releaseStatus'].label = 'Release to patient?'

@@ -52,7 +52,7 @@ def make_test_result(request):
                 test.save()
                 LogEntry.log_action(request.user.username, "Created or updated test " + str(test.id))
 
-                if request.POST['releaseStatus'] == "on" and not test.releaseStatus:
+                if 'releaseStatus' in request.POST and not test.releaseStatus:
                     test.releaseStatus = True
                     test.save()
                     LogEntry.log_action(request.user.username, "Released test " + str(test.id) + " to the patient")

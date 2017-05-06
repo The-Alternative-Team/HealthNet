@@ -7,7 +7,7 @@ from HealthApp.forms import UploadForm
 from HealthApp.forms.create_test_result import CreateTestForm
 from HealthApp.forms.send_message import SendMessage
 from HealthApp.models import LogEntry
-from HealthApp.models import Test, TestFile, Patient
+from HealthApp.models import Test, TestFile, Patient, Message
 
 
 def render_view(request, user_type, user, is_edit=False, test=None):
@@ -56,6 +56,8 @@ def make_test_result(request):
                     test.releaseStatus = True
                     test.save()
                     LogEntry.log_action(request.user.username, "Released test " + str(test.id) + " to the patient")
+                    Message.sendNotifMessage(test.patient.username, "The results of your medical test have been released",
+                                             str(test.doctor) + " has released the results to you.")
 
                 return redirect('/')
             elif request.POST['form_id'] == 'UploadForm':

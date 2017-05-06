@@ -33,7 +33,7 @@ class Prescription(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, verbose_name='Doctor')
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, verbose_name='Patient')
     date = models.DateField(auto_now=True, verbose_name='Date prescribed')
-    refills = models.IntegerField(verbose_name='Number of Refills')
+    refills = models.IntegerField(default=0, verbose_name='Number of Refills')
     notes = models.CharField(default='', max_length=1000, verbose_name='Notes')
 
     def __str__(self):

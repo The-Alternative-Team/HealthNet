@@ -50,6 +50,6 @@ class Test(models.Model):
     def get_attached_files(self):
         from .TestFile import TestFile
         try:
-            return TestFile.objects.all(test=self.id)
+            return TestFile.objects.filter(test=self.id)
         except TestFile.DoesNotExist:
             return []

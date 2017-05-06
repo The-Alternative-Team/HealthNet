@@ -6,4 +6,4 @@ from .auth import authForm, unauth
 from .home import home
 from .make_test_result import make_test_result
 from .register import register
-
+from .export_info import export_medInfo

@@ -9,7 +9,8 @@ from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 
-from HealthApp.views import home, auth, register, all_patients, admitted_patients, all_messages, ajax, make_test_result
+from HealthApp.views import home, auth, register, all_patients, admitted_patients, all_messages, ajax, \
+    make_test_result, export_medInfo
 
 # app_name = 'HealthApp'
 urlpatterns = [
@@ -21,6 +22,7 @@ urlpatterns = [
     url(r'^admitted_patients', admitted_patients, name="admitted_patients"),
     url(r'^all_messages', all_messages, name="all_messages"),
     url(r'^make_test_result', make_test_result, name="make_test_result"),
+    url(r'^export', export_medInfo, name="export_medInfo"),
     url(r'^ajax/mark_read', ajax.mark_read, name="mark_read"),
     url(r'^ajax/delete_prescription', ajax.delete_prescription, name="delete_prescription"),
     url(r'^ajax/delete_test_file', ajax.delete_test_file, name="delete_test_file"),

@@ -340,17 +340,15 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        Exporting your medical information will place a file on your computer. HealthNet is not
-                        responsible for any issues regaurding data once it has left our servers. If malisious software
-                        or people read your medical information we are powerless to stop them after export. If you are
-                        worried about your ability to secure your data, or worry that there are virus's on your
-                        computer, it's reccomended you don't export.
+                        HealthNet is not responsible for the safety of your medical information once it has exported
+                        from our servers. We are powerless to stop malicious software or people from reading your
+                        medical information after it has been exported.
                     </div>
                     <div class="modal-footer">
                         <form target="_blank" action="{% url 'export_medInfo' %}">
                             <input type="submit" value="Export Data" class="btn btn-primary"/>
                             <button type="button" class="btn btn-secondary"
-                                    data-dismiss="modal">Close
+                                    data-dismiss="modal">Cancel
                             </button>
                         </form>
                     </div>

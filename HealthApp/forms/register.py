@@ -105,8 +105,11 @@ class Register(UserCreationForm):
 
         # Style django's user registration fields
         self.fields['username'] = forms.EmailField(widget=forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'E-Mail'}))
+        self.fields['username'].help_text = None
         self.fields['password1'].widget.attrs = {'class': 'form-control', 'placeholder': 'Password'}
+        self.fields['password1'].help_text = None
         self.fields['password2'].widget.attrs = {'class': 'form-control', 'placeholder': 'Confirm Password'}
+        self.fields['password2'].help_text = None
 
     # custom validation allows for custom error messages
     def is_valid(self):

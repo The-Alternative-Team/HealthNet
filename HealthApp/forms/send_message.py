@@ -52,7 +52,8 @@ class SendMessage(forms.ModelForm):
 
     @classmethod
     def handle_post(cls, user, post_data):
-        message = Message(subject=post_data['subject'], body=post_data['body'], sender=user.username,
-                          recipient=post_data['recipient'], sent_at=timezone.now())
-        message.save()
-        LogEntry.log_action(user.username, "Sent a message to " + post_data['recipient'])
+        if post_data['body'] != "":
+            message = Message(subject=post_data['subject'], body=post_data['body'], sender=user.username,
+                              recipient=post_data['recipient'], sent_at=timezone.now())
+            message.save()
+            LogEntry.log_action(user.username, "Sent a message to " + post_data['recipient'])

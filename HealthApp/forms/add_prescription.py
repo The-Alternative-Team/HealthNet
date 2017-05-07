@@ -50,9 +50,10 @@ class AddPrescription(forms.ModelForm):
     @classmethod
     def handle_post(cls, user_type, doctor, post_data):
         if user_type == staticHelpers.UserTypes.doctor:
-            prescription = Prescription(drug=post_data['drug'], doctor=doctor,
-                                        patient=Patient.objects.get(username=post_data['patient']),
-                                        date=timezone.now(), refills=post_data['refills'],
-                                        notes=post_data['notes'])
-            prescription.save()
-            LogEntry.log_action(doctor.username, "Added prescription for " + post_data['patient'])
+            if post_data['drug'] != "":
+                prescription = Prescription(drug=post_data['drug'], doctor=doctor,
+                                            patient=Patient.objects.get(username=post_data['patient']),
+                                            date=timezone.now(), refills=post_data['refills'],
+                                            notes=post_data['notes'])
+                prescription.save()
+                LogEntry.log_action(doctor.username, "Added prescription for " + post_data['patient'])

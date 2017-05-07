@@ -279,7 +279,7 @@
                     <li>
                         <a href="{% url 'all_messages' %}"><i class="fa fa-envelope-open fa-fw"></i> All Messages</a>
                     </li>
-                    {% if user_type != "Patient" %}
+                    {% if user_type != "Patient" and user_type != "Nurse" %}
                         <li>
                             <a href="#"><i class="fa fa-edit fa-fw"></i> Forms<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">

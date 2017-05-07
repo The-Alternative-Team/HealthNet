@@ -20,7 +20,7 @@ handle_post ------ Creates the prescription given a completed form.
 from django import forms
 from django.utils import timezone
 from HealthApp import staticHelpers
-from HealthApp.models import Prescription, LogEntry, Patient
+from HealthApp.models import Prescription, LogEntry, Patient, Message
 
 
 class AddPrescription(forms.ModelForm):
@@ -56,4 +56,10 @@ class AddPrescription(forms.ModelForm):
                                             date=timezone.now(), refills=post_data['refills'],
                                             notes=post_data['notes'])
                 prescription.save()
+                if user_type != staticHelpers.UserTypes.patient:
+                    Message.sendNotifMessage(post_data['patient'], "New Prescription", doctor.username +
+                                             " has created a prescription for " + post_data['drug'] + " for you")
+                elif user_type != staticHelpers.UserTypes.doctor:
+                    Message.sendNotifMessage(doctor.username, "New Prescription", doctor.username +
+                                             " has created a prescription for " + post_data['drug'] + " for you")
                 LogEntry.log_action(doctor.username, "Added prescription for " + post_data['patient'])

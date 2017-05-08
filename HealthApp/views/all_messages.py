@@ -1,3 +1,16 @@
+"""
+All Messages view
+
+This file contains logic regarding messages
+
+=== Methods=== 
+
+render_view --- Renders the messages page for an individual user
+all_messages --- Called when the message form is submitted
+
+"""
+
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 # Renders the home page with the correct data for the current user

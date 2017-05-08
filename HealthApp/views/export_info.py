@@ -1,3 +1,15 @@
+"""
+Export Info view
+
+This file contains logic regarding exporting medical info
+
+=== Methods=== 
+
+export_medInfo --- exports medical information and tests
+
+"""
+
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect

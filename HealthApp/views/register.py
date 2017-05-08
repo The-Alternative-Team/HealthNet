@@ -1,3 +1,15 @@
+"""
+Register View
+
+This file contains logic regarding patient registration and validation
+
+=== Methods=== 
+
+register --- called when the registration form is submitted to validate info and save user profile
+
+"""
+
+
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 

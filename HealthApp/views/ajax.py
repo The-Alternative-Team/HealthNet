@@ -1,3 +1,13 @@
+"""
+Ajax views
+
+This file includes the views that are used to handle ajax calls
+
+=== Methods ===
+mark_read - Marks a message as read
+delete_prescription - Deletes a prescription
+delete_test - Deletes a test file
+"""
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 

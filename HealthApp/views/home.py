@@ -1,3 +1,16 @@
+"""
+Home view
+
+This file contains logic for the main user dashboard
+
+=== Methods=== 
+
+render_view --- renders the dashboard page including the calendar 
+home --- called when forms are submitted from the dashboard
+
+
+"""
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 

@@ -1,3 +1,14 @@
+"""
+Admitted Patients view
+
+This file contains logic regarding admitted patients and permissions
+
+=== Methods=== 
+
+render_view --- Renders the admitted patients page with permissions based on user type
+admitted_patients --- Called when the home view is loaded or a form is submitted
+
+"""
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.shortcuts import render

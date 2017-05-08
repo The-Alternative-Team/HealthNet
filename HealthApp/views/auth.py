@@ -1,3 +1,16 @@
+"""
+Authorization view
+
+This file contains login and authorization logic
+
+=== Methods=== 
+
+authForm --- authenticates a user's credentials and logs them in
+unauth --- logs a user out
+
+"""
+
+
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 

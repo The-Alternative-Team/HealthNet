@@ -1,3 +1,17 @@
+"""
+Make Test Result view
+
+This file contains logic regarding creating and releasing test results
+
+=== Methods=== 
+
+render_view --- renders the modal for creating test results
+make_test_result --- called when test result form is submitted
+
+"""
+
+
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.shortcuts import render

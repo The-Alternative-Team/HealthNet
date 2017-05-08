@@ -22,13 +22,14 @@ handle_post ------ Updates appointment given a completed form.
 
 from django import forms
 
-from HealthApp import staticHelpers
+from HealthApp import staticHelpers, validate
 from HealthApp.models import Appointment, LogEntry, Patient, Doctor, Message
 
 
 class UpdateAppointment(forms.ModelForm):
-    def __init__(self, user_type, user):
-        super().__init__()
+    def __init__(self, user_type, user, postData=None):
+        super().__init__(postData)
+
         staticHelpers.set_form_id(self, "UpdateAppointment")
 
         # Only allow nurses to set custom doctors
@@ -64,7 +65,11 @@ class UpdateAppointment(forms.ModelForm):
 
     # Handles the submit of both this form and and add appointment form
     @classmethod
-    def handle_post(cls, user_type, user, post_data):
+    def handle_post(cls, user_type, user, post_data, failedFormDict):
+
+        self = UpdateAppointment(postData=post_data, user=user, user_type=user_type)
+        valid = True
+
         if 'Cancel Appointment' in post_data:
             # Deletion
             app = Appointment.objects.all().get(id=post_data['event-id-update'])
@@ -83,6 +88,12 @@ class UpdateAppointment(forms.ModelForm):
 
             # Get appointment_doctor
             if user_type == staticHelpers.UserTypes.nurse:
+
+                # TODO if post_data['doctor'] == '' throw error
+                if post_data['doctor'] == '':
+                    self.add_error('doctor', 'Please select a doctor.')
+                    valid = False
+
                 doctor_id = int(post_data['doctor'])
                 appointment_doctor = Doctor.objects.all().filter(id=doctor_id)[0]
             elif user_type == staticHelpers.UserTypes.doctor:
@@ -98,30 +109,42 @@ class UpdateAppointment(forms.ModelForm):
                 patient_id = int(post_data['patient'])
                 appointment_patient = Patient.objects.all().filter(id=patient_id)[0]
 
-            if 'event-id-update' in post_data:
-                app = Appointment.objects.get(id=post_data['event-id-update'])
-                app.update_appointment(
-                    hospital=appointment_patient.hospital, doctor=appointment_doctor,
-                    patient=appointment_patient, start_time=post_data['start_time'],
-                    end_time=post_data['end_time'], notes=post_data['notes'])
+            try:
+                validate.appointment(post_data['start_time'], post_data['end_time'])
+            except forms.ValidationError as e:
+                self.add_error('start_time', e.code)
+                valid = False
 
-                if user_type != staticHelpers.UserTypes.patient:
-                    Message.sendNotifMessage(app.patient.username, "Your appointment has been updated",
-                                             user.username + " has updated your " + str(app))
-                elif user_type != staticHelpers.UserTypes.doctor:
-                    Message.sendNotifMessage(app.doctor.username, "Your appointment has been updated", user.username +
-                                             " has updated your " + str(app))
-                LogEntry.log_action(user.username, "Updated an appointment")
+            if not valid:
+                failedFormDict["appointmentForm"] = self
+                failedFormDict["autoOpen"] = "updateAppointment"
+
             else:
-                app = Appointment(hospital=appointment_patient.hospital, doctor=appointment_doctor,
-                                  patient=appointment_patient, start_time=post_data['start_time'],
-                                  end_time=post_data['end_time'], notes=post_data['notes'])
-                app.save()
 
-                if user_type != staticHelpers.UserTypes.patient:
-                    Message.sendNotifMessage(app.patient.username, "New appointment", user.username +
-                                             " has created an " + str(app) + " for you")
-                elif user_type != staticHelpers.UserTypes.doctor:
-                    Message.sendNotifMessage(app.doctor.username, "New appointment", user.username +
-                                             " has created an " + str(app) + " for you")
-                LogEntry.log_action(user.username, "Created an appointment")
+                if 'event-id-update' in post_data:
+                    app = Appointment.objects.get(id=post_data['event-id-update'])
+                    app.update_appointment(
+                        hospital=appointment_patient.hospital, doctor=appointment_doctor,
+                        patient=appointment_patient, start_time=post_data['start_time'],
+                        end_time=post_data['end_time'], notes=post_data['notes'])
+
+                    if user_type != staticHelpers.UserTypes.patient:
+                        Message.sendNotifMessage(app.patient.username, "Your appointment has been updated",
+                                                 user.username + " has updated your " + str(app))
+                    elif user_type != staticHelpers.UserTypes.doctor:
+                        Message.sendNotifMessage(app.doctor.username, "Your appointment has been updated", user.username +
+                                                 " has updated your " + str(app))
+                    LogEntry.log_action(user.username, "Updated an appointment")
+                else:
+                    app = Appointment(hospital=appointment_patient.hospital, doctor=appointment_doctor,
+                                      patient=appointment_patient, start_time=post_data['start_time'],
+                                      end_time=post_data['end_time'], notes=post_data['notes'])
+                    app.save()
+
+                    if user_type != staticHelpers.UserTypes.patient:
+                        Message.sendNotifMessage(app.patient.username, "New appointment", user.username +
+                                                 " has created an " + str(app) + " for you")
+                    elif user_type != staticHelpers.UserTypes.doctor:
+                        Message.sendNotifMessage(app.doctor.username, "New appointment", user.username +
+                                                 " has created an " + str(app) + " for you")
+                    LogEntry.log_action(user.username, "Created an appointment")

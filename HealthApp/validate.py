@@ -129,8 +129,18 @@ def birthday(birth_day):
 
 
 def appointment(start_time, end_time):
+
+    if start_time == '' or end_time == '':
+        raise ValidationError(
+            'Blank dateTime',
+            code='Please enter valid start and end times.'
+        )
+
+    start_dtime = datetime.strptime(start_time,'%Y-%m-%dT%H:%M')
+    end_dtime = datetime.strptime(end_time,'%Y-%m-%dT%H:%M')
+
     current_time = datetime.now()
-    appointment_duration = end_time - start_time
+    appointment_duration = end_dtime - start_dtime
 
     if appointment_duration < timedelta(minutes=0):
         raise ValidationError(
@@ -147,7 +157,7 @@ def appointment(start_time, end_time):
             'Appointment duration must be between 15 minutes and 5 hours inclusive'
         )
 
-    if start_time <= current_time :
+    if start_dtime <= current_time :
         raise ValidationError(
             'Invalid start time',
             code='Appointment starts in the past'

@@ -93,9 +93,9 @@ class UpdateAppointment(forms.ModelForm):
                 if post_data['doctor'] == '':
                     self.add_error('doctor', 'Please select a doctor.')
                     valid = False
-
-                doctor_id = int(post_data['doctor'])
-                appointment_doctor = Doctor.objects.all().filter(id=doctor_id)[0]
+                else:
+                    doctor_id = int(post_data['doctor'])
+                    appointment_doctor = Doctor.objects.all().filter(id=doctor_id)[0]
             elif user_type == staticHelpers.UserTypes.doctor:
                 appointment_doctor = user
             else:

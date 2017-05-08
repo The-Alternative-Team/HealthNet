@@ -121,6 +121,11 @@ class Register(UserCreationForm):
             return valid
 
         try:
+            validate.birthday(self.cleaned_data['date_of_birth'])
+        except forms.ValidationError as e:
+            self.add_error('date_of_birth', e.code)
+            valid = False
+        try:
             validate.phone(self.cleaned_data['home_phone'])
         except forms.ValidationError as e:
             self.add_error('home_phone', e.code)

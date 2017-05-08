@@ -116,7 +116,7 @@ class UpdateAppointment(forms.ModelForm):
                 valid = False
 
             if not valid:
-                failedFormDict["appointmentForm"] = self
+                failedFormDict["update_app_form"] = self
                 failedFormDict["autoOpen"] = "updateAppointment"
 
             else:

@@ -89,7 +89,7 @@ def home(request):
         if request.POST["form_id"] == "UpdatePatient":
             UpdatePatient.handle_post(user_type, user, request.POST, failedFormDict)
         elif request.POST["form_id"] == "UpdateAppointment" or request.POST["form_id"] == "AddAppointment":
-            UpdateAppointment.handle_post(user_type, user, request.POST)
+            UpdateAppointment.handle_post(user_type, user, request.POST, failedFormDict)
         elif request.POST["form_id"] == "SetPatientHospital":
             SetPatientHospital.handle_post(user_type, user, request.POST)
         elif request.POST["form_id"] == "SendMessage":
